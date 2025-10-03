@@ -1,10 +1,29 @@
 #!/bin/bash -e
 
-# Enable jemalloc for reduced memory usage and latency.
-if [ -z "${LD_PRELOAD+x}" ]; then
-    LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
-    export LD_PRELOAD
+# Reconstruct RAILS_MASTER_KEY into environment-specific credential key file
+if [ -n "${RAILS_MASTER_KEY}" ]; then
+    # Always create master.key for fallback
+    echo "${RAILS_MASTER_KEY}" > "/rails/config/master.key"
+    chmod 600 "/rails/config/master.key"
+    echo "Created master.key file"
+    
+    if [ -n "${APP_ENV}" ]; then
+        CREDENTIALS_DIR="/rails/config/credentials"
+        CREDENTIAL_KEY_FILE="${CREDENTIALS_DIR}/${APP_ENV}.key"
+        
+        # Create credentials directory if it doesn't exist
+        mkdir -p "${CREDENTIALS_DIR}"
+        
+        # Write the RAILS_MASTER_KEY to the environment-specific key file
+        echo "${RAILS_MASTER_KEY}" > "${CREDENTIAL_KEY_FILE}"
+        
+        # Set appropriate permissions for the key file
+        chmod 600 "${CREDENTIAL_KEY_FILE}"
+        
+        echo "Created credential key file: ${CREDENTIAL_KEY_FILE}"
+    fi
 fi
+
 
 # If running the rails server then create or migrate existing database
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
