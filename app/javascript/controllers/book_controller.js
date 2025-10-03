@@ -12,17 +12,25 @@ export default class extends Controller {
     console.log("Flipbook controller connected")
     console.log(this.pdfTarget)
     
-    // Set the flipbook source path to help with dynamic script loading
-    if (window.FLIPBOOK) {
-      window.FLIPBOOK.flipbookSrc = "/vendor/javascript/flipbook/build/js/flipbook.min.js"
-    }
-    
-    this.initializeFlipbook()
+    // Add a small delay to ensure scripts are loaded
+    setTimeout(() => {
+      this.initializeFlipbook()
+    }, 100)
   }
 
   initializeFlipbook() {
+    if (typeof FlipBook === 'undefined') {
+      console.error('FlipBook is not available. Check if the library loaded correctly.')
+      return
+    }
+
     const container = this.pdfTarget
-    let options = {}
+    let options = {
+      // Set the script paths to prevent dynamic loading issues
+      flipbookSrc: "/assets/flipbook/build/js/flipbook.min.js",
+      // Disable license checking for development (use only for testing)
+      deeplinkingEnabled: false,
+    }
 
     // If you have a PDF URL
     if (this.hasPdfUrlValue && this.pdfUrlValue) {
@@ -32,18 +40,7 @@ export default class extends Controller {
         btnDownloadPdf: {
           enabled: true,
           url: this.pdfUrlValue
-        },
-        // Set script paths for dynamic loading
-        pdfjsSrc: "/vendor/javascript/flipbook/build/js/libs/pdf.min.js",
-        pdfjsworkerSrc: "/vendor/javascript/flipbook/build/js/libs/pdf.worker.min.js",
-        threejsSrc: "/vendor/javascript/flipbook/build/js/libs/three.min.js",
-        iscrollSrc: "/vendor/javascript/flipbook/build/js/libs/iscroll.min.js",
-        markSrc: "/vendor/javascript/flipbook/build/js/libs/mark.min.js",
-        flipbookWebGlSrc: "/vendor/javascript/flipbook/build/js/flipbook.webgl.min.js",
-        flipbookBook3Src: "/vendor/javascript/flipbook/build/js/flipbook.book3.min.js",
-        flipBookSwipeSrc: "/vendor/javascript/flipbook/build/js/flipbook.swipe.min.js",
-        flipBookScrollSrc: "/vendor/javascript/flipbook/build/js/flipbook.scroll.min.js",
-        pdfServiceSrc: "/vendor/javascript/flipbook/build/js/flipbook.pdfservice.min.js"
+        }
       }
     }
     // If you have image pages
@@ -52,31 +49,49 @@ export default class extends Controller {
         pages: this.pagesValue
       }
     }
-    // Default example pages
+    // Default example pages for testing
     else {
-      options = {
-        pages: [
-          {
-            src: 'path/to/your/image1.jpg',
-            thumb: 'path/to/your/thumb1.jpg',
-          },
-          {
-            src: 'path/to/your/image2.jpg', 
-            thumb: 'path/to/your/thumb2.jpg',
-          }
-        ]
-      }
+      options.pages = [
+        {
+          src: 'https://via.placeholder.com/800x600/cccccc/969696?text=Page+1',
+          thumb: 'https://via.placeholder.com/150x112/cccccc/969696?text=Page+1',
+        },
+        {
+          src: 'https://via.placeholder.com/800x600/cccccc/969696?text=Page+2', 
+          thumb: 'https://via.placeholder.com/150x112/cccccc/969696?text=Page+2',
+        }
+      ]
     }
 
     // Common options
     Object.assign(options, {
       lightBox: false,
       height: 600,
-      // Add other common options here
+      width: 800,
+      // Disable features that might cause license issues
+      googleAnalyticsTrackingCode: null,
+      btnShare: { enabled: false },
+      btnDownloadPages: { enabled: false },
+      btnPrint: { enabled: false }
     })
     
-    // Create the flipbook instance
-    this.flipbook = new FlipBook(container, options)
+    try {
+      // Create the flipbook instance
+      this.flipbook = new FlipBook(container, options)
+      console.log('Flipbook initialized successfully')
+    } catch (error) {
+      console.error('Error initializing flipbook:', error)
+      
+      // Fallback: show a simple message
+      container.innerHTML = `
+        <div style="padding: 20px; text-align: center; border: 1px solid #ccc;">
+          <h3>Flipbook Library Issue</h3>
+          <p>The flipbook library requires a valid license for commercial use.</p>
+          <p>Error: ${error.message}</p>
+          <p>Consider using an open-source alternative like turn.js or PDF.js</p>
+        </div>
+      `
+    }
   }
 
   disconnect() {
