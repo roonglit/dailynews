@@ -1,17 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
-import "flipbook"
+// Flipbook loaded globally via javascript_include_tag in layout
 
 export default class extends Controller {
   static targets = ["pdf"]
   static values = { 
     pdfUrl: String,
-    pages: Array 
+    flipMp3: String
   }
 
   connect() {
-    console.log("Flipbook controller connected")
-    console.log(this.pdfTarget)
-    
     // Add a small delay to ensure scripts are loaded
     setTimeout(() => {
       this.initializeFlipbook()
@@ -25,55 +22,45 @@ export default class extends Controller {
     }
 
     const container = this.pdfTarget
+    
+    // Configuration options for flipbook
+    // All flipbook libraries are loaded globally via script tags in application layout
     let options = {
-      // Set the script paths to prevent dynamic loading issues
-      flipbookSrc: "/assets/flipbook/build/js/flipbook.min.js",
-      // Disable license checking for development (use only for testing)
-      deeplinkingEnabled: false,
+      pdfUrl: this.pdfUrlValue,
+      
+      // Sound configuration
+      sound: true,              // Enable/disable sound
+      flipSound: true           // Enable page flip sound
+    }
+    
+    // Set flip sound path if provided
+    if (this.hasFlipMp3Value) {
+      options.assets = {
+        flipMp3: this.flipMp3Value
+      }
     }
 
-    // If you have a PDF URL
+    // If you have a PDF URL, add PDF-specific options
     if (this.hasPdfUrlValue && this.pdfUrlValue) {
-      options = {
-        pdfUrl: this.pdfUrlValue,
-        // PDF-specific options
+      Object.assign(options, {
         btnDownloadPdf: {
           enabled: true,
           url: this.pdfUrlValue
         }
-      }
-    }
-    // If you have image pages
-    else if (this.hasPagesValue && this.pagesValue.length > 0) {
-      options = {
-        pages: this.pagesValue
-      }
-    }
-    // Default example pages for testing
-    else {
-      options.pages = [
-        {
-          src: 'https://via.placeholder.com/800x600/cccccc/969696?text=Page+1',
-          thumb: 'https://via.placeholder.com/150x112/cccccc/969696?text=Page+1',
-        },
-        {
-          src: 'https://via.placeholder.com/800x600/cccccc/969696?text=Page+2', 
-          thumb: 'https://via.placeholder.com/150x112/cccccc/969696?text=Page+2',
-        }
-      ]
+      })
     }
 
-    // Common options
-    Object.assign(options, {
-      lightBox: false,
-      height: 600,
-      width: 800,
-      // Disable features that might cause license issues
-      googleAnalyticsTrackingCode: null,
-      btnShare: { enabled: false },
-      btnDownloadPages: { enabled: false },
-      btnPrint: { enabled: false }
-    })
+    // // Common options
+    // Object.assign(options, {
+    //   lightBox: false,
+    //   height: 600,
+    //   width: 800,
+    //   // Disable features that might cause license issues
+    //   googleAnalyticsTrackingCode: null,
+    //   btnShare: { enabled: false },
+    //   btnDownloadPages: { enabled: false },
+    //   btnPrint: { enabled: false }
+    // })
     
     try {
       // Create the flipbook instance
