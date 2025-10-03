@@ -1,0 +1,4 @@
+/* Plugin: Iconify (Lucide icons) */
+@plugin "@iconify/tailwind4" {
+    prefixes: lucide;
+}

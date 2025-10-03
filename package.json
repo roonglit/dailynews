@@ -1,0 +1,14 @@
+{
+  "name": "dailynews",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Roonglit <roonglit@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.68",
+    "@iconify/tailwind4": "^1.0.6",
+    "daisyui": "^5.1.26",
+    "filepond": "^4.32.9",
+    "filepond-plugin-image-preview": "^4.6.12"
+  }
+}

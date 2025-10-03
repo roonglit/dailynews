@@ -1,0 +1,39 @@
+.flex.items-center.justify-between
+  h3.text-lg.font-medium Books
+
+.mt-6 
+  .bg-base-100.card.shadow 
+    .card-body.p-0 
+      .flex.items-center.justify-between.px-5.pt-5 
+        .inline-flex.items-center.gap-3 
+          label.input.input-sm
+            span.iconify.lucide--search.size-3.5.text-base-content/80
+            input.w-24 class="sm:w-36" placeholder='Search courses...' aria-label='Search courses' type='search'
+        .inline-flex.items-center.gap-3
+          = link_to new_admin_book_path, class: 'btn btn-primary btn-sm max-sm:btn-square', html: { "aria-label": "Create course link"} do
+            span.iconify.lucide--plus.size-4
+            span.hidden class='sm:inline' New Book
+      .mt-4.overflow-auto 
+        table.table 
+          thead
+            tr
+              th
+                input.checkbox.checkbox-sm type='checkbox' aria-label='Check all'
+              th ID
+              th Title
+              th Action
+          tbody 
+            - @books.each do |book|
+              tr.hover:bg-base-200/40.cursor-pointer class='*:text-nowrap'
+                th
+                  input.checkbox.checkbox-sm type='checkbox' aria-label='Single check'
+                td = book.id
+                td = book.title
+                td
+                  .inline-flex 
+                    = link_to edit_admin_book_path(book), class: 'btn btn-square btn-ghost btn-sm', html: { "aria-label": "Edit book link" } do
+                      span.iconify.lucide--pencil.text-base-content/80.size-4
+                    = link_to admin_book_path(book), class: 'btn btn-square btn-ghost btn-sm', html: { "aria-label": "Show book link" } do
+                      span.iconify.lucide--eye.text-base-content/80.size-4
+                    = button_to admin_book_path(book), class: 'btn btn-square btn-error btn-outline btn-sm border-transparent', method: :delete, data: { confirm: 'Are you sure?' } do
+                      span.iconify.lucide--trash.size-4

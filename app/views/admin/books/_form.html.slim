@@ -1,0 +1,52 @@
+- url = book.new_record? ? admin_books_path : admin_book_path(book)
+
+= simple_form_for book, url: url do |form|
+  - if book.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(book.errors.count, "error")} prohibited this book from being saved:"
+
+      ul
+        book.errors.each do |error|
+          li = error.full_message
+
+  .mt-6
+    .grid.grid-cols-1.gap-6.md:grid-cols-2  
+      .card.bg-base-100.shadow
+        .card-body
+          .card-title Basic Information
+          = form.input :title
+          
+      / .card.bg-base-100.shadow 
+      /   .card-body 
+      /     .card-title PDF
+      /     - if book.cover.attached?
+      /       .mt-5 
+      /         = image_tag book.cover.url
+      /     .mt-5
+      /       = form.simple_fields_for :content do |content_fields|
+      /         div data-controller="lms--filepond"
+      /           = content_fields.file_field :cover, class: "filepond", direct_upload: true, accept: 'image/*', data: { "lms--filepond-target": "input"}
+  / .mt-6
+  /   .grid.grid-cols-1.gap-6
+  /     .card.bg-base-100.shadow 
+  /       .card-body 
+  /         .card-title Content 
+  /         .mt-5 
+  /           = form.input :text_content, as: :rich_textarea
+  / .mt-6
+  /   .grid.grid-cols-1.gap-6
+  /     .card.bg-base-100.shadow 
+  /       - template_data = template_data_for(form, :sections)
+  /       .card-body data-controller="lms--curriculum" data={"lms--curriculum-template-value": template_data[:template], "lms--curriculum-template-id-value": template_data[:id]}
+  /         .card-title Curriculum 
+  /         div
+  /           .container data-lms--curriculum-target="container"
+  /             = form.simple_fields_for :sections do |section_fields|
+  /               = render 'section_fields', form: section_fields
+  /           = link_to "Add Section", "#", data: { action: "click->lms--curriculum#addSection" }, class: "btn btn-outline"
+  .mt-6.flex.justify-end.gap-3      
+    // Capture and render the block passed from the calling template
+    - if block_given?
+      = yield(form)
+    - else
+      = form.submit "Save", class: "btn btn-primary btn-wide mt-4 max-w-full gap-3 md:mt-6"

@@ -1,0 +1,15 @@
+- content_for :title, "New book"
+
+.flex.items-center.justify-between
+  h3.text-lg.font-medium New Book 
+  .breadcrumbs.hidden.p-0.text-sm.sm:inline
+    ul
+      li Book
+      li
+        = link_to "Books", admin_books_path
+      li.opacity-80 New
+
+
+= render "form", book: @book do |form|
+  = link_to "Cancel", admin_books_path, class: "btn btn-ghost"
+  = form.submit "Save", class: "btn btn-primary"
