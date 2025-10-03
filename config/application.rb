@@ -23,5 +23,17 @@ module Dailynews
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    app_env = ENV["APP_ENV"] || Rails.env
+    credentials_dir = Rails.root.join("config", "credentials")
+    credentials_file = credentials_dir.join("#{app_env}.yml.enc")
+    key_file = credentials_dir.join("#{app_env}.key")
+
+    if credentials_file.exist? && key_file.exist?
+      config.credentials.content_path = credentials_file
+      config.credentials.key_path = key_file
+      puts "✓ Using environment-specific credentials: #{app_env}"
+    else
+      puts "✓ Using default credentials (#{app_env} specific not found)"
+    end
   end
 end
