@@ -1,0 +1,9 @@
+- if alert = flash[:alert]
+  .alert.alert-error.alert-soft role="alert"
+    span.iconify.lucide--info.size-5
+    span = alert
+
+- if notice = flash[:notice]
+  .alert.alert-soft.alert-info role="alert"
+    span.iconify.lucide--info.size-5
+    span = notice

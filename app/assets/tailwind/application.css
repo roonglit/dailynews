@@ -1,6 +1,9 @@
-@import "tailwindcss";
-@plugin "daisyui";
-@plugin "daisyui/theme";
+/* Root Styling */
+@import "./tailwind.css";
+@import "./daisyui.css";
 
-@import "./iconify.css";
+/* Custom Styling */
 @import "./layout.css";
+
+/* Plugin: Iconify (Lucide icons) */
+@import "./iconify.css";
