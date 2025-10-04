@@ -1,2 +1,5 @@
-div id="#{dom_id book}" data-controller="book" data-book-pdf-url-value="/book.pdf" data-book-flip-mp3-value=asset_path("flipbook/build/assets/mp3/turnPage.mp3")
+-  book_url = book.pdf.attached? ? url_for(book.pdf) : "/book.pdf"
+
+
+div id="#{dom_id book}" data-controller="book" data-book-pdf-url-value="#{book_url}" data-book-flip-mp3-value=asset_path("flipbook/build/assets/mp3/turnPage.mp3")
   div data-book-target="pdf"  PDF

@@ -16,16 +16,15 @@
           .card-title Basic Information
           = form.input :title
           
-      / .card.bg-base-100.shadow 
-      /   .card-body 
-      /     .card-title PDF
-      /     - if book.cover.attached?
-      /       .mt-5 
-      /         = image_tag book.cover.url
-      /     .mt-5
-      /       = form.simple_fields_for :content do |content_fields|
-      /         div data-controller="lms--filepond"
-      /           = content_fields.file_field :cover, class: "filepond", direct_upload: true, accept: 'image/*', data: { "lms--filepond-target": "input"}
+      .card.bg-base-100.shadow 
+        .card-body 
+          .card-title PDF
+          / - if book.cover.attached?
+          /   .mt-5 
+          /     = image_tag book.cover.url
+          .mt-5
+            div data-controller="filepond"
+              = form.file_field :pdf, class: "filepond", direct_upload: true, accept: 'application/pdf', data: { "filepond-target": "input"}
   / .mt-6
   /   .grid.grid-cols-1.gap-6
   /     .card.bg-base-100.shadow 

@@ -66,7 +66,7 @@ module Admin
 
       # Only allow a list of trusted parameters through.
       def book_params
-        params.expect(book: [:id, :title])
+        params.expect(book: [:id, :title, :pdf])
       end
   end
 end

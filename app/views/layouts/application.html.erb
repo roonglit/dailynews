@@ -34,11 +34,6 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <%= button_to "sign out", destroy_user_session_path, method: :delete %>
-    <% else %>
-      <%= link_to "Sign in", user_session_path %>
-    <% end %>
     <%= yield %>
   </body>
 </html>
