@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_book, only: %i[ show edit update destroy ]
 
   # GET /books or /books.json
@@ -8,6 +9,7 @@ class BooksController < ApplicationController
 
   # GET /books/1 or /books/1.json
   def show
+    authorize @book
   end
 
   # GET /books/new
