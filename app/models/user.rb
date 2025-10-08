@@ -5,4 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :memberships, dependent: :destroy
+
+  has_one :profile, dependent: :destroy
+  after_create :create_profile
 end

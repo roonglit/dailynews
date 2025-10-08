@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :billings, only: [ :index ]
+  get "profile", to: "profiles#edit", as: :profile
+  resource :profile, only: [ :update ]
+
   resources :memberships
   resources :books
 

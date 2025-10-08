@@ -1,0 +1,22 @@
+header.top-0.z-20.flex.justify-between.items-center.bg-white/80.backdrop-blur-md.border-b.border-gray-200.shadow-sm.px-8.py-4
+  .flex.items-center
+    span.text-xl.font-semibold.text-gray-800
+      | DailyNews
+
+  .flex.items-center.gap-5
+    - if user_signed_in?
+      - if current_user.profile.full_name.present?
+        span.text-gray-700.font-medium
+          | Hello, #{current_user.profile.full_name}
+      - else
+        span.text-gray-700.font-medium
+          | Hello, New User
+
+      = link_to profile_path, class: "flex items-center gap-2 text-sm bg-gray-700 hover:bg-gray-800 text-white font-semibold px-4 py-2 rounded-lg shadow-md" do
+        span.iconify.lucide--settings.size-4
+        | Settings
+
+    - else
+      = link_to new_user_session_path, class: "flex items-center gap-2 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md" do
+        span.iconify.lucide--log-in.size-4
+        | Sign in

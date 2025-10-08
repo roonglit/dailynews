@@ -1,0 +1,23 @@
+h1.text-xl.font-bold.mb-6 My Profile
+
+= simple_form_for profile, url: profile_path, method: :patch, html: { class: "max-w-xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-8 space-y-6", data: { controller: "form-toggle" } } do |form|
+  = form.error_notification
+  = form.error_notification message: form.object.errors[:base].to_sentence if form.object.errors[:base].present?
+
+  h2.text-2xl.font-bold.mb-6 Information
+
+  .form-inputs.space-y-2
+    .flex.flex-col
+      = form.input :first_name, input_html: { class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full", data: { form_toggle_target: "input", action: "input->form-toggle#checkChange" } }
+    .flex.flex-col
+      = form.input :last_name, input_html: { class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full", data: { form_toggle_target: "input", action: "input->form-toggle#checkChange" } }
+    .flex.flex-col
+      = form.input :email, input_html: { value: current_user.email, disabled: true, class: "border border-gray-300 rounded-lg p-4 text-md bg-gray-100 w-full" }
+
+  .form-actions
+    .flex.min-md:justify-end.justify-center.gap-3
+      = form.button :submit, "Save Changes", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow", data: { form_toggle_target: "button" }, style: "display: none;"
+
+- if notice
+  .alert.alert-success.absolute.top-0.right-0.m-4.z-100 data-controller="flash"
+    span = notice
