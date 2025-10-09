@@ -1,0 +1,29 @@
+header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-30.bg-white.shadow-md
+  .flex.items-center.space-x-4
+    span.text-2xl.font-semibold.text-gray-800 = "DailyNews"
+
+  - if user_signed_in?
+    .flex.items-center
+      span.iconify.lucide--circle-user-round.size-6.cursor-pointer.hover:bg-blue-500 data-test-id="user-avatar"
+  - else
+    .flex.items-center
+      span.iconify.lucide--circle-user-round.size-6.cursor-pointer.hover:bg-blue-500 data-test-id="open-sign-up" onclick="sign_up_modal.showModal()"
+
+      dialog#sign_up_modal.modal data-test-id="sign-up-modal"
+        .modal-box.w-100
+          button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+          p = "Hello World"
+          = turbo_frame_tag "auth_form", src: new_user_session_path
+          / = render "layouts/signup_form", user: @user
+        form.modal-backdrop method="dialog" 
+          button close
+
+      dialog#sign_in_modal.modal data-test-id="sign-in-modal"
+        .modal-box.w-100
+          button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-2.top-2 ✕
+          = render "layouts/signin_form", user: @user
+        form.modal-backdrop method="dialog" 
+          button close
+
+
+/ render turbo_frame_tag "xxx" src: "xxx/xxx"

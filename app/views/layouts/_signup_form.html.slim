@@ -1,0 +1,20 @@
+h3.text-center.text-lg.font-medium.mt-5 Sign Up
+.mt-6
+  = simple_form_for(user, as: :user, url: registration_path("user"), html: { class: "contents space-y-4" }) do |form|
+      = form.input :email, label: "Email Address", icon: "lucide--mail", placeholder: "Enter your email", required: false, autofocus: true, input_html: { autocomplete: "email", "data-test-id": "sign-up-email", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+      = form.input :password, label: "Password", icon: "lucide--key-round", placeholder: "Enter password", required: false, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { autocomplete: "new-password", "data-test-id": "sign-up-password", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+      = form.input :password_confirmation, label: "Confirm Password", icon: "lucide--key-round", placeholder: "Confirm your password", required: false, input_html: { autocomplete: "new-password", "data-test-id": "sign-up-confirm-password", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+      
+      p.text-xs.mt-6
+        | By signing up, you agree to 
+        span.text-blue-500 Terms of Service
+        | , 
+        span.text-blue-500 Cookies
+        |  and 
+        span.text-blue-500 Privacy Policy
+      
+      = form.submit "SIGN UP", class: "btn btn-primary btn-wide mt-4 max-w-full", data: { test_id: "sign-up-submit" }
+
+  .flex.justify-center.font-extralight.mt-6.gap-1
+      p = "Already have an account?"
+      a.font-extralight.text-blue-500.cursor-pointer data-test-id="switch-to-sign-in" onclick="sign_up_modal.close(); sign_in_modal.showModal();" Sign in here
