@@ -1,0 +1,27 @@
+= turbo_frame_tag "devise" do
+  h3.text-center.text-lg.font-medium.mt-5 Sign Up
+  / h3.mt-8.text-center.text-xl.font-semibold.md:mt-12.lg:mt-12 Create your Dailynews Account
+  / h3.text-base-content/70.mt-2.text-center.text-sm Join Dailynews to access fresh news and updates.
+
+  .mt-6
+    = render "alert"
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo_frame: "_top" }, html: { class: "contents space-y-2" }) do |form|
+      = form.input :email, label: "Email Address", icon: "lucide--mail", placeholder: "Enter your email", required: false, autofocus: true, input_html: { id: "email", autocomplete: "email", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+      = form.input :password, label: "Password", icon: "lucide--key-round", placeholder: "Enter your password", required: false, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { id: "password", autocomplete: "new-password", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+      = form.input :password_confirmation, label: "Confirm Password", icon: "lucide--key-round", placeholder: "Confirm your password", required: false, input_html: { id: "confirm_password", autocomplete: "new-password", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+      
+      p.text-xs.mt-6
+        | By signing up, you agree to 
+        span.text-blue-500 Terms of Service
+        | , 
+        span.text-blue-500 Cookies
+        |  and 
+        span.text-blue-500 Privacy Policy
+      
+      = form.submit "SIGN UP", class: "btn btn-primary btn-wide mt-4 max-w-full"
+
+  .flex.justify-center.font-extralight.mt-6.gap-1
+      p = "Already have an account?"
+      = link_to "Sign in here", new_session_path(resource_name), data: { turbo_frame: "devise" }, class: "text-blue-500"
+
+  / = render "devise/shared/links"

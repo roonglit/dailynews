@@ -1,6 +1,8 @@
 class TurboFailureApp < Devise::FailureApp
+  delegate :flash, to: :request
   def respond
     if request_format == :turbo_stream
+      flash.now[:alert] = "warning"
       turbo_stream_response
     else
       super
@@ -8,14 +10,14 @@ class TurboFailureApp < Devise::FailureApp
   end
 
   def skip_format?
-    %w(html turbo_stream */*).include? request_format.to_s
+    %w[html turbo_stream */*].include? request_format.to_s
   end
 
   private
 
   def turbo_stream_response
     self.status = 200
-    self.content_type = 'text/vnd.turbo-stream.html'
+    self.content_type = "text/vnd.turbo-stream.html"
     self.response_body = render_turbo_stream_template
   end
 
@@ -35,7 +37,7 @@ class TurboFailureApp < Devise::FailureApp
     # Render the turbo_stream template with the flash message and resource
     ApplicationController.render(
       template: template_path,
-      formats: [:turbo_stream],
+      formats: [ :turbo_stream ],
       layout: false,
       assigns: {
         flash: { alert: i18n_message },
@@ -61,17 +63,17 @@ class TurboFailureApp < Devise::FailureApp
 
     case path
     when /sign_in|sign_out/
-      'sessions'
+      "sessions"
     when /password/
-      'passwords'
+      "passwords"
     when /sign_up|cancel/
-      'registrations'
+      "registrations"
     when /confirmation/
-      'confirmations'
+      "confirmations"
     when /unlock/
-      'unlocks'
+      "unlocks"
     else
-      'sessions' # default fallback
+      "sessions" # default fallback
     end
   end
 
