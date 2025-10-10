@@ -7,14 +7,8 @@ RSpec.configure do |config|
   # For non-system tests, use transaction strategy
   config.before(:each) do |example|
     if example.metadata[:type] == :system
-      # Set truncation strategy for system tests
-      driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
-      unless driver_shares_db_connection_with_specs
-        # puts "Using truncation strategy for system tests with driver: #{Capybara.current_driver}"
-        DatabaseCleaner.strategy = :truncation
-      end
+      DatabaseCleaner.strategy = :truncation
     else
-      # Use transaction strategy for non-system tests
       DatabaseCleaner.strategy = :transaction
     end
 

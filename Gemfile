@@ -59,6 +59,7 @@ group :development, :test do
 
   gem "rspec-rails"
   gem 'factory_bot_rails'
+  gem 'launchy'
 end
 
 group :development do
@@ -71,6 +72,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem 'database_cleaner-active_record'
+  gem "cuprite"
 end
 
 gem "pundit", "~> 2.5"

@@ -58,15 +58,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_10_060714) do
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
-  create_table "profiles", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_profiles_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -82,5 +73,4 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_10_060714) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "memberships", "users"
-  add_foreign_key "profiles", "users"
 end

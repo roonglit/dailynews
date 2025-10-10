@@ -1,56 +1,60 @@
 require 'rails_helper'
 
-describe "Sign In" do
+describe "Sign In", js: true do
   context "user exists" do
-    before do
-      @user = create(:user)
-    end
-    it "should be allows a user to login" do
+    before { @user = create(:user) }
+
+    it "allows a user to login" do
+      # user clicks on the avatar icon to sign in
       visit root_path
       find('.user-avatar').click
       click_link 'Sign in here'
 
+      # user fills in email and password, and sign in
       fill_in 'email', with: @user.email
       fill_in 'password', with: 'password123'
+      click_link_or_button 'SIGN IN'
 
-      click_button 'SIGN IN'
-
-      find('label[for="dropdown-toggle"]').click
-      expect(page).to have_content('Sign Out')
+      # user should see a welcome message
+      expect(page).to have_content('Signed in successfully.')
     end
 
-    it "should be switch to register modal when clicks Register here" do
+    it "can switch back and forth between registraion and sign in" do
+      # user clicks on the avatar icon to sign in
       visit root_path
-
-      find('span.iconify.lucide--circle-user-round').click
-
+      find('.user-avatar').click
       click_link 'Sign in here'
+
+      # user changes to register instead
       click_link 'Register here'
 
+      # user should see the registration form
       expect(page).to have_content('Sign Up')
     end
 
-    it "should be redirect to forgot password page when clicks forgot password in sign in dialog" do
+    it "redirects user to forgot passwod page when user clicks forgot password" do
+      # user clicks on the avatar icon to sign in
       visit root_path
-
-      find('span.iconify.lucide--circle-user-round').click
+      find('.user-avatar').click
       click_link 'Sign in here'
-      click_link 'Register here'
 
+      # user forgot his password
       click_link 'Forgot Password'
+
+      # user should be able to start the forgot password process
       expect(page).to have_content('Reset your password')
     end
 
-    it "should be allows a user to login" do
+    it "allows a user to login from sign in page" do
       visit new_user_session_path
 
+      # user fills in email and password, and sign in
       fill_in 'email', with: @user.email
       fill_in 'password', with: 'password123'
-
       click_button 'SIGN IN'
 
-      find('label[for="dropdown-toggle"]').click
-      expect(page).to have_content('Sign Out')
+      # user should see a welcome message
+      expect(page).to have_content('Signed in successfully.')
     end
   end
 end
