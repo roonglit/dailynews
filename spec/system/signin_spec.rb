@@ -19,7 +19,7 @@ describe "Sign In", js: true do
       expect(page).to have_content('Signed in successfully.')
     end
 
-    it "can switch back and forth between registraion and sign in" do
+    it "can switch back and forth between registration and sign in" do
       # user clicks on the avatar icon to sign in
       visit root_path
       find('.user-avatar').click

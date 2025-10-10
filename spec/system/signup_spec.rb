@@ -1,41 +1,45 @@
 require 'rails_helper'
 
 describe "Sign Up" do
-  it "should be allows a user to register in modal dialog" do
+  it "allows a user to registration" do
     visit root_path
 
+    # user clicks on the avatar icon to sign up
+    visit root_path
     find('.user-avatar').click
 
-    fill_in 'email', with: 'register1@gmail.com'
+    # user fills in email, password and confirm password, and sign up
+    fill_in 'email', with: "register1@gmail.com"
     fill_in 'password', with: 'password123'
     fill_in 'confirm_password', with: 'password123'
+    click_link_or_button 'SIGN UP'
 
-    click_button 'SIGN UP'
-
-    find('label[for="dropdown-toggle"]').click
+    # user should see a sign out in user profile
+    find('.user-profile').click
     expect(page).to have_content('Sign Out')
   end
 
-  it "should be switch to login modal when clicks Sign in here" do
+  it "can switch to sign in form on modal dialog" do
+    # user clicks on the avatar icon to sign in
     visit root_path
-
-    find('span.iconify.lucide--circle-user-round').click
-
+    find('.user-avatar').click
     click_link 'Sign in here'
 
+    # user should see a sign in form
     expect(page).to have_content('Sign In')
   end
 
-  it "should be allows a user to register in registration page" do
+  it "allows a user to registration from sign in page" do
     visit new_user_registration_path
 
-    fill_in 'email', with: 'register2@gmail.com'
+    # user fills in email, password and confirm password, and sign up
+    fill_in 'email', with: "register2@gmail.com"
     fill_in 'password', with: 'password123'
     fill_in 'confirm_password', with: 'password123'
+    click_link_or_button 'SIGN UP'
 
-    click_button 'SIGN UP'
-
-    find('label[for="dropdown-toggle"]').click
+    # user should see a sign out in user profile
+    find('.user-profile').click
     expect(page).to have_content('Sign Out')
   end
 end

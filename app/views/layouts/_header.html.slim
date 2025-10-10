@@ -5,7 +5,7 @@ header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-
     .relative.inline-block
       .flex.flex-cols
         input#dropdown-toggle(type="checkbox" class="hidden peer")
-        label.iconify.lucide--circle-user-round.size-6.cursor-pointer.hover:bg-blue-500.p-1.rounded for="dropdown-toggle"
+        label.user-profile.iconify.lucide--circle-user-round.size-6.cursor-pointer.hover:bg-blue-500.p-1.rounded for="dropdown-toggle"
         .absolute.right-0.z-50.mt-12.p-2.w-60.bg-white.border.rounded-md.shadow-lg.hidden.peer-checked:block.max-md:w-50.max-md:p-1
           p.p-2.mb-2.font-medium = "Hello, #{current_user.email}"
           ul
