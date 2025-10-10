@@ -30,7 +30,14 @@ export default class extends Controller {
       
       // Sound configuration
       sound: true,              // Enable/disable sound
-      flipSound: true           // Enable page flip sound
+      flipSound: true,          // Enable page flip sound
+
+      btnPrint: {enabled: false}, 
+      btnDownloadPages: {enabled: false},
+      btnDownloadPdf: {enabled: false },
+      btnShare: {enabled: false },
+
+      layout: "1",
     }
     
     // Set flip sound path if provided
@@ -38,16 +45,6 @@ export default class extends Controller {
       options.assets = {
         flipMp3: this.flipMp3Value
       }
-    }
-
-    // If you have a PDF URL, add PDF-specific options
-    if (this.hasPdfUrlValue && this.pdfUrlValue) {
-      Object.assign(options, {
-        btnDownloadPdf: {
-          enabled: true,
-          url: this.pdfUrlValue
-        }
-      })
     }
 
     // // Common options
@@ -65,7 +62,6 @@ export default class extends Controller {
     try {
       // Create the flipbook instance
       this.flipbook = new FlipBook(container, options)
-      console.log('Flipbook initialized successfully')
     } catch (error) {
       console.error('Error initializing flipbook:', error)
       
