@@ -156,6 +156,7 @@ GEM
       activesupport (>= 6.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
+    iconv (1.1.0)
     importmap-rails (2.2.2)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -234,6 +235,9 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
+    pdftoimage (0.2.1)
+      iconv (~> 1.0)
+      shellwords (~> 0.2.2)
     pg (1.6.2)
     pg (1.6.2-aarch64-linux)
     pg (1.6.2-aarch64-linux-musl)
@@ -366,6 +370,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    shellwords (0.2.2)
     simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
@@ -472,6 +477,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  pdftoimage
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)

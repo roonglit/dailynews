@@ -21,6 +21,7 @@
                 input.checkbox.checkbox-sm type='checkbox' aria-label='Check all'
               th ID
               th Title
+              th Cover
               th Action
           tbody 
             - @books.each do |book|
@@ -29,6 +30,11 @@
                   input.checkbox.checkbox-sm type='checkbox' aria-label='Single check'
                 td = book.id
                 td = book.title
+                td
+                  - if book.cover.attached?
+                    = image_tag book.cover, class: "w-30"
+                  - else
+                    | No cover
                 td
                   .inline-flex 
                     = link_to edit_admin_book_path(book), class: 'btn btn-square btn-ghost btn-sm', html: { "aria-label": "Edit book link" } do

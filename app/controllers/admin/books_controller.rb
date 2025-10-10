@@ -26,6 +26,7 @@ module Admin
 
       respond_to do |format|
         if @book.save
+          ExtractCoverJob.perform_later @book.id
           format.html { redirect_to [:admin, @book], notice: "Book was successfully created." }
           format.json { render :show, status: :created, location: @book }
         else
@@ -39,6 +40,7 @@ module Admin
     def update
       respond_to do |format|
         if @book.update(book_params)
+          ExtractCoverJob.perform_later @book.id
           format.html { redirect_to [:admin, @book], notice: "Book was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: @book }
         else
