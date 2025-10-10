@@ -1,8 +1,6 @@
 class TurboFailureApp < Devise::FailureApp
-  delegate :flash, to: :request
   def respond
     if request_format == :turbo_stream
-      flash.now[:alert] = "warning"
       turbo_stream_response
     else
       super
@@ -40,12 +38,12 @@ class TurboFailureApp < Devise::FailureApp
       formats: [ :turbo_stream ],
       layout: false,
       assigns: {
-        flash: { alert: i18n_message },
         resource: resource,
         resource_name: scope_name,
         devise_mapping: Devise.mappings[scope_name],
         controller_name: controller_name
       }, locals: {
+        flash: { alert: i18n_message },
         resource: resource,
         resource_name: scope_name,
         devise_mapping: Devise.mappings[scope_name],
