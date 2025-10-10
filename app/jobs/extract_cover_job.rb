@@ -10,7 +10,7 @@ class ExtractCoverJob < ApplicationJob
     # load pdf file
     book.pdf.open do |pdf_file|
       # Create a temporary file for the cover image
-      cover_tempfile = Tempfile.new(["cover", ".jpg"])
+      cover_tempfile = Tempfile.new([ "cover", ".jpg" ])
 
       begin
         # Extract first page and save to tempfile

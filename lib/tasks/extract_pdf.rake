@@ -1,7 +1,7 @@
-require 'pdftoimage'
+require "pdftoimage"
 
 namespace :pdf do
-  task :extract, [:name] do |t, args|
+  task :extract, [ :name ] do |t, args|
     filename = args[:name]
     raise "Please provide a filename: rails pdf:extract[filename.pdf]" if filename.nil? || filename.empty?
 

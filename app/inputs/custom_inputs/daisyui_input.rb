@@ -8,20 +8,20 @@ module CustomInputs
       has_errors = object.errors[attribute_name].present?
 
       # Build CSS classes for input wrapper
-      input_wrapper_classes = [ 'input', 'w-full', 'focus:outline-0' ]
-      input_wrapper_classes << 'input-error' if has_errors
+      input_wrapper_classes = [ "input", "w-full", "focus:outline-0" ]
+      input_wrapper_classes << "input-error" if has_errors
 
       # Return just the input wrapper - let Simple Form handle the fieldset/legend
-      template.content_tag(:label, class: input_wrapper_classes.join(' ')) do
+      template.content_tag(:label, class: input_wrapper_classes.join(" ")) do
         icon_html = if icon_class
           # Use CSS class instead of JavaScript iconify
-          template.content_tag(:span, '', class: "iconify #{icon_class} text-base-content/80 size-5")
+          template.content_tag(:span, "", class: "iconify #{icon_class} text-base-content/80 size-5")
         else
-          ''.html_safe
+          "".html_safe
         end
 
         input_html = @builder.public_send(input_method, attribute_name, input_html_options.merge(
-          class: 'grow focus:outline-0',
+          class: "grow focus:outline-0",
           placeholder: options[:placeholder] || label_text
         ))
 
@@ -53,24 +53,24 @@ module CustomInputs
     def input_type_class
       case input_type
       when :email
-        'email'
+        "email"
       when :password
-        'password'
+        "password"
       when :tel
-        'tel'
+        "tel"
       when :url
-        'url'
+        "url"
       when :search
-        'search'
+        "search"
       when :number
-        'number'
+        "number"
       else
-        'string'
+        "string"
       end
     end
 
     def required_class
-      field_required? ? 'required' : 'optional'
+      field_required? ? "required" : "optional"
     end
 
     def field_required?
@@ -84,17 +84,17 @@ module CustomInputs
     def default_icon_class
       case input_type
       when :email
-        'lucide--mail'
+        "lucide--mail"
       when :password
-        'lucide--key-round'
+        "lucide--key-round"
       when :tel
-        'lucide--phone'
+        "lucide--phone"
       when :url
-        'lucide--link'
+        "lucide--link"
       when :search
-        'lucide--search'
+        "lucide--search"
       when :number
-        'lucide--hash'
+        "lucide--hash"
       else
         options[:icon]
       end
@@ -138,7 +138,7 @@ module CustomInputs
 
     def input(wrapper_options = nil)
       # Use the default radio button input method
-      template.content_tag(:div, class: 'flex radio-options-collection') do
+      template.content_tag(:div, class: "flex radio-options-collection") do
         render_radio_buttons
       end
     end
@@ -166,15 +166,15 @@ module CustomInputs
         value = item[1]
         text = item[0]
 
-        radio_html = @builder.radio_button(attribute_name, value, class: 'radio radio-sm', id: "#{attribute_name}_#{value}")
-        text_html = template.content_tag(:label, text, class: 'fieldset-label', for: "#{attribute_name}_#{value}")
+        radio_html = @builder.radio_button(attribute_name, value, class: "radio radio-sm", id: "#{attribute_name}_#{value}")
+        text_html = template.content_tag(:label, text, class: "fieldset-label", for: "#{attribute_name}_#{value}")
         radio_html + text_html
       end.join.html_safe
     end
 
     def label(wrapper_options = nil)
       # Use the default label method
-      @builder.label(attribute_name, label_text, class: 'fieldset-label')
+      @builder.label(attribute_name, label_text, class: "fieldset-label")
     end
   end
 end
