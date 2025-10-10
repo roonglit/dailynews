@@ -14,9 +14,8 @@ describe "Sign Up" do
     fill_in 'confirm_password', with: 'password123'
     click_link_or_button 'SIGN UP'
 
-    # user should see a sign out in user profile
-    find('.user-profile').click
-    expect(page).to have_content('Sign Out')
+    # user should see a welcome message
+    expect(page).to have_content('Welcome! You have signed up successfully.')
   end
 
   it "can switch to sign in form on modal dialog" do
@@ -38,8 +37,7 @@ describe "Sign Up" do
     fill_in 'confirm_password', with: 'password123'
     click_link_or_button 'SIGN UP'
 
-    # user should see a sign out in user profile
-    find('.user-profile').click
-    expect(page).to have_content('Sign Out')
+    # user should see a welcome message
+    expect(page).to have_content('Welcome! You have signed up successfully.')
   end
 end

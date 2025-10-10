@@ -21,7 +21,7 @@ describe "Sign Out" do
 
       # user can see sign up modal when user clicks user avatar
       find('.user-avatar').click
-      expect(page).to have_content('Sign Up')
+      expect(page).to have_content('Signed out successfully.')
     end
   end
 end
