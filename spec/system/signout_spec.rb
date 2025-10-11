@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe "Sign Out" do
-  context "user is logged in" do
+describe "Sign Out", js: true do
+  context "user exists" do
     before { @user = create(:user) }
 
-    it "user can sign out in dropdown from your profile" do
+    it "allows user to sign out" do
       # user clicks on the avatar icon to sign in
       visit root_path
       find('.user-avatar').click
@@ -15,9 +15,12 @@ describe "Sign Out" do
       fill_in 'password', with: 'password123'
       click_link_or_button 'SIGN IN'
 
+      # expect user to be successfully signed in
+      expect(page).to have_content('Signed in successfully.')
+
       # user clicks on the profile icon to sign out
       find('.user-profile').click
-      click_button "Sign Out"
+      click_link_or_button "Sign Out"
 
       # user can see sign up modal when user clicks user avatar
       find('.user-avatar').click
