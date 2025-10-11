@@ -1,3 +1,5 @@
+= javascript_include_tag "https://cdn.omise.co/omise.js"
+
 .container.mx-auto.px-4.py-8
   .grid.grid-cols-1.lg:grid-cols-3.gap-8
     .lg:col-span-2
@@ -9,7 +11,7 @@
 
     .lg:col-span-1
       .sticky.top-4
-        .bg-white.rounded-lg.shadow-lg.p-6
+        .bg-white.rounded-lg.shadow-lg.p-6 data-controller='payment' data-payment-omise-key-value="#{Rails.application.credentials.dig(:omise, :public_key)}"
           h4.text-xl.font-semibold.mb-4 Order Summary
 
           .border-t.border-gray-200.my-4
@@ -20,4 +22,4 @@
 
           .border-t.border-gray-200.my-4
 
-          = button_tag "Continue to Payment", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition", type: "button"
+          = button_tag "Continue to Payment", id: "payment-button", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition", type: "button", data: { "payment-target": "checkoutButton" }
