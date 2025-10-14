@@ -6,5 +6,6 @@ class User < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_one :cart
+  has_many :orders
   # after_create :create_cart
 end
