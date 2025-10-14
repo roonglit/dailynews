@@ -3,11 +3,15 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :memberships
-  resources :books
   resource :checkout, only: %i[show create]
+  resources :newspapers do
+    member do
+      get :read
+    end
+  end
 
   namespace :admin do
-    resources :books
+    resources :newspapers
     root "home#index"
   end
 

@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Newspapers
+
+#newspapers
+  - @newspapers.each do |boonewspaperk|
+    == render newspaper
+    p
+      = link_to "Show this newspaper", newspaper
+
+= link_to "New newspaper", new_newspaper_path

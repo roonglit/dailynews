@@ -1,0 +1,5 @@
+-  newspaper_url = newspaper.pdf.attached? ? url_for(newspaper.pdf) : "/newspaper.pdf"
+
+
+div id="#{dom_id newspaper}" data-controller="newspaper" data-newspaper-pdf-url-value="#{newspaper_url}" data-newspaper-flip-mp3-value=asset_path("flipbook/build/assets/mp3/turnPage.mp3")
+  div data-newspaper-target="pdf"

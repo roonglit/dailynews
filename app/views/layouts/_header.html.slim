@@ -1,6 +1,6 @@
 header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-30.bg-white.shadow-md
   .flex.items-center.space-x-4
-    span.text-2xl.font-semibold.text-gray-800 = "DailyNews"
+    = link_to "DailyNews", root_path, class: "text-2xl font-semibold text-gray-800"
   - if user_signed_in?
     .relative.inline-block
       .flex.flex-cols
