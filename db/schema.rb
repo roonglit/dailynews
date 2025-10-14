@@ -84,20 +84,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_14_083201) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.integer "amount"
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
-  end
-
-  create_table "profiles", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -118,5 +114,4 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_14_083201) do
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
   add_foreign_key "memberships", "users"
-  add_foreign_key "profiles", "users"
 end
