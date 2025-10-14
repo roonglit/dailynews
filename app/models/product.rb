@@ -3,4 +3,7 @@ class Product < ApplicationRecord
 
   has_rich_text :description
   has_one :order_item
+
+  validates :title, presence: true, uniqueness: true
+  validates :amount, presence: true
 end

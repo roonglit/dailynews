@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :memberships
-  resource :checkout, only: %i[show create]
+  resource :checkout, only: %i[show create] do
+    post :add_product
+  end
   resources :newspapers do
     member do
       get :read
