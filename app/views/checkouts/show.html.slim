@@ -10,13 +10,26 @@
         .flex.justify-between.items-center
           h4.text-xl.font-semibold.mb-4 แพ็คเกจของคุณ
 
-          .button-container data-controller="dynamic-button" data-dynamic-button-status-value="off"
-            button#toggle-btn.bg-white.border-gray-400.btn.btn-primary.hover:bg-pink-300.text-black data-action="click->dynamic-button#toggle"
-              | Turn Off
+          .button-container data-dynamic-button-status-value="off"
+            - if @product&.title == "1 Month Only"
+              = button_to "สมัครเป็นแบบต่อเนื่อง",
+                toggle_product_checkout_path,
+                method: :post,
+                class: "bg-white border border-gray-400 btn btn-primary hover:bg-blue-700 text-black rounded-lg px-4 py-2 transition"
+            - elsif @product&.title == "Subscribe Monthly"
+              = button_to "สมัครเป็นแบบครั้งเดียว",
+                toggle_product_checkout_path,
+                method: :post,
+                class: "bg-white border border-gray-400 btn btn-primary hover:bg-blue-700 text-black rounded-lg px-4 py-2 transition"
+            - else
+              = button_to "สมัคร",
+                toggle_product_checkout_path,
+                method: :post,
+                class: "bg-white border border-gray-400 btn btn-primary hover:bg-blue-700 text-black rounded-lg px-4 py-2 transition"
 
-        h4.font-medium.mb-4 รายเดือน(1 เดือน)
+        h4.font-medium.mb-4 = @product.title
 
-        h4.font-light-mb-4 description
+        h4.font-light-mb-4 = @product.description
         / .mt-5
         /   = content_form.input :description, as: :rich_textarea
       
@@ -31,13 +44,13 @@
           
           .flex.justify-between.item-center
             h4.text-xl.font-normal.mb-4.mt-8 item
-            h4.text-xl.font-normal.mb-4.mt-8 item
+            h4.text-xl.font-normal.mb-4.mt-8 = "#{@product.amount} Bath"
           .flex.justify-between.item-center
             h4.text-light.font-thin.mb-4 Tax (0%)
-            h4.text-light.font-thin.mb-4 Tax (0%)
+            h4.text-light.font-thin.mb-4 0
           .flex.justify-between.item-center
             h4.text-light.font-thin.text-green-400.mb-4 Total
-            h4.text-light.font-thin.text-green-400.mb-4 Total
+            h4.text-light.font-thin.text-green-400.mb-4 = "#{@product.amount} Bath"
 
           .border-t.border-gray-200.my-4
 

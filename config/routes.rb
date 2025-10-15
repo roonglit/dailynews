@@ -17,6 +17,9 @@ Rails.application.routes.draw do
       get "complete"
     end
   end
+  resource :checkout, only: [ :show, :create ] do
+  post :toggle_product
+  end
 
   namespace :admin do
     resources :newspapers
