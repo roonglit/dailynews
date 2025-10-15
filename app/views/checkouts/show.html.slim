@@ -60,3 +60,6 @@
           = form_with model: @order, data: { payment_target: "form" } do |form|
             = form.hidden_field :token, data: { payment_target: "token" }
           = button_tag "Continue to Payment", id: "pay-button", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition", type: "button", data: { "action": "click->payment#payButtonClicked" }
+
+          .border-t.border-gray-200.my-4
+          = button_to "Grant Free Membership (Testing)", orders_path, method: :post, params: { order: { token: "testing_only" } }, class: "w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition", data: { turbo_confirm: "Skip payment and grant free membership?" }
