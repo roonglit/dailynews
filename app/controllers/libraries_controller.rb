@@ -1,5 +1,13 @@
 class LibrariesController < ApplicationController
   def show
-    @newspapers = Newspaper.where("published_at >= ?", current_user.memberships.last.start_date).order_by_created_at if current_user.memberships.last.end_date >= Date.today
+    @newspapers = []
+
+    current_user.memberships.each do |membership|
+      newspapers = Newspaper.where("published_at >= ? and published_at <= ?", membership.start_date, membership.end_date).order_by_created_at
+      @newspapers += newspapers
+    end
+
+    @newspapers = @newspapers.uniq
+
   end
 end
