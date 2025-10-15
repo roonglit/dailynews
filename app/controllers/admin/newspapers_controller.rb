@@ -4,7 +4,7 @@ module Admin
 
     # GET /admin/newspapers or /admin/newspapers.json
     def index
-      @newspapers = Newspaper.all
+      @newspapers = Newspaper.order_by_created_at
     end
 
     # GET /admin/newspapers/1 or /admin/newspapers/1.json
