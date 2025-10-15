@@ -5,6 +5,11 @@ class CheckoutsController < ApplicationController
   end
 
   def add_product
+    unless user_signed_in?
+      redirect_to user_session_path
+      return
+    end
+
     product_title = params[:product_title]
 
     product = Product.find_by(title: product_title)
@@ -31,7 +36,6 @@ class CheckoutsController < ApplicationController
   def toggle_product
     product_title = params[:product_title]
 
-    new_title = product_title == "1 Month Only" ? "Subscribe Monthly" : "1 Month Only"
     product = Product.find_by(title: product_title)
 
     if product.blank?
@@ -40,6 +44,6 @@ class CheckoutsController < ApplicationController
     end
 
     current_user.cart.cart_item.update(product_id: product.id)
-    redirect_to checkout_path, notice: "Switched to #{new_title}"
+    redirect_to checkout_path, notice: "Switched to #{product.title}"
   end
 end
