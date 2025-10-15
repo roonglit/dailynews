@@ -17,7 +17,7 @@ describe "Sign Up" do
   end
 
   it "allows a user to register from sign up page" do
-    visit new_user_registration_path
+    visit new_member_registration_path
 
     # user fills in email, password and confirm password, and sign up
     fill_in 'email', with: "register2@gmail.com"

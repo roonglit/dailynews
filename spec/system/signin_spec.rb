@@ -46,7 +46,7 @@ describe "Sign In", js: true do
     end
 
     it "allows a user to login from sign in page" do
-      visit new_user_session_path
+      visit new_member_session_path
 
       # user fills in email and password, and sign in
       fill_in 'email', with: @user.email

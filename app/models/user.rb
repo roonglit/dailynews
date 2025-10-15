@@ -8,4 +8,26 @@ class User < ApplicationRecord
   has_one :cart
   has_many :orders
   # after_create :create_cart
+
+  # STI: Guest and Member subclasses will override these
+  def guest?
+    false
+  end
+
+  def member?
+    false
+  end
+
+  def name
+    email || "User"
+  end
+
+  # Override Devise validations to make email/password optional for Guests
+  def email_required?
+    member?
+  end
+
+  def password_required?
+    member? && super
+  end
 end

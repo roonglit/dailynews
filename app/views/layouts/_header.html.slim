@@ -6,7 +6,7 @@ header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-
     - a = current_page?(library_path) ? "text-blue-1000 font-semibold" : "text-gray-500"
     = link_to "My Library", library_path, class: "text-md font-semibold transition #{a} pe-4"
 
-    - if user_signed_in?
+    - if user_signed_in? && current_user.member?
       .relative.inline-block
         .flex.flex-cols
           input#dropdown-toggle(type="checkbox" class="hidden peer")
@@ -15,7 +15,7 @@ header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-
             p.p-2.mb-2.font-medium = "Hello, #{current_user.email}"
             ul
               li
-                = button_to destroy_user_session_path, method: :delete, class: "w-full m-0 p-0 cursor-pointer" do
+                = button_to destroy_member_session_path, method: :delete, class: "w-full m-0 p-0 cursor-pointer" do
                   span.flex.items-center.gap-2.w-full.py-2.px-4.text-left.rounded-md.text-gray-700.hover:bg-gray-100.hover:text-blue-500
                     label.iconify.lucide--log-out.size-4
                     | Sign Out
@@ -29,7 +29,7 @@ header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-
               form method="dialog"
                 button.btn.btn-sm.btn-circle.btn-ghost.absolute.right-3.top-3 ✕
 
-              = turbo_frame_tag "devise", src: new_user_registration_path
+              = turbo_frame_tag "devise", src: new_member_registration_path, loading: "lazy"
 
-            form.modal-backdrop method="dialog" 
+            form.modal-backdrop method="dialog"
               button close

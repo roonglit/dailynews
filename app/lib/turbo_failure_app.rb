@@ -26,8 +26,10 @@ class TurboFailureApp < Devise::FailureApp
     # e.g., "/users/sign_in" -> "sessions", "/users/password" -> "passwords"
     controller_name = extract_controller_name
 
-    # Use singular form for template path (e.g., "user" not "users")
-    template_path = "devise/#{scope_name.to_s.singularize}/#{controller_name}/create"
+    # Use scoped view path (e.g., "members/sessions/create" for devise_for :members)
+    # The scope might be :member (singular) but we need the plural form for the view path
+    scope_path = scope_name.to_s.pluralize
+    template_path = "#{scope_path}/#{controller_name}/create"
 
     # Build a resource with the submitted params to show in the form
     resource = build_resource_from_params(scope_name)

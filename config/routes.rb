@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: "users/registrations" }
+  # Scoped Devise routes for Members (STI)
+  devise_for :members, class_name: "Member", controllers: {
+    registrations: "members/registrations",
+    sessions: "members/sessions"
+  }
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resource :library, only: %i[show]
