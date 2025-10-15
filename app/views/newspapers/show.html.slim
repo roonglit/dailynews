@@ -7,7 +7,7 @@
         li class="inline-block px-1 relative after:content-['/'] after:left-1"
           = link_to "Newspapers", root_path, class: "hover:underline"
         li class="inline-block px-1 text-blue-500"
-          span = @newspaper.created_at.strftime("%d %B %Y")
+          span = @newspaper.title
 
   .container.mx-auto.px-6.mt-5.grid.grid-cols-1.md:grid-cols-2.gap-12
     .flex.justify-center.items-start
@@ -20,7 +20,7 @@
     .flex.flex-col.justify-start.space-y-6
       h1.text-4xl.font-extrabold.text-gray-900 = @newspaper.title
       - if @newspaper.created_at.present?
-        p.text-gray-500.text-sm = @newspaper.created_at.strftime("%d %B %Y")
+        p.text-gray-500.text-sm = @newspaper&.published_at&.strftime("%d %B %Y") || @newspaper.created_at.strftime("%d %B %Y")
 
       p.text-gray-700.leading-relaxed.text-lg
         = @newspaper.description || "No description available."
