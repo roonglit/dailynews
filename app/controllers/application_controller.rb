@@ -45,4 +45,11 @@ class ApplicationController < ActionController::Base
     def user_signed_in?
       warden.authenticated?(:member)
     end
+
+    def authenticate_member!
+      unless user_signed_in?
+        flash[:alert] = "You must be signed in to access this page."
+        redirect_to new_member_session_path
+      end
+    end
 end
