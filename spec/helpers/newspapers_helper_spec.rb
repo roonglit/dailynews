@@ -12,9 +12,16 @@ RSpec.describe NewspapersHelper, type: :helper do
       end
     end
 
+    context "when user have memberships but start date of memberships is less than the date of newspaper was published" do
+      it "returns true" do
+        create(:membership, user: user, start_date: Date.today - 2, end_date: Date.today + 1)
+        expect(check_newspaper_memberships(newspaper, user)).to be true
+      end
+    end
+
     context "when user have memberships but start date of memberships is greater than the date of newspaper was published" do
       it "returns false" do
-        create(:membership, user: user, start_date: Date.today - 2, end_date: Date.today + 1)
+        create(:membership, user: user, start_date: Date.today + 1, end_date: Date.today + 2)
         expect(check_newspaper_memberships(newspaper, user)).to be false
       end
     end
