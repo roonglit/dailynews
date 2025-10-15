@@ -11,7 +11,7 @@ div id="#{dom_id newspaper}" class="book-card p-4 mb-4 border rounded"
       p.text-muted = newspaper.description
       .flex.flex-col.book-meta.mt-3
         small.text-secondary
-          | Published: #{newspaper.published_at.strftime("%B %d, %Y")}
+          | Published: #{newspaper.published_at&.strftime("%B %d, %Y")}
         small.text-secondary
           | Created: #{newspaper.created_at.strftime("%B %d, %Y")}
         - if newspaper.pdf.attached?

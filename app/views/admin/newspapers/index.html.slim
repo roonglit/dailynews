@@ -21,6 +21,7 @@
                 input.checkbox.checkbox-sm type='checkbox' aria-label='Check all'
               th ID
               th Title
+              th Published At
               th Cover
               th Action
           tbody 
@@ -30,6 +31,7 @@
                   input.checkbox.checkbox-sm type='checkbox' aria-label='Single check'
                 td = newspaper.id
                 td = newspaper.title
+                td = newspaper.published_at&.strftime("%B %d, %Y") || "-"
                 td
                   - if newspaper.cover.attached?
                     = image_tag newspaper.cover, class: "w-30"
