@@ -13,6 +13,11 @@ module Admin
 
     # PATCH/PUT /admin/users/1 or /admin/users/1.json
     def update
+      if params[:start_date].blank? || params[:end_date].blank?
+        redirect_to edit_admin_user_path, alert: "Start date and End date can't be blank"
+        return
+      end
+
       membership = @user.memberships.new(start_date: params[:start_date], end_date: params[:end_date])
       if membership.save
         redirect_to admin_users_path, notice: "Membership created"
