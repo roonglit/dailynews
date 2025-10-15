@@ -68,7 +68,7 @@ module Admin
 
       # Only allow a list of trusted parameters through.
       def newspaper_params
-        params.expect(newspaper: [ :id, :title, :description, :published_at, :pdf ])
+        params.expect(newspaper: [ :title, :description, :published_at, :pdf ])
       end
   end
 end
