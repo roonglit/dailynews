@@ -6,6 +6,7 @@ class Product < ApplicationRecord
 
   validates :title, presence: true, uniqueness: true
   validates :amount, presence: true
+  validates :sku, presence: true, uniqueness: true
 
   scope :order_by_created_at, -> { order(created_at: :asc) }
 end

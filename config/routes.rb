@@ -9,9 +9,8 @@ Rails.application.routes.draw do
 
   resource :library, only: %i[show]
   resources :memberships
-  resource :checkout, only: %i[show create] do
-    post :add_product
-  end
+  resources :cart_items, only: %i[create update]
+  resource :checkout, only: %i[show create]
   resources :newspapers do
     member do
       get :read
@@ -21,9 +20,6 @@ Rails.application.routes.draw do
     member do
       get "complete"
     end
-  end
-  resource :checkout, only: [ :show, :create ] do
-  post :toggle_product
   end
 
   namespace :admin do

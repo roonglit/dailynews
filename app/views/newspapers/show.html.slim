@@ -31,9 +31,9 @@
             class: "inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg font-semibold shadow-lg cursor-pointer"
         - else
           .flex.flex-row.gap-6
-            = button_to "1 Month Only", add_product_checkout_path(product_title: "1 Month Only"), method: :post,
+            = button_to "1 Month Only", cart_items_path(sku: "MEMBERSHIP_ONE_MONTH"), method: :post,
               class: "inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-2 rounded-lg font-semibold shadow-lg cursor-pointer"
 
-            = button_to "Subscribe Monthly", add_product_checkout_path(product_title: "Subscribe Monthly"), method: :post,
+            = button_to "Subscribe Monthly", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
               class: "inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-2 rounded-lg font-semibold shadow-lg cursor-pointer"
 /

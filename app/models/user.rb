@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :memberships, dependent: :destroy
-  has_one :cart
+  has_one :cart, dependent: :destroy
   has_many :orders
   # after_create :create_cart
 
