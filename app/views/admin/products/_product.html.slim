@@ -4,7 +4,7 @@ div id="#{dom_id product}" class="book-card p-4 mb-4 border rounded"
       p.font-medium = "Title"
       h4.mb-2 = product.title
       p.font-medium = "Description"
-      p.text-muted.mb-2 = product.description.to_plain_text
+      p.prose = product.description
       p.font-medium = "amount"
       p.text-muted.text-green.mb-2 = product.amount
       .flex.flex-col.book-meta.mt-3

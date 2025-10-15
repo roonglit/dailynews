@@ -23,11 +23,11 @@
                 method: :post,
                 class: "bg-white border border-gray-400 btn btn-primary hover:bg-blue-700 text-black rounded-lg px-4 py-2 transition"
 
-        h4.font-medium.mb-4 = @product.title
+        .flex.justify-between.item-center
+          h4.font-medium.mb-4.mt-4 = @product.title
+          h4.font-medium.mb-4.mt-4 = "฿#{@product.amount}"
 
-        h4.font-light-mb-4 = @product.description
-        / .mt-5
-        /   = content_form.input :description, as: :rich_textarea
+        .prose = @product.description
       
       .subscription-options
         

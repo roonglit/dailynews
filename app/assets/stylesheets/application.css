@@ -1,3 +1,12 @@
 @import url('flipbook.min.css');
 @import url('filepond.css');
 @import url('filepond-plugin-image-preview.css');
+
+.trix-content ul {
+  list-style-type: disc !important;
+  padding-left: 0.5em !important;
+}
+.trix-content ol {
+  list-style-type: decimal !important;
+  padding-left: 0.5em !important;
+}
