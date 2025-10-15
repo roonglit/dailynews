@@ -7,7 +7,7 @@ RSpec.describe NewspapersHelper, type: :helper do
   describe "check_newspaper_memberships" do
     context "when user has a valid membership" do
       it "returns true" do
-        create(:membership, user: user, start_date: newspaper.created_at, end_date: Date.today)
+        create(:membership, user: user, start_date: newspaper.published_at.to_date, end_date: Date.today)
         expect(check_newspaper_memberships(newspaper, user)).to be true
       end
     end
