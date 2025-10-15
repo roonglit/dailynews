@@ -1,0 +1,31 @@
+.flex.items-center.justify-between
+  h3.text-lg.font-medium Users
+
+.mt-6 
+  .bg-base-100.card.shadow 
+    .card-body.p-0 
+      .flex.items-center.justify-between.px-5.pt-5 
+        .inline-flex.items-center.gap-3 
+          label.input.input-sm
+            span.iconify.lucide--search.size-3.5.text-base-content/80
+            input.w-24 class="sm:w-36" placeholder='Search courses...' aria-label='Search courses' type='search'
+      .mt-4.overflow-auto 
+        table.table 
+          thead
+            tr
+              th
+                input.checkbox.checkbox-sm type='checkbox' aria-label='Check all'
+              th ID
+              th Email
+              th Membership Duration
+              th Action
+          tbody 
+            - @users.each do |user|
+              tr.hover:bg-base-200/40 class='*:text-nowrap'
+                th
+                  input.checkbox.checkbox-sm type='checkbox' aria-label='Single check'
+                td = user.id
+                td = user.email
+                td = duration(user.memberships.last&.start_date, user.memberships.last&.end_date)
+                td
+                  = link_to "Manage", edit_admin_user_path(user), class: "inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-sm text-sm font-medium"

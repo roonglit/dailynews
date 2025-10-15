@@ -12,7 +12,8 @@ input#layout-sidebar-toggle-trigger.hidden type='checkbox' aria-label="Toggle la
             span.iconify.lucide--monitor-dot.size-4
             span.grow PDFs
             span.iconify.lucide--chevron-right.arrow-icon.size-3.5
-          .collapse-content 
+          .collapse-content.flex.flex-col
+            = link_to "User", admin_users_path
             = link_to "Newspaper", admin_newspapers_path
   .mb-2 
     hr.border-base-300
