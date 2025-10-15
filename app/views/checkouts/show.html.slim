@@ -13,17 +13,13 @@
           .button-container data-dynamic-button-status-value="off"
             - if @product&.title == "1 Month Only"
               = button_to "สมัครเป็นแบบต่อเนื่อง",
-                toggle_product_checkout_path,
+                toggle_product_checkout_path(product_title: "Subscribe Monthly"),
                 method: :post,
                 class: "bg-white border border-gray-400 btn btn-primary hover:bg-blue-700 text-black rounded-lg px-4 py-2 transition"
+
             - elsif @product&.title == "Subscribe Monthly"
               = button_to "สมัครเป็นแบบครั้งเดียว",
-                toggle_product_checkout_path,
-                method: :post,
-                class: "bg-white border border-gray-400 btn btn-primary hover:bg-blue-700 text-black rounded-lg px-4 py-2 transition"
-            - else
-              = button_to "สมัคร",
-                toggle_product_checkout_path,
+                toggle_product_checkout_path(product_title: "1 Month Only"),
                 method: :post,
                 class: "bg-white border border-gray-400 btn btn-primary hover:bg-blue-700 text-black rounded-lg px-4 py-2 transition"
 

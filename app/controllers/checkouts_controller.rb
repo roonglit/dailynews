@@ -29,27 +29,17 @@ class CheckoutsController < ApplicationController
   end
 
   def toggle_product
-    cart = Cart.find_or_create_by(user_id: current_user.id)
-    current_product = cart.cart_item&.product
+    product_title = params[:product_title]
 
-    if current_product.nil?
-      redirect_to checkout_path, alert: "No product in cart"
+    new_title = product_title == "1 Month Only" ? "Subscribe Monthly" : "1 Month Only"
+    product = Product.find_by(title: product_title)
+
+    if product.blank?
+      redirect_to root_path, alert: "Product not found"
       return
     end
 
-    # หา product ตัวใหม่ (อีกฝั่ง)
-    new_title = current_product.title == "1 Month Only" ? "Subscribe Monthly" : "1 Month Only"
-    new_product = Product.find_by(title: new_title)
-
-    if new_product.nil?
-      redirect_to checkout_path, alert: "Product not found"
-      return
-    end
-
-    # ลบของเก่า แล้วเพิ่มของใหม่
-    cart.cart_item&.destroy
-    CartItem.create!(cart_id: cart.id, product_id: new_product.id)
-
+    current_user.cart.cart_item.update(product_id: product.id)
     redirect_to checkout_path, notice: "Switched to #{new_title}"
   end
 end
