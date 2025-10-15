@@ -38,3 +38,14 @@
           .flex.justify-between.item-center
             h4.text-light.font-thin.text-green-400.mb-4 Total
             h4.text-light.font-thin.text-green-400.mb-4 Total
+
+          .border-t.border-gray-200.my-4
+
+          / Summary details will go here
+          .summary-details
+            / Add selected plan, pricing details here
+
+          .border-t.border-gray-200.my-4
+          = form_with model: @order, data: { payment_target: "form" } do |form|
+            = form.hidden_field :token, data: { payment_target: "token" }
+          = button_tag "Continue to Payment", id: "pay-button", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition", type: "button", data: { "action": "click->payment#payButtonClicked" }

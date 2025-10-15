@@ -1,5 +1,6 @@
 class CheckoutsController < ApplicationController
   def show
+    @order = Order.new
   end
 
   def add_product
