@@ -1,0 +1,22 @@
+- url = product.new_record? ? admin_products_path : admin_product_path(product)
+
+= simple_form_for product, url: url do |form|
+  - if product.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(product.errors.count, "error")} prohibited this product from being saved:"
+
+      ul
+        product.errors.each do |error|
+          li = error.full_message
+
+  .mt-6
+    .card.bg-base-100.shadow
+      .card-body
+        .card-title Basic Information
+        .flex.flex-row.gap-4
+          .flex-1
+            = form.input :title, required: false, input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+          = form.input :amount, required: false, input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+        = form.input :description, as: :rich_textarea, required: false, input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+  .mt-6.flex.justify-end.gap-3      
+    = form.submit "Save", class: "btn btn-primary mt-4 max-w-full gap-3 md:mt-6"

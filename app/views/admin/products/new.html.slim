@@ -1,0 +1,16 @@
+- content_for :title, "New product"
+
+.flex.items-center.justify-between
+  h3.text-lg.font-medium New Product 
+  .breadcrumbs.hidden.p-0.text-sm.sm:inline
+    ul
+      li Product
+      li
+        = link_to "Products", admin_products_path
+      li.opacity-80 New
+
+
+= render "form", product: @product do |form|
+
+  = link_to "Cancel", admin_products_path, class: "btn btn-ghost"
+  = form.submit "Create product", class: "btn btn-primary"

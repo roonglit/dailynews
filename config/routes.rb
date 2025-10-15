@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :products
     resources :users, only: [ :index, :edit, :update ]
     resources :newspapers
     root "home#index"
