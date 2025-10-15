@@ -4,7 +4,7 @@ class NewspapersController < ApplicationController
 
   # GET /newspapers or /newspapers.json
   def index
-    @newspapers = Newspaper.all
+    @newspapers = Newspaper.where.not(published_at: nil).order(published_at: :desc)
   end
 
   # GET /newspaper/1 or /newspaper/1.json

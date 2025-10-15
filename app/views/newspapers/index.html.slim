@@ -3,7 +3,7 @@ p style="color: green" = notice
 h1 Newspapers
 
 #newspapers
-  - @newspapers.each do |boonewspaperk|
+  - @newspapers.each do |newspaper|
     == render newspaper
     p
       = link_to "Show this newspaper", newspaper
