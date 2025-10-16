@@ -23,6 +23,7 @@
               th Title
               th Description
               th Amount
+              th SKU
               th Action
           tbody 
             - @products.each do |product|
@@ -33,6 +34,7 @@
                 td = product.title
                 td.max-w-xs.truncate.overflow-hidden.whitespace-nowrap = product.description.to_plain_text
                 td = product.amount
+                td = product.sku || "-"
                 td
                   .inline-flex 
                     = link_to edit_admin_product_path(product), class: 'btn btn-square btn-ghost btn-sm', html: { "aria-label": "Edit product link" } do
