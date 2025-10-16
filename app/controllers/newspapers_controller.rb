@@ -1,5 +1,5 @@
 class NewspapersController < ApplicationController
-  before_action :authenticate_user!, only: %i[ read ]
+  before_action :authenticate_member!, only: %i[ read ]
   before_action :set_newspaper, only: %i[ show read edit update destroy ]
 
   # GET /newspapers or /newspapers.json

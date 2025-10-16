@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :authenticate_user!, only: %i[ new ]
+  before_action :authenticate_member!, only: %i[ new ]
   before_action :set_membership, only: %i[ show edit update destroy ]
   before_action :have_subscription, only: %i[ new ]
 
