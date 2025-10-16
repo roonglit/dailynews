@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Newspaper lists" do
+describe "Newspaper lists", js: true do
   before { @newspaper = create(:newspaper) }
 
   it "allows a visitor to view a newspaper details" do
