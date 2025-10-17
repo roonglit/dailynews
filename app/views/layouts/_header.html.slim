@@ -1,6 +1,7 @@
 header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-30.bg-white.shadow-md
   .flex.items-center.space-x-4
-    = link_to "DailyNews", root_path, class: "text-2xl font-semibold text-gray-800"
+    = link_to root_path, class: "flex items-center" do
+      = image_tag "auth/dailynews.logo.png", class: "h-8 w-auto", alt: "DailyNews Logo"
 
   .flex.items-center.space-x-4
     - text_color = current_page?(library_path) ? "text-blue-1000 font-semibold" : "text-gray-500"

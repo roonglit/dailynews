@@ -1,25 +1,23 @@
 <!-- start of breadcumb-section -->
 div class="bg-[url('/bg-test.png')] bg-no-repeat bg-center bg-cover min-h-[400px] relative flex flex-col z-10 pt-16 sm:min-h-[600px] before:absolute before:left-0 before:top-0 before:w-full before:h-full before:bg-pink-600 before:-z-10 before:opacity-10"
-  .wrapper.mx-auto.px-4 class="max-w-[1200px]"
+  .wrapper.mx-auto class="max-w-[1400px]"
     .grid.grid-cols-12
       .col-span-12.text-center
-        .full-w class="px-60"
-          = image_tag "auth/dailynews-logo.webp", alt: "Icon"
-        .flex.justify-between class="mt-8"
-          .flex.flex-col
+        div
+          = image_tag "auth/dailynews-logo.webp", alt: "Dailynews", class: "lg:w-1/3 w-1/2 mx-auto"
+        div(class="flex flex-col md:flex-row mt-8 w-full")
+          .flex.flex-col.ml-auto
             .text-3xl.font-bold.text-white.pt-4 class="mt-[-10px]" หนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
             .text-xl.text-white.pt-4 class="mt-[-10px]" เนื้อหาครบทุกข่าว ทุกคอลัมน์ สมัครง่าย อ่านสะดวก ทุกที่ ทุกเวลา
-            ul
-              li.inline-block.text-white.relative.text-xl.font-heading-font.sm:text-lg class="px-[5px] after:left-[7px] after:content-['/']"
-                = link_to "Home", root_path
-              li.inline-block.relative.text-xl.font-heading-font.sm:text-lg class="px-[5px] text-[#cbd4fd]"
-                span Newspapers
-          .card.bg-white.shadow-md.rounded-lg.py-6.px-12
-            .text-2xl.font-bold.text-secondary แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
+            div class="flex justify-center mt-2"
+              - if @latest_newspaper
+                = render partial: 'home/newspaper_card', locals: { newspaper: @latest_newspaper }
+          .card.bg-white.shadow-md.rounded-lg.py-6.px-24.ml-auto
+            .text-2xl.font-bold.text-pink-900.mt-16 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
             .card.bg-white.shadow-xl.rounded-lg.py-6.px-8.border-1.border-pink-200 class="mt-8"
               .text-lg.text-secondary รายเดือน (ต่ออายุอัตโนมัติ)
               hr.border-secondary.dark:border-neutral-500.mt-4
-              .text-xl.font-bold.mt-4.text-success 289 บาท
+              .text-xl.font-bold.mt-4.text-success = @monthly_product.amount
             = button_to "สมัครสมาชิก", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
               class: "inline-block bg-primary hover:bg-secondary text-white mt-8 px-8 py-2 rounded-3xl font-semibold shadow-lg cursor-pointer w-full"
         
@@ -31,31 +29,5 @@ div class="bg-[url('/bg-test.png')] bg-no-repeat bg-center bg-cover min-h-[400px
 - elsif flash[:alert].present?
   .toast.toast-top.toast-end.m-10.z-100 data-controller="flash"
     .alert.alert-error = flash[:alert]
-
-
-
-/ start newspapers-section
-section(class="py-[100px] md:py-[80px] sm:py-[60px]")
-  div(class="wraper max-w-[1200px] mx-auto px-4")
-    - if @newspapers&.any?
-      div(class="mx-[-15px] sm:mx-[-7px]")
-        - @newspapers.each do |newspaper|
-          = render partial: 'home/newspaper_card', locals: { newspaper: newspaper }
-
-      / Pagination (if needed in future)
-      div(class="text-center mt-[60px] md:text-left md:mt-[40px] clear-both")
-        ul(class="inline-block overflow-hidden text-center")
-          li(class="float-left mr-[10px] sm:mr-[5px] group")
-            a(href="#" aria-label="Previous" class="bg-[#f5f5f5] w-[50px] h-[50px] leading-[50px] text-[16px] font-semibold text-[#0a272c] block md:w-[40px] md:h-[40px] md:leading-[40px] md:text-[15px] transition-all duration-300 group-hover:bg-[#3756f7] group-hover:text-white")
-              i(class="ti-angle-left")
-          li(class="float-left mr-[10px] sm:mr-[5px] group")
-            a(href="#" class="bg-[#3756f7] w-[50px] h-[50px] leading-[50px] text-[16px] font-semibold text-white block md:w-[40px] md:h-[40px] md:leading-[40px] md:text-[15px] transition-all duration-300 group-hover:bg-[#3756f7] group-hover:text-white") 1
-          li(class="float-left group")
-            a(href="#" aria-label="Next" class="bg-[#f5f5f5] w-[50px] h-[50px] leading-[50px] text-[16px] font-semibold text-[#0a272c] block md:w-[40px] md:h-[40px] md:leading-[40px] md:text-[15px] transition-all duration-300 group-hover:bg-[#3756f7] group-hover:text-white")
-              i(class="ti-angle-right")
-    - else
-      div(class="text-center py-20")
-        h3(class="text-2xl text-gray-600 mb-4") No newspapers available
-        p(class="text-gray-500") Check back later for new additions to our library.
 
 
