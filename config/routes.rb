@@ -15,11 +15,7 @@ Rails.application.routes.draw do
   resources :memberships
   resources :cart_items, only: %i[create update]
   resource :checkout, only: %i[show create]
-  resources :newspapers do
-    member do
-      get :read
-    end
-  end
+  resources :newspapers
   resources :orders do
     member do
       get "complete"

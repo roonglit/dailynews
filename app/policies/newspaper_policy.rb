@@ -1,5 +1,5 @@
 class NewspaperPolicy < ApplicationPolicy
-  def read?
+  def show?
     # Members with active memberships can read
     # Guests cannot read (need to become members first)
     user.member? && user.memberships.where("start_date <= ? and end_date >= ?", Date.today, Date.today).present?

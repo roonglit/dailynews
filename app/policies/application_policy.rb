@@ -36,10 +36,6 @@ class ApplicationPolicy
     false
   end
 
-  def read?
-    false
-  end
-
   class Scope
     def initialize(user, scope)
       @user = user
