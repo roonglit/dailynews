@@ -4,7 +4,6 @@ header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-
 
   .flex.items-center.space-x-4
     - text_color = current_page?(library_path) ? "text-blue-1000 font-semibold" : "text-gray-500"
-    = link_to "My Library", library_path, class: "text-md font-semibold transition #{text_color} pe-4"
 
     - if user_signed_in? && current_user.member?
       .relative.inline-block
@@ -20,6 +19,7 @@ header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-
                     label.iconify.lucide--log-out.size-4
                     | Sign Out
     - else
+      = link_to "My Library", library_path, class: "text-md font-semibold transition #{text_color} pe-4"
       - unless devise_controller?
         .flex.items-center
           span.user-avatar.iconify.lucide--circle-user-round.size-6.cursor-pointer.hover:bg-blue-500 onclick="auth_modal.showModal()"

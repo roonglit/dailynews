@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/heartcombo/devise.git
-  revision: cf93de390a29654620fdf7ac07b4794eb95171d0
+  revision: 23058dcc62ed5bc3a79043ee5f375bc31d65bd73
   branch: main
   specs:
     devise (5.0.0.beta)
@@ -100,7 +100,7 @@ GEM
       bigdecimal
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-kms (1.113.0)
+    aws-sdk-kms (1.114.0)
       aws-sdk-core (~> 3, >= 3.231.0)
       aws-sigv4 (~> 1.5)
     aws-sdk-s3 (1.200.0)
