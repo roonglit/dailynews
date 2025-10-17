@@ -1,0 +1,670 @@
+<div class="min-h-screen bg-base-200" data-theme="dailynews">
+  <!-- Header -->
+  <header class="bg-primary text-primary-content sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto py-6">
+      <h1 class="text-4xl font-bold">DailyNews Style Guide</h1>
+      <p class="opacity-90 mt-2">Component library based on DailyNews.co.th brand identity</p>
+    </div>
+  </header>
+
+  <div class="container mx-auto py-8">
+    <!-- Quick Navigation -->
+    <nav class="bg-base-100 rounded-lg shadow-md p-6 mb-8 sticky top-24">
+      <h2 class="text-xl font-bold mb-4">Quick Navigation</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+        <a href="#colors" class="link link-primary font-medium">Colors</a>
+        <a href="#typography" class="link link-primary font-medium">Typography</a>
+        <a href="#buttons" class="link link-primary font-medium">Buttons</a>
+        <a href="#forms" class="link link-primary font-medium">Forms</a>
+        <a href="#cards" class="link link-primary font-medium">Cards</a>
+        <a href="#modals" class="link link-primary font-medium">Modals</a>
+        <a href="#alerts" class="link link-primary font-medium">Alerts</a>
+        <a href="#badges" class="link link-primary font-medium">Badges</a>
+        <a href="#tables" class="link link-primary font-medium">Tables</a>
+        <a href="#navigation" class="link link-primary font-medium">Navigation</a>
+      </div>
+    </nav>
+
+    <!-- Color Palette Section -->
+    <section id="colors" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Color Palette</h2>
+        <p class="text-base-content/70 mb-6">DailyNews brand colors - hot pink theme from dailynews.co.th</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Primary Brand Colors -->
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Brand Colors</h3>
+            <div class="space-y-4">
+              <div class="flex items-center gap-4">
+                <div class="w-20 h-20 rounded-lg bg-primary shadow-lg"></div>
+                <div>
+                  <div class="font-bold">Primary</div>
+                  <div class="font-mono text-sm text-base-content/70">#f0027f</div>
+                  <code class="text-xs">bg-primary</code>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-20 h-20 rounded-lg bg-secondary shadow-lg"></div>
+                <div>
+                  <div class="font-bold">Secondary</div>
+                  <div class="font-mono text-sm text-base-content/70">#232f4b</div>
+                  <code class="text-xs">bg-secondary</code>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-20 h-20 rounded-lg bg-accent border border-base-300 shadow-lg"></div>
+                <div>
+                  <div class="font-bold">Accent</div>
+                  <div class="font-mono text-sm text-base-content/70">#fdf6fa</div>
+                  <code class="text-xs">bg-accent</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Neutral Colors -->
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Neutral Colors</h3>
+            <div class="space-y-4">
+              <div class="flex items-center gap-4">
+                <div class="w-20 h-20 rounded-lg bg-base-100 border border-base-300 shadow-lg"></div>
+                <div>
+                  <div class="font-bold">Base 100</div>
+                  <div class="font-mono text-sm text-base-content/70">White</div>
+                  <code class="text-xs">bg-base-100</code>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-20 h-20 rounded-lg bg-base-200 border border-base-300 shadow-lg"></div>
+                <div>
+                  <div class="font-bold">Base 200</div>
+                  <div class="font-mono text-sm text-base-content/70">#f7f7f7</div>
+                  <code class="text-xs">bg-base-200</code>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-20 h-20 rounded-lg bg-base-300 shadow-lg"></div>
+                <div>
+                  <div class="font-bold">Base 300</div>
+                  <div class="font-mono text-sm text-base-content/70">#e3e3e3</div>
+                  <code class="text-xs">bg-base-300</code>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-20 h-20 rounded-lg bg-neutral text-neutral-content flex items-center justify-center shadow-lg">
+                  <span class="text-xs">Text</span>
+                </div>
+                <div>
+                  <div class="font-bold">Neutral</div>
+                  <div class="font-mono text-sm text-base-content/70">#4f4f4f</div>
+                  <code class="text-xs">bg-neutral</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider my-8"></div>
+
+        <h3 class="font-semibold text-lg mb-4">Semantic Colors (Pink Variants)</h3>
+        <p class="text-sm text-base-content/70 mb-4">All semantic colors follow the pink brand theme</p>
+        <div class="flex flex-wrap gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-16 h-16 rounded-lg bg-info shadow-md"></div>
+            <div>
+              <div class="font-medium">Info</div>
+              <code class="text-xs">bg-info</code>
+              <div class="text-xs text-base-content/60">Light Pink</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-16 h-16 rounded-lg bg-success shadow-md"></div>
+            <div>
+              <div class="font-medium">Success</div>
+              <code class="text-xs">bg-success</code>
+              <div class="text-xs text-base-content/60">Primary Pink</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-16 h-16 rounded-lg bg-warning shadow-md"></div>
+            <div>
+              <div class="font-medium">Warning</div>
+              <code class="text-xs">bg-warning</code>
+              <div class="text-xs text-base-content/60">Medium Pink</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-16 h-16 rounded-lg bg-error shadow-md"></div>
+            <div>
+              <div class="font-medium">Error</div>
+              <code class="text-xs">bg-error</code>
+              <div class="text-xs text-base-content/60">Dark Pink</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section id="typography" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Typography</h2>
+
+        <div class="space-y-8">
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Headings</h3>
+            <div class="space-y-4">
+              <div>
+                <h1 class="text-5xl font-bold">Heading 1</h1>
+                <code class="text-xs text-base-content/70">text-5xl font-bold</code>
+              </div>
+              <div>
+                <h2 class="text-4xl font-bold">Heading 2</h2>
+                <code class="text-xs text-base-content/70">text-4xl font-bold</code>
+              </div>
+              <div>
+                <h3 class="text-3xl font-bold">Heading 3</h3>
+                <code class="text-xs text-base-content/70">text-3xl font-bold</code>
+              </div>
+              <div>
+                <h4 class="text-2xl font-bold">Heading 4</h4>
+                <code class="text-xs text-base-content/70">text-2xl font-bold</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Body Text</h3>
+            <p class="text-lg mb-2">Large text for introductions and highlights</p>
+            <p class="text-base mb-2">Regular body text for most content</p>
+            <p class="text-sm mb-2">Small text for captions and helper text</p>
+            <p class="text-xs">Extra small text for fine print</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons Section -->
+    <section id="buttons" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Buttons</h2>
+
+        <div class="space-y-8">
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Button Colors</h3>
+            <div class="flex flex-wrap gap-3">
+              <button class="btn btn-primary">Primary</button>
+              <button class="btn btn-secondary">Secondary</button>
+              <button class="btn btn-accent">Accent</button>
+              <button class="btn btn-neutral">Neutral</button>
+              <button class="btn btn-ghost">Ghost</button>
+            </div>
+            <pre class="bg-base-200 p-3 rounded text-xs mt-4"><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Button Sizes</h3>
+            <div class="flex flex-wrap items-center gap-3">
+              <button class="btn btn-primary btn-xs">Extra Small</button>
+              <button class="btn btn-primary btn-sm">Small</button>
+              <button class="btn btn-primary">Normal</button>
+              <button class="btn btn-primary btn-lg">Large</button>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Outline Buttons</h3>
+            <div class="flex flex-wrap gap-3">
+              <button class="btn btn-outline btn-primary">Primary</button>
+              <button class="btn btn-outline btn-secondary">Secondary</button>
+              <button class="btn btn-outline">Default</button>
+            </div>
+            <pre class="bg-base-200 p-3 rounded text-xs mt-4"><code>&lt;button class="btn btn-outline btn-primary"&gt;Primary&lt;/button&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Button Shapes</h3>
+            <div class="flex flex-wrap gap-3">
+              <button class="btn btn-primary btn-wide">Wide Button</button>
+              <button class="btn btn-primary btn-square">
+                <span class="iconify lucide--heart size-5"></span>
+              </button>
+              <button class="btn btn-primary btn-circle">
+                <span class="iconify lucide--heart size-5"></span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Buttons with Icons</h3>
+            <div class="flex flex-wrap gap-3">
+              <button class="btn btn-primary">
+                <span class="iconify lucide--plus size-4"></span>
+                Add New
+              </button>
+              <button class="btn btn-secondary">
+                <span class="iconify lucide--download size-4"></span>
+                Download
+              </button>
+              <button class="btn btn-outline btn-error">
+                <span class="iconify lucide--trash-2 size-4"></span>
+                Delete
+              </button>
+            </div>
+            <pre class="bg-base-200 p-3 rounded text-xs mt-4"><code>&lt;button class="btn btn-primary"&gt;
+  &lt;span class="iconify lucide--plus size-4"&gt;&lt;/span&gt;
+  Add New
+&lt;/button&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Button States</h3>
+            <div class="flex flex-wrap gap-3">
+              <button class="btn btn-primary">Normal</button>
+              <button class="btn btn-primary" disabled>Disabled</button>
+              <button class="btn btn-primary loading">Loading</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forms Section -->
+    <section id="forms" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Form Elements</h2>
+
+        <div class="space-y-8 max-w-2xl">
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Text Inputs</h3>
+            <div class="space-y-4">
+              <div>
+                <label class="label">
+                  <span class="label-text">Default Input</span>
+                </label>
+                <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+              </div>
+              <div>
+                <label class="label">
+                  <span class="label-text">Primary Input</span>
+                </label>
+                <input type="text" placeholder="Type here" class="input input-bordered input-primary w-full" />
+              </div>
+            </div>
+            <pre class="bg-base-200 p-3 rounded text-xs mt-4"><code>&lt;input type="text" class="input input-bordered w-full" /&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Textarea</h3>
+            <textarea class="textarea textarea-bordered w-full" placeholder="Enter description" rows="4"></textarea>
+            <pre class="bg-base-200 p-3 rounded text-xs mt-4"><code>&lt;textarea class="textarea textarea-bordered w-full"&gt;&lt;/textarea&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Select</h3>
+            <select class="select select-bordered w-full max-w-xs">
+              <option disabled selected>Pick one</option>
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Checkboxes & Radio</h3>
+            <div class="space-y-3">
+              <label class="label cursor-pointer justify-start gap-3 w-fit">
+                <input type="checkbox" class="checkbox checkbox-primary" checked />
+                <span class="label-text">Primary Checkbox</span>
+              </label>
+              <label class="label cursor-pointer justify-start gap-3 w-fit">
+                <input type="radio" name="radio-demo" class="radio radio-primary" checked />
+                <span class="label-text">Primary Radio</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Toggle Switch</h3>
+            <label class="label cursor-pointer justify-start gap-3 w-fit">
+              <input type="checkbox" class="toggle toggle-primary" checked />
+              <span class="label-text">Primary Toggle</span>
+            </label>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Range Slider</h3>
+            <input type="range" min="0" max="100" value="50" class="range range-primary" />
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">File Upload</h3>
+            <input type="file" class="file-input file-input-bordered w-full max-w-xs" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section id="cards" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Cards</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Basic Card</h3>
+            <div class="card bg-base-100 shadow-xl border border-base-300">
+              <div class="card-body">
+                <h2 class="card-title">Card Title</h2>
+                <p>This is a basic card with title and content.</p>
+                <div class="card-actions justify-end">
+                  <button class="btn btn-primary btn-sm">Action</button>
+                </div>
+              </div>
+            </div>
+            <pre class="bg-base-200 p-3 rounded text-xs mt-4"><code>&lt;div class="card bg-base-100 shadow-xl"&gt;
+  &lt;div class="card-body"&gt;
+    &lt;h2 class="card-title"&gt;Card Title&lt;/h2&gt;
+    &lt;p&gt;Content&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Card with Image</h3>
+            <div class="card bg-base-100 shadow-xl border border-base-300">
+              <figure class="bg-base-200 h-32 flex items-center justify-center">
+                <span class="text-base-content/40">Image Placeholder</span>
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">Newspaper</h2>
+                <p>Description goes here.</p>
+                <div class="card-actions justify-end">
+                  <button class="btn btn-outline btn-primary btn-sm">View Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modals Section -->
+    <section id="modals" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Modals</h2>
+
+        <button class="btn btn-primary" onclick="demo_modal.showModal()">Open Modal</button>
+
+        <dialog id="demo_modal" class="modal">
+          <div class="modal-box">
+            <h3 class="font-bold text-lg">Modal Title</h3>
+            <p class="py-4">This is a modal dialog. Press ESC or click close to dismiss.</p>
+            <div class="modal-action">
+              <form method="dialog">
+                <button class="btn">Close</button>
+                <button class="btn btn-primary ml-2">Confirm</button>
+              </form>
+            </div>
+          </div>
+          <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
+
+        <pre class="bg-base-200 p-3 rounded text-xs mt-4"><code>&lt;button onclick="demo_modal.showModal()"&gt;Open Modal&lt;/button&gt;
+
+&lt;dialog id="demo_modal" class="modal"&gt;
+  &lt;div class="modal-box"&gt;
+    &lt;h3&gt;Modal Title&lt;/h3&gt;
+    &lt;p&gt;Content&lt;/p&gt;
+    &lt;div class="modal-action"&gt;
+      &lt;form method="dialog"&gt;
+        &lt;button class="btn"&gt;Close&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</code></pre>
+      </div>
+    </section>
+
+    <!-- Alerts Section -->
+    <section id="alerts" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Alerts & Notifications</h2>
+
+        <div class="space-y-4">
+          <div class="alert alert-info">
+            <span class="iconify lucide--info size-5"></span>
+            <span>Info: New updates available!</span>
+          </div>
+          <div class="alert alert-success">
+            <span class="iconify lucide--check-circle size-5"></span>
+            <span>Success: Your changes have been saved!</span>
+          </div>
+          <div class="alert alert-warning">
+            <span class="iconify lucide--alert-triangle size-5"></span>
+            <span>Warning: Please review your information.</span>
+          </div>
+          <div class="alert alert-error">
+            <span class="iconify lucide--x-circle size-5"></span>
+            <span>Error: Something went wrong!</span>
+          </div>
+        </div>
+
+        <pre class="bg-base-200 p-3 rounded text-xs mt-6"><code>&lt;div class="alert alert-success"&gt;
+  &lt;span class="iconify lucide--check-circle size-5"&gt;&lt;/span&gt;
+  &lt;span&gt;Success message!&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+
+        <div class="divider my-6"></div>
+
+        <h3 class="font-semibold text-lg mb-4">Toast Notifications</h3>
+        <p class="text-sm text-base-content/70 mb-3">Use with flash_controller.js for auto-dismiss</p>
+        <pre class="bg-base-200 p-3 rounded text-xs"><code>&lt;div class="toast toast-top toast-end" data-controller="flash"&gt;
+  &lt;div class="alert alert-success"&gt;
+    &lt;span&gt;Success!&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </section>
+
+    <!-- Badges Section -->
+    <section id="badges" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Badges</h2>
+
+        <div class="space-y-6">
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Badge Colors</h3>
+            <div class="flex flex-wrap gap-3">
+              <span class="badge badge-primary">Primary</span>
+              <span class="badge badge-secondary">Secondary</span>
+              <span class="badge badge-accent">Accent</span>
+              <span class="badge badge-info">Info</span>
+              <span class="badge badge-success">Success</span>
+              <span class="badge badge-warning">Warning</span>
+              <span class="badge badge-error">Error</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Badge Sizes</h3>
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="badge badge-primary badge-xs">XS</span>
+              <span class="badge badge-primary badge-sm">SM</span>
+              <span class="badge badge-primary badge-md">MD</span>
+              <span class="badge badge-primary badge-lg">LG</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Outline Badges</h3>
+            <div class="flex flex-wrap gap-3">
+              <span class="badge badge-outline badge-primary">Primary</span>
+              <span class="badge badge-outline badge-secondary">Secondary</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tables Section -->
+    <section id="tables" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Tables</h2>
+
+        <div class="overflow-x-auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>John Doe</td>
+                <td><span class="badge badge-success">Active</span></td>
+                <td>
+                  <button class="btn btn-ghost btn-xs">Edit</button>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Jane Smith</td>
+                <td><span class="badge badge-warning">Pending</span></td>
+                <td>
+                  <button class="btn btn-ghost btn-xs">Edit</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre class="bg-base-200 p-3 rounded text-xs mt-6"><code>&lt;table class="table"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;Column&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;Data&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+      </div>
+    </section>
+
+    <!-- Navigation Section -->
+    <section id="navigation" class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Navigation</h2>
+
+        <div class="space-y-8">
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Breadcrumbs</h3>
+            <div class="text-sm breadcrumbs">
+              <ul>
+                <li><a>Home</a></li>
+                <li><a>Documents</a></li>
+                <li>Current Page</li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Menu</h3>
+            <ul class="menu bg-base-200 w-56 rounded-box">
+              <li><a><span class="iconify lucide--home size-4"></span>Home</a></li>
+              <li><a><span class="iconify lucide--file-text size-4"></span>Documents</a></li>
+              <li><a><span class="iconify lucide--settings size-4"></span>Settings</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Tabs</h3>
+            <div role="tablist" class="tabs tabs-lifted">
+              <input type="radio" name="tabs_demo" role="tab" class="tab" aria-label="Tab 1" checked />
+              <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                Content for Tab 1
+              </div>
+
+              <input type="radio" name="tabs_demo" role="tab" class="tab" aria-label="Tab 2" />
+              <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                Content for Tab 2
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-4">Pagination</h3>
+            <div class="join">
+              <button class="join-item btn">«</button>
+              <button class="join-item btn">1</button>
+              <button class="join-item btn btn-active">2</button>
+              <button class="join-item btn">3</button>
+              <button class="join-item btn">»</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="mb-12">
+      <div class="bg-base-100 rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold mb-6">Best Practices</h2>
+
+        <div class="space-y-6">
+          <div>
+            <h3 class="font-semibold text-lg mb-3">DaisyUI Component Usage</h3>
+            <p class="text-base-content/70 mb-3">Always use DaisyUI components for consistent theming:</p>
+            <ul class="list-disc list-inside space-y-2 text-sm">
+              <li>Buttons: <code class="text-xs">btn btn-primary</code></li>
+              <li>Forms: <code class="text-xs">input input-bordered</code>, <code class="text-xs">textarea textarea-bordered</code></li>
+              <li>Cards: <code class="text-xs">card bg-base-100 shadow-xl</code></li>
+              <li>Alerts: <code class="text-xs">alert alert-success</code></li>
+              <li>Badges: <code class="text-xs">badge badge-primary</code></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-3">Rails View Conventions</h3>
+            <ul class="list-disc list-inside space-y-2 text-sm text-base-content/70">
+              <li><strong>Admin views:</strong> Use Slim templates for cleaner syntax</li>
+              <li><strong>Public views:</strong> Use ERB for better readability</li>
+              <li><strong>Partials:</strong> Prefix with underscore (_form.html.erb)</li>
+              <li><strong>Shared components:</strong> Place in app/views/application/</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-lg mb-3">Stimulus Controllers</h3>
+            <pre class="bg-base-200 p-3 rounded text-xs overflow-x-auto"><code>import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["output"]
+  static values = { url: String }
+
+  connect() {
+    // Initialize
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="bg-neutral text-neutral-content py-8 mt-12">
+    <div class="container mx-auto text-center">
+      <p class="text-sm">DailyNews Style Guide</p>
+      <p class="text-xs opacity-70 mt-2">Rails <%= Rails.version %> • Tailwind CSS v4 • DaisyUI 5.1.26</p>
+    </div>
+  </footer>
+</div>

@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     root "home#index"
   end
 
+  # Style Guide (only accessible in development/staging)
+  get "style-guide" => "style_guide#index", as: :style_guide
+
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check

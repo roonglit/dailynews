@@ -1,6 +1,45 @@
 /*** Tailwind CSS Presets ***/
 @import "tailwindcss";
 
+/** DailyNews Custom Theme - Hot Pink Brand **/
+@plugin "daisyui/theme" {
+  name: "dailynews";
+  default: true;
+  color-scheme: light;
+
+  /* DailyNews Brand Colors - Hot Pink Theme */
+  --color-primary: oklch(55.5% 0.273 340);      /* Hot Pink #f0027f */
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(23% 0.02 340);       /* Dark Navy/Black #232f4b - for contrast */
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: oklch(97.5% 0.012 340);       /* Light Pink #fdf6fa */
+  --color-accent-content: oklch(21% 0.006 200);
+
+  /* Neutral Colors */
+  --color-neutral: oklch(40% 0.005 200);
+  --color-neutral-content: oklch(100% 0 0);
+  --color-base-100: oklch(100% 0 0);            /* White */
+  --color-base-200: oklch(97% 0 0);             /* Light Gray #f7f7f7 */
+  --color-base-300: oklch(89% 0 0);             /* Border Gray #e3e3e3 */
+  --color-base-content: oklch(21% 0.006 200);   /* Dark Text */
+
+  /* Semantic Colors - Pink-themed variants */
+  --color-info: oklch(75% 0.15 340);            /* Light Pink for info */
+  --color-info-content: oklch(21% 0.006 200);
+  --color-success: oklch(55.5% 0.273 340);      /* Use primary pink for success */
+  --color-success-content: oklch(100% 0 0);
+  --color-warning: oklch(70% 0.20 340);         /* Medium pink for warning */
+  --color-warning-content: oklch(100% 0 0);
+  --color-error: oklch(45% 0.25 340);           /* Darker pink for error */
+  --color-error-content: oklch(100% 0 0);
+}
+
+/** Container utility **/
+@utility container {
+    margin-inline: auto;
+    @apply px-[1rem] md:px-[2rem] lg:px-[3rem] xl:px-[4rem] 2xl:px-[6rem];
+}
+
 /** Dark Variant with theme & system mode **/
 @variant dark {
     &:where([data-theme="dark"] *, [data-theme="dim"] *, [data-theme="material-dark"] *) {
@@ -13,12 +52,6 @@
     }
 }
 
-/** Container utility **/
-@utility container {
-    margin-inline: auto;
-    @apply px-[1rem] md:px-[2rem] lg:px-[3rem] xl:px-[4rem] 2xl:px-[6rem];
-}
-
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
