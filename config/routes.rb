@@ -5,10 +5,6 @@ Rails.application.routes.draw do
     sessions: "members/sessions"
   }
 
-  authenticated :member do
-    root "libraries#show", as: :authenticated_root
-  end
-
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resource :library, only: %i[show]
