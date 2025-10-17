@@ -1,6 +1,6 @@
 <!-- start of breadcumb-section -->
-<div class="bg-[url(/images/page-title.jpg)] bg-no-repeat bg-center bg-cover min-h-[400px] relative flex justify-center flex-col z-10
-    sm:min-h-[250px] before:absolute before:left-0 before:top-0 before:w-full before:h-full before:bg-[#232f4b]
+<div class="bg-[url(/images/page-title.jpg)] bg-no-repeat bg-center bg-cover min-h-[400px] relative flex flex-col z-10 pt-20
+    sm:min-h-[600px] before:absolute before:left-0 before:top-0 before:w-full before:h-full before:bg-pink-600
     before:-z-10 before:opacity-70">
   <div class="wraper max-w-[1200px] mx-auto px-4">
     <div class="grid grid-cols-12">
@@ -16,6 +16,8 @@
               <span>Newspapers</span>
             </li>
           </ul>
+          <%= button_to "Subscribe Monthly", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
+              class: "inline-block bg-white hover:bg-yellow-600 text-pink-900 mt-16 px-8 py-2 rounded-lg font-semibold shadow-lg cursor-pointer" %>
         </div>
       </div>
     </div>
@@ -23,60 +25,3 @@
 </div>
 <!-- end of wpo-breadcumb-section-->
 
-<% if flash[:notice].present? %>
-  <div class="toast toast-top toast-end m-10 z-100" data-controller="flash">
-    <div class="alert alert-success">
-      <%= flash[:notice] %>
-    </div>
-  </div>
-<% elsif flash[:alert].present? %>
-  <div class="toast toast-top toast-end m-10 z-100" data-controller="flash">
-    <div class="alert alert-error">
-      <%= flash[:alert] %>
-    </div>
-  </div>
-<% end %>
-
-<!-- start newspapers-section -->
-<section class="py-[100px] md:py-[80px] sm:py-[60px]">
-  <div class="wraper max-w-[1200px] mx-auto px-4">
-    <% if @newspapers.any? %>
-      <div class="mx-[-15px] sm:mx-[-7px]">
-        <% @newspapers.each do |newspaper| %>
-          <%= render partial: 'newspaper_card', locals: { newspaper: newspaper } %>
-        <% end %>
-      </div>
-      
-      <!-- Pagination (if needed in future) -->
-      <div class="text-center mt-[60px] md:text-left md:mt-[40px] clear-both">
-        <ul class="inline-block overflow-hidden text-center">
-          <li class="float-left mr-[10px] sm:mr-[5px] group">
-            <a href="#" aria-label="Previous" class="bg-[#f5f5f5] w-[50px] h-[50px] leading-[50px] text-[16px] font-semibold
-                text-[#0a272c] block md:w-[40px] md:h-[40px] md:leading-[40px] md:text-[15px] 
-                transition-all duration-300 group-hover:bg-[#3756f7] group-hover:text-white">
-              <i class="ti-angle-left"></i>
-            </a>
-          </li>
-          <li class="float-left mr-[10px] sm:mr-[5px] group">
-            <a href="#" class="bg-[#3756f7] w-[50px] h-[50px] leading-[50px] text-[16px] font-semibold
-                text-white block md:w-[40px] md:h-[40px] md:leading-[40px] md:text-[15px] 
-                transition-all duration-300 group-hover:bg-[#3756f7] group-hover:text-white">1</a>
-          </li>
-          <li class="float-left group">
-            <a href="#" aria-label="Next" class="bg-[#f5f5f5] w-[50px] h-[50px] leading-[50px] text-[16px] font-semibold
-                text-[#0a272c] block md:w-[40px] md:h-[40px] md:leading-[40px] md:text-[15px] 
-                transition-all duration-300 group-hover:bg-[#3756f7] group-hover:text-white">
-              <i class="ti-angle-right"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
-    <% else %>
-      <div class="text-center py-20">
-        <h3 class="text-2xl text-gray-600 mb-4">No newspapers available</h3>
-        <p class="text-gray-500">Check back later for new additions to our library.</p>
-      </div>
-    <% end %>
-  </div>
-</section>
-<!-- end newspapers-section -->
