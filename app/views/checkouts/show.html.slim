@@ -47,13 +47,13 @@
             .border-t.border-gray-200.my-4
             = form_with model: @order, data: { payment_target: "form" } do |form|
               = form.hidden_field :token, data: { payment_target: "token" }
-            = button_tag "Continue to Payment", id: "pay-button", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition cursor-pointer", type: "button", data: { "action": "click->payment#payButtonClicked" }
+            = button_tag "Continue to Payment", id: "pay-button", class: "w-full bg-primary hover:bg-secondary text-white font-semibold py-3 px-6 rounded-lg transition cursor-pointer", type: "button", data: { "action": "click->payment#payButtonClicked" }
             
             .border-t.border-gray-200.my-4
-            = button_to "Grant Free Membership (Testingrer)", orders_path, method: :post, params: { order: { token: "testing_only" } }, class: "w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition cursor-pointer", data: { turbo_confirm: "Skip payment and grant free membership?" }
+            = button_to "Grant Free Membership (Testingrer)", orders_path, method: :post, params: { order: { token: "testing_only" } }, class: "w-full bg-accent hover:bg-base-200 text-white font-semibold py-3 px-6 rounded-lg transition cursor-pointer", data: { turbo_confirm: "Skip payment and grant free membership?" }
           - else 
-            = button_tag "Continue to Payment", id: "pay-button", class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition cursor-pointer", type: "button", onclick: "auth_modal.showModal()"
+            = button_tag "Continue to Payment", id: "pay-button", class: "w-full bg-primary hover:bg-secondary text-white font-semibold py-3 px-6 rounded-lg transition cursor-pointer", type: "button", onclick: "auth_modal.showModal()"
 
             .border-t.border-gray-200.my-4
-            = button_tag "Grant Free Membership (Testing)", class: "w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg transition cursor-pointer", type: "button", onclick: "auth_modal.showModal()"
+            = button_tag "Grant Free Membership (Testing)", class: "w-full bg-accent hover:bg-base-200 text-black font-semibold py-3 px-6 rounded-lg transition cursor-pointer", type: "button", onclick: "auth_modal.showModal()"
             
