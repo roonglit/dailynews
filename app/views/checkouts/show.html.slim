@@ -12,19 +12,6 @@
         .flex.justify-between.items-center
           h4.text-xl.font-semibold.mb-4 แพ็คเกจของคุณ
 
-          .button-container data-dynamic-button-status-value="off"
-            - if @product&.sku == "MEMBERSHIP_ONE_MONTH"
-              = button_to "สมัครเป็นแบบต่อเนื่อง",
-                cart_item_path(@cart_item, sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"),
-                method: :patch,
-                class: "bg-white border border-gray-400 btn btn-primary hover:bg-gray-300 text-black rounded-lg px-4 py-2 transition"
-
-            - elsif @product&.sku == "MEMBERSHIP_MONTHLY_SUBSCRIPTION"
-              = button_to "สมัครเป็นแบบครั้งเดียว",
-                cart_item_path(@cart_item, sku: "MEMBERSHIP_ONE_MONTH"),
-                method: :patch,
-                class: "bg-white border border-gray-400 btn btn-primary hover:bg-gray-300 text-black rounded-lg px-4 py-2 transition"
-
         .flex.justify-between.item-center
           h4.font-medium.mb-4.mt-4 = @product.title
           h4.font-medium.mb-4.mt-4 = "฿#{@product.amount}"
@@ -42,13 +29,13 @@
           
           .flex.justify-between.item-center
             h4.text-xl.font-normal.mb-4.mt-8 item
-            h4.text-xl.font-normal.mb-4.mt-8 = "#{@product.amount} Bath"
+            h4.text-xl.font-normal.mb-4.mt-8 = "#{@product.amount} Baht"
           .flex.justify-between.item-center
             h4.text-light.font-thin.mb-4 Tax (0%)
             h4.text-light.font-thin.mb-4 0
           .flex.justify-between.item-center
             h4.text-light.font-thin.text-green-400.mb-4 Total
-            h4.text-light.font-thin.text-green-400.mb-4 = "#{@product.amount} Bath"
+            h4.text-light.font-thin.text-green-400.mb-4 = "#{@product.amount} Baht"
 
           .border-t.border-gray-200.my-4
 
