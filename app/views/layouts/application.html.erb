@@ -20,17 +20,6 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     
-    <%# Load ALL flipbook files as traditional scripts (not ES modules) %>
-    <%# The flipbook library and dependencies use UMD/global pattern %>
-    <%= javascript_include_tag "flipbook/build/js/libs/pdf.min.js", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "flipbook/build/js/libs/pdf.worker.min.js", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "flipbook/build/js/libs/three.min.js", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "flipbook/build/js/flipbook.min.js", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "flipbook/build/js/flipbook.pdfservice.min.js", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "flipbook/build/js/flipbook.webgl.min.js", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "flipbook/build/js/flipbook.book3.min.js", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "https://cdn.omise.co/omise.js", "data-turbo-track": "reload" %>
-    
     <%= javascript_importmap_tags %>
   </head>
 
