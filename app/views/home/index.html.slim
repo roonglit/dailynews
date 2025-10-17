@@ -1,24 +1,26 @@
 <!-- start of breadcumb-section -->
-div class="bg-[url('/images/page-title.jpg')] bg-no-repeat bg-center bg-cover min-h-[400px] relative flex flex-col z-10 pt-16 sm:min-h-[600px] before:absolute before:left-0 before:top-0 before:w-full before:h-full before:bg-pink-600 before:-z-10 before:opacity-70"
+/ div class="relative flex flex-col min-h-400px pt-16 sm:min-h-600px z-10 bg-url('bg-test.png') bg-no-repeat bg-center bg-cover before:absolute before:inset-0 before:bg-linear-gradient(90deg,#db2777,#f472b6) before:opacity-70 before:-z-10"
+div class="bg-[url('/bg-test.png')] bg-no-repeat bg-center bg-cover min-h-[400px] relative flex flex-col z-10 pt-16 sm:min-h-[600px] before:absolute before:left-0 before:top-0 before:w-full before:h-full before:bg-pink-600 before:-z-10 before:opacity-10"
   .wrapper.mx-auto.px-4 class="max-w-[1200px]"
     .grid.grid-cols-12
       .col-span-12.text-center
         .full-w class="px-60"
           = image_tag "auth/dailynews-logo.webp", alt: "Icon"
-        .flex.justify-between
+        .flex.justify-between class="mt-8"
           .flex.flex-col
-            .h2.text-6xl.text-white class="mt-[-10px] mb-[20px] sm:text-3xl sm:mb-[10px]" Newspapers Library
+            .text-3xl.font-bold.text-white.pt-4 class="mt-[-10px]" หนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
+            .text-xl.text-white.pt-4 class="mt-[-10px]" เนื้อหาครบทุกข่าว ทุกคอลัมน์ สมัครง่าย อ่านสะดวก ทุกที่ ทุกเวลา
             ul
               li.inline-block.text-white.relative.text-xl.font-heading-font.sm:text-lg class="px-[5px] after:left-[7px] after:content-['/']"
                 = link_to "Home", root_path
               li.inline-block.relative.text-xl.font-heading-font.sm:text-lg class="px-[5px] text-[#cbd4fd]"
                 span Newspapers
-          .card.bg-white.shadow-md.rounded-lg.py-6.px-12 class="mt-8"
-            .text-2xl.font-bold แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
+          .card.bg-white.shadow-md.rounded-lg.py-6.px-12
+            .text-2xl.font-bold.text-pink-900 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
             .card.bg-white.shadow-xl.rounded-lg.py-6.px-8.border-1.border-pink-200 class="mt-8"
-              .text-xl รายเดือน (ต่ออายุอัตโนมัติ)
-              hr.border-gray-500.dark:border-neutral-500.mt-4
-              .text-xl.font-bold.mt-4 289 บาท
+              .text-lg.text-pink-900 รายเดือน (ต่ออายุอัตโนมัติ)
+              hr.border-pink-900.dark:border-neutral-500.mt-4
+              .text-xl.font-bold.mt-4.text-pink-800 289 บาท
             = button_to "สมัครสมาชิก", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
               class: "inline-block bg-pink-700 border-1 border-pink-900 hover:bg-pink-900 text-white mt-8 px-8 py-2 rounded-3xl font-semibold shadow-lg cursor-pointer w-full"
         
