@@ -1,0 +1,15 @@
+<!-- start of breadcumb-section -->
+div class="bg-[url('/images/page-title.jpg')] bg-no-repeat bg-center bg-cover min-h-[400px] relative flex flex-col z-10 pt-20 sm:min-h-[600px] before:absolute before:left-0 before:top-0 before:w-full before:h-full before:bg-pink-600 before:-z-10 before:opacity-70"
+  .wrapper.mx-auto.px-4 class="max-w-[1200px]"
+    .grid.grid-cols-12
+      .col-span-12.text-center
+        .full-w
+          = image_tag "auth/dailynews-logo.webp", alt: "Icon"
+        h2.text-6xl.text-white class="mt-[-10px] mb-[20px] sm:text-3xl sm:mb-[10px]" Newspapers Library
+        ul
+          li.inline-block.text-white.relative.text-xl.font-heading-font.sm:text-lg class="px-[5px] after:left-[7px] after:content-['/']"
+            = link_to "Home", root_path
+          li.inline-block.relative.text-xl.font-heading-font.sm:text-lg class="px-[5px] text-[#cbd4fd]"
+            span Newspapers
+        = button_to "สมัครสมาชิก", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
+            class: "inline-block bg-white hover:bg-pink-100 text-pink-900 mt-16 px-8 py-2 rounded-lg font-semibold shadow-lg cursor-pointer"
