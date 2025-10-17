@@ -22,6 +22,15 @@ html data-theme="dailynews"
     = javascript_importmap_tags
 
   body
+    - if flash[:notice].present?
+      div(class="toast toast-top toast-end m-10 z-100" data-controller="flash")
+        div(class="alert alert-success")
+          = flash[:notice]
+    - elsif flash[:alert].present?
+      div(class="toast toast-top toast-end m-10 z-100" data-controller="flash")
+        div(class="alert alert-error")
+          = flash[:alert]
+
     = render "layouts/header"
     .grid.min-md:grid-cols-4.grid-cols-5.h-screen
       .bg-gray-50.border-r.border-gray-200.min-md:p-10.pt-4.min-md:col-span-1.col-span-2
