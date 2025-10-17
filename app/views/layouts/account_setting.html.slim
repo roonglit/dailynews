@@ -1,10 +1,9 @@
 doctype html
-html
+html data-theme="dailynews"
   head
-    title = content_for(:title) || "Onerev"
+    title = content_for(:title) || "Dailynews"
     meta name="viewport" content="width=device-width,initial-scale=1"
     meta name="apple-mobile-web-app-capable" content="yes"
-    meta name="application-name" content="Onerev"
     meta name="mobile-web-app-capable" content="yes"
     = csrf_meta_tags
     = csp_meta_tag
@@ -23,6 +22,16 @@ html
     = javascript_importmap_tags
 
   body
+    - if flash[:notice].present?
+      div(class="toast toast-top toast-end m-10 z-100" data-controller="flash")
+        div(class="alert alert-success")
+          = flash[:notice]
+    - elsif flash[:alert].present?
+      div(class="toast toast-top toast-end m-10 z-100" data-controller="flash")
+        div(class="alert alert-error")
+          = flash[:alert]
+
+    = render "layouts/header"
     .grid.min-md:grid-cols-4.grid-cols-5.h-screen
       .bg-gray-50.border-r.border-gray-200.min-md:p-10.pt-4.min-md:col-span-1.col-span-2
         = render "layouts/sidebar"

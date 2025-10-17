@@ -28,4 +28,4 @@
                 td = user.email
                 td = duration(user.memberships.last&.start_date, user.memberships.last&.end_date)
                 td
-                  = link_to "Manage", edit_admin_user_path(user), class: "inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-sm text-sm font-medium"
+                  = link_to "Manage", edit_admin_user_path(user), class: "inline-block bg-primary hover:bg-secondary text-white px-4 py-2 rounded-sm text-sm font-medium"

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  resources :subscriptions, only: %i[index update]
   resource :library, only: %i[show]
   resources :memberships
   resources :cart_items, only: %i[create update]

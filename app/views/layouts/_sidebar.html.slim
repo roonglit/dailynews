@@ -5,9 +5,4 @@
 ul.menu.w-full.flex.flex-col.gap-2.px-2
 
   li
-    = link_to "Account", "#", class: "sidebar-menu-item min-md:text-md text-lg font-small min-md:p-4 rounded-lg hover:bg-gray-200 #{current_page?() ? "bg-gray-200" : '' }"
-  li
-    = link_to "Subscription", "#", class: "sidebar-menu-item min-md:text-md text-lg font-small min-md:p-4 rounded-lg hover:bg-gray-200 #{current_page?() ? "bg-gray-200" : '' }"
-  - if user_signed_in?
-    li
-      = link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "sidebar-menu-item min-md:text-md text-lg min-md:p-4 rounded-lg hover:bg-gray-200"
+    = link_to "Subscription", subscriptions_path, class: "sidebar-menu-item min-md:text-md text-lg font-small min-md:p-4 rounded-lg hover:bg-gray-200 #{current_page?(subscriptions_path) ? "bg-gray-200" : '' }"

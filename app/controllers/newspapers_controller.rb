@@ -1,5 +1,4 @@
 class NewspapersController < ApplicationController
-  layout "flip_book", only: [ :show ]
   before_action :authenticate_member!, only: %i[ show ]
   before_action :set_newspaper, only: %i[ show edit update destroy ]
 
