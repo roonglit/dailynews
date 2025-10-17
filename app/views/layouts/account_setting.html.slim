@@ -1,5 +1,5 @@
 doctype html
-html
+html data-theme="dailynews"
   head
     title = content_for(:title) || "Onerev"
     meta name="viewport" content="width=device-width,initial-scale=1"
@@ -23,6 +23,7 @@ html
     = javascript_importmap_tags
 
   body
+    = render "layouts/header"
     .grid.min-md:grid-cols-4.grid-cols-5.h-screen
       .bg-gray-50.border-r.border-gray-200.min-md:p-10.pt-4.min-md:col-span-1.col-span-2
         = render "layouts/sidebar"
