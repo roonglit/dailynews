@@ -7,7 +7,7 @@ describe "Checkout lists", js: true do
 
     it "show modal to sign in when payment" do
         visit root_path
-        click_button 'subscribe'
+        click_button 'สมัครสมาชิก'
 
         click_button 'Continue to Payment'
 
