@@ -6,8 +6,8 @@ describe "Checkout lists", js: true do
     let!(:subscribe_monthly) { create(:subscribe_monthly) }
 
     it "show modal to sign in when payment" do
-        visit newspaper_path(newspaper)
-        click_button '1 Month Only'
+        visit root_path
+        click_button 'subscribe'
 
         click_button 'Continue to Payment'
 

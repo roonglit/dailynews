@@ -11,5 +11,5 @@ div class="bg-[url('/images/page-title.jpg')] bg-no-repeat bg-center bg-cover mi
             = link_to "Home", root_path
           li.inline-block.relative.text-xl.font-heading-font.sm:text-lg class="px-[5px] text-[#cbd4fd]"
             span Newspapers
-        = button_to "สมัครสมาชิก", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
+        = button_to "subscribe", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
             class: "inline-block bg-white hover:bg-pink-100 text-pink-900 mt-16 px-8 py-2 rounded-lg font-semibold shadow-lg cursor-pointer"
