@@ -4,7 +4,7 @@
   .flex.justify-between.mt-2
     - if @membership.present?
       div
-        .text-md.font-bold.my-4 = @membership.order.product.title
+        .text-md.font-bold.my-4 = @membership&.order&.product&.title
         .flex.my-4
           text-xl.font-bold.mr-2 Status:
           - if @membership.active?
