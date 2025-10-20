@@ -1,21 +1,37 @@
 .flex.flex-col
-  .div
-    = current_user.email
+  .card.bg-base-100.shadow-xl.rounded-xl.py-4.px-4.mx-4
+    .flex.justify-between.my-4
+      text-xl.font-bold Username
+      = current_user.email
+    hr class="border-gray-300 opacity-70"
+    .flex.justify-between.my-4
+      text-xl.font-bold Memberships duration
+      = duration(@membership.start_date, @membership.end_date)
+    hr class="border-gray-300 opacity-70"
+    .flex.justify-between.my-4
+      text-xl.font-bold Memberships Status
+      - if @membership.active?
+        = "Active"
+      - else
+        = "Inactive"
+    hr class="border-gray-300 opacity-70"
+    .flex.justify-between.my-4
+      text-xl.font-bold Memberships Status
+      div
+        = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
+          .flex.items-center.space-x-2
+            = form.check_box :auto_renew, checked: @membership.auto_renew, class: "toggle-checkbox w-6 h-6 accent-primary cursor-pointer", onchange: "this.form.submit()"
+            = form.label :auto_renew, "Auto Renew", class: "text-gray-700"
+
+        
   .div
     - if @membership.present?
       .flex.flex-col.space-y-2
-        .div
-          = duration(@membership.start_date, @membership.end_date)
-        .div
-          - if @membership.active?
-            = "Active"
-          - else
-            = "Inactive"
 
-        = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
-          .flex.items-center.space-x-2
-            = form.check_box :auto_renew, checked: @membership.auto_renew, class: "toggle-checkbox w-6 h-6 accent-blue-600 cursor-pointer", onchange: "this.form.submit()"
-            = form.label :auto_renew, "Auto Renew", class: "text-gray-700"
+        / = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
+        /   .flex.items-center.space-x-2
+        /     = form.check_box :auto_renew, checked: @membership.auto_renew, class: "toggle-checkbox w-6 h-6 accent-blue-600 cursor-pointer", onchange: "this.form.submit()"
+        /     = form.label :auto_renew, "Auto Renew", class: "text-gray-700"
 
     - else
       = "No memberships available"
