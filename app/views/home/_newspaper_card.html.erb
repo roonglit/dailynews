@@ -9,7 +9,7 @@
   <% end %>
   <div class="bg-[#f7f7f7] text-center p-[35px_15px] group">
     <h3 class="text-[20px] mb-[10px] font-bold md:text-[16px] group">
-      <%= link_to newspaper.title, newspaper_path(newspaper), class: "text-[#0a272c] group-hover:text-[#3756f7] transition-all duration-300" %>
+      <%= link_to newspaper.title, newspaper_path(newspaper), class: "text-[#0a272c] group-hover:text-primary transition-all duration-300" %>
     </h3>
     <% if newspaper.respond_to?(:price) %>
       <% if newspaper.respond_to?(:original_price) && newspaper.original_price.present? %>
@@ -20,9 +20,9 @@
       <% end %>
     <% end %>
     <div class="mt-[20px] group">
-      <%= link_to newspaper_path(newspaper), class: "font-base-font text-[15px] font-semibold text-[#3756f7] p-[8px_20px]
-          border-[2px] border-[#3756f7] inline-block rounded-[50px] sm:text-[12px]
-          sm:p-[6px_18px] transition-all duration-300 group-hover:bg-[#3756f7]
+      <%= link_to newspaper_path(newspaper), class: "font-base-font text-[15px] font-semibold text-primary p-[8px_20px]
+          border-[2px] border-primary inline-block rounded-[50px] sm:text-[12px]
+          sm:p-[6px_18px] transition-all duration-300 group-hover:bg-primary
           group-hover:text-white" do %>
         View Details
         <i class="ti-arrow-right text-[15px] inline-block pl-[5px]"></i>
