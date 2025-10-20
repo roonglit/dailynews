@@ -9,7 +9,7 @@ div class="bg-base-100 bg-no-repeat bg-center bg-cover w-screen min-h-screen rel
             
           / ====== column: image section ======
           .flex.flex-col.items-center.mb-16 class="max-xl:order-2 order-1 max-xl:mt-14"
-            .font-bold.text-secondary.pt-4.text-center class="mt-[-10px] text-3xl max-md:text-xl" หนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
+            .font-bold.text-primary.pt-4.text-center class="mt-[-10px] text-3xl max-md:text-xl" หนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
             .text-secondary.text-center.mb-2.pt-2 class="mt-[-10px] text-xl max-md:text-sm" เนื้อหาครบทุกข่าว ทุกคอลัมน์ สมัครง่าย อ่านสะดวก ทุกที่ ทุกเวลา
             - if @latest_newspaper&.cover&.attached?
               = image_tag @latest_newspaper.cover, alt: "the latest dailynews cover", class: "w-full h-[300px] object-contain"
