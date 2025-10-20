@@ -1,5 +1,5 @@
 <!-- start of breadcumb-section -->
-div class="bg-base-100 bg-no-repeat bg-center bg-cover min-h-[400px] relative flex flex-col z-10 pt-16 sm:min-h-[600px] before:absolute before:left-0 before:top-0 before:w-full before:h-full before:-z-10 before:opacity-10"
+div class="bg-base-100 bg-no-repeat bg-center bg-cover min-h-[400px] relative flex flex-col z-10 pt-8 sm:min-h-[600px] before:absolute before:left-0 before:top-0 before:w-full before:h-full before:-z-10 before:opacity-10"
   .wrapper.mx-auto class="max-w-[1400px]"
     .grid.grid-cols-12
       .col-span-12
@@ -14,9 +14,9 @@ div class="bg-base-100 bg-no-repeat bg-center bg-cover min-h-[400px] relative fl
             - else
               div class="w-80 aspect-[3/4] bg-gray-200 flex items-center justify-center"
                 p = "image-dailynews-image-not-found"
-          .card.bg-white.shadow-md.rounded-lg.py-4.px-8.lg:w-2/5
-            .text-2xl.font-bold.text-primary.mt-16 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
-            .card.bg-white.shadow-xl.rounded-lg.py-6.px-4.border-1.border-pink-200 class="mt-8"
+          .card.bg-accent.drop-shadow-lg.rounded-lg.py-4.px-8.lg:w-2/5
+            .text-2xl.font-bold.text-primary.mt-8 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
+            .card.bg-white.drop-shadow-xl.rounded-lg.py-6.px-4.border-1.border-pink-200 class="mt-8"
               .text-lg.text-secondary.text-center = @monthly_product&.title
               hr.border-secondary.dark:border-neutral-500.mt-4
               .text-xl.font-bold.mt-4.mb-4.text-primary.text-center = "#{@monthly_product&.amount} Baht"
