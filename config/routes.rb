@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     sessions: "members/sessions"
   }
 
+  # devise_for :users, controllers: {
+  #   sessions: "users/sessions"
+  # }
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :subscriptions, only: %i[index update]

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   helper_method :current_user, :user_signed_in?
   before_action :current_or_guest_user
+  before_action :store_user_location!, if: :storable_location?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -51,5 +52,13 @@ class ApplicationController < ActionController::Base
         flash[:alert] = "You must be signed in to access this page."
         redirect_to new_member_session_path
       end
+    end
+
+    def storable_location?
+      request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+    end
+
+    def store_user_location!
+      store_location_for(:member, request.fullpath)
     end
 end
