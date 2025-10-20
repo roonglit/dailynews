@@ -5,11 +5,11 @@
 header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-30.shadow-md class="bg-radial-[160%_200%_at_50%_50%] from-primary to-secondary"
   .flex.items-center.space-x-4
     = link_to root_path, class: "flex items-center"
-      = image_tag "auth/dailynews-logo.webp", class: "h-10 w-auto", alt: "DailyNews Logo"
+      = image_tag "auth/dailynews-logo.webp", class: "h-6 min-sm:h-10 w-auto", alt: "DailyNews Logo"
 
   .flex.items-center.space-x-4
     - text_color = current_page?(library_path) ? "text-secondary font-semibold" : "text-accent"
-    = link_to "My Library", library_path, class: "text-md font-semibold #{text_color} pe-4 hover:text-secondary"
+    = link_to "My Library", library_path, class: "text-sm min-sm:text-md font-semibold #{text_color} pe-4 hover:text-secondary"
     
     - if user_signed_in? && current_user.member?
       .relative.inline-block
