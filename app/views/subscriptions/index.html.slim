@@ -25,7 +25,7 @@
               div class="text-lg font-bold py-2 mb-2" Your current subscription
 
               hr class="border-gray-300 opacity-70"
-              .text-md.font-bold.my-4 = @membership.order.product.title
+              .text-md.font-bold.my-4 = @membership&.order&.product&.title
               .flex.my-4
                 text-xl.font-bold.mr-2 Status: 
                 - if @membership.active?

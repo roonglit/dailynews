@@ -1,5 +1,6 @@
 class SubscriptionsController < AccountSettingController
   before_action :set_membership, only: %i[index update]
+  before_action :authenticate_member!, only: %i[ index ]
 
   def index
   end
