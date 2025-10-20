@@ -17,12 +17,12 @@ div class="bg-base-100 bg-no-repeat bg-center bg-cover w-screen min-h-screen rel
               = image_tag "auth/dailynews-default-cover.jpg", alt: "default dailynews cover", class: "aspect-[3/4] max-lg:w-[300px] lg:w-[500px] min-xl:w-[300px] bg-gray-200 flex items-center justify-center"
 
           / ====== column: from section ======
-          .card.bg-white.drop-shadow-lg.rounded-lg.py-4.px-8 class ="max-xl:order-1 order-2"
+          .card.bg-accent.drop-shadow-lg.rounded-lg.py-4.px-8 class ="max-xl:order-1 order-2"
             .text-2xl.text-center.font-bold.text-primary.mt-1 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
-            .card.bg-accent.drop-shadow-xl.rounded-lg.py-6.px-4.border-1.border-pink-200 class="mt-8"
+            .card.bg-base-100.drop-shadow-xl.rounded-lg.py-6.px-16.border-1.border-pink-200 class="mt-8"
               .text-lg.text-secondary.font-semibold.text-center = @monthly_product&.title
-              hr.border-secondary.dark:border-neutral-500.mt-4
-              .text-xl.font-bold.mt-4.mb-4.text-primary.text-center = "#{@monthly_product&.amount} Baht"
+              hr.mt-4.border-primary.border-2.rounded
+              .text-xl.font-bold.mt-4.text-primary.text-center = "#{@monthly_product&.amount} Baht"
             = button_to "สมัครสมาชิก", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
               class: "inline-block bg-primary hover:bg-secondary text-white mt-8 mb-4 px-8 py-2 rounded-3xl font-semibold shadow-lg cursor-pointer w-full"
         
