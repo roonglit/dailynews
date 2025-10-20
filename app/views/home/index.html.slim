@@ -18,9 +18,9 @@ div class="bg-base-100 bg-no-repeat bg-center bg-cover w-screen min-h-screen rel
 
           / ====== column: from section ======
           .card.bg-white.drop-shadow-lg.order-1.rounded-lg.py-4.px-8.md:order-2
-            .text-2xl.text-center.font-bold.text-pink-900.mt-1 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
+            .text-2xl.text-center.font-bold.text-primary.mt-1 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
             .card.bg-accent.drop-shadow-xl.rounded-lg.py-6.px-4.border-1.border-pink-200 class="mt-8"
-              .text-lg.text-secondary.text-center = @monthly_product&.title
+              .text-lg.text-secondary.font-semibold.text-center = @monthly_product&.title
               hr.border-secondary.dark:border-neutral-500.mt-4
               .text-xl.font-bold.mt-4.mb-4.text-primary.text-center = "#{@monthly_product&.amount} Baht"
             = button_to "สมัครสมาชิก", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
