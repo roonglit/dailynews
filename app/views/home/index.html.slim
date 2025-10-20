@@ -15,11 +15,11 @@ div class="bg-base-100 bg-no-repeat bg-center bg-cover min-h-[400px] relative fl
               div class="w-80 aspect-[3/4] bg-gray-200 flex items-center justify-center"
                 p = "image-dailynews-image-not-found"
           .card.bg-white.shadow-md.rounded-lg.py-4.px-8.lg:w-2/5
-            .text-2xl.font-bold.text-pink-900.mt-16 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
+            .text-2xl.font-bold.text-primary.mt-16 แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
             .card.bg-white.shadow-xl.rounded-lg.py-6.px-4.border-1.border-pink-200 class="mt-8"
-              .text-lg.text-secondary.text-center รายเดือน (ต่ออายุอัตโนมัติ)
+              .text-lg.text-secondary.text-center = @monthly_product&.title
               hr.border-secondary.dark:border-neutral-500.mt-4
-              .text-xl.font-bold.mt-4.mb-4.text-success.text-center = "#{@monthly_product&.amount} Baht"
+              .text-xl.font-bold.mt-4.mb-4.text-primary.text-center = "#{@monthly_product&.amount} Baht"
             = button_to "สมัครสมาชิก", cart_items_path(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION"), method: :post,
               class: "inline-block bg-primary hover:bg-secondary text-white mt-8 mb-4 px-8 py-2 rounded-3xl font-semibold shadow-lg cursor-pointer w-full"
         
