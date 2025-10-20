@@ -11,7 +11,7 @@ div class="bg-base-100 bg-no-repeat bg-center bg-cover w-screen min-h-screen rel
           .flex.flex-col.order-2.items-center.mb-16.mt-8.md:order-1.md:mt-0
             .text-3xl.font-bold.text-secondary.pt-4.text-center class="mt-[-10px]" หนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล
             .text-xl.text-secondary.pt-4.text-center.mb-8 class="mt-[-10px]" เนื้อหาครบทุกข่าว ทุกคอลัมน์ สมัครง่าย อ่านสะดวก ทุกที่ ทุกเวลา
-            - if @latest_newspaper.cover.attached?
+            - if @latest_newspaper&.cover&.attached?
               = image_tag @latest_newspaper.cover, alt: "the latest dailynews cover", class: "w-full h-[300px] object-contain"
             - else
               = image_tag "auth/dailynews-default-cover.jpg", alt: "default dailynews cover", class: "aspect-[3/4] w-[300px] bg-gray-200 flex items-center justify-center"
