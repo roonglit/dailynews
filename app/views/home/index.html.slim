@@ -14,7 +14,7 @@ div class="bg-base-100 bg-no-repeat bg-center bg-cover w-screen min-h-screen rel
             - if @latest_newspaper.cover.attached?
               = image_tag @latest_newspaper.cover, alt: "the latest dailynews cover", class: "w-full h-[300px] object-contain"
             - else
-              = image_tag "auth/dailynews-default-cover.jpg", alt: "default dailynews cover", class: "w-[250px] h-[300px] bg-gray-200 flex items-center justify-center"
+              = image_tag "auth/dailynews-default-cover.jpg", alt: "default dailynews cover", class: "aspect-[3/4] w-[300px] bg-gray-200 flex items-center justify-center"
 
           / ====== column: from section ======
           .card.bg-white.drop-shadow-lg.order-1.rounded-lg.py-4.px-8.md:order-2
