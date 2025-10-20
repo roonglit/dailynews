@@ -8,11 +8,11 @@
   color-scheme: light;
 
   /* DailyNews Brand Colors - Hot Pink Theme */
-  --color-primary: oklch(55.5% 0.273 340);      /* Hot Pink #f0027f */
+  --color-primary: oklch(0.6177 0.253 355.36);      /* Hot Pink #ED018C */
   --color-primary-content: oklch(100% 0 0);
-  --color-secondary: oklch(23% 0.02 340);       /* Dark Navy/Black #232f4b - for contrast */
+  --color-secondary: oklch(0.3942 0 0);       /* Dark Navy/Black #464646 - for contrast */
   --color-secondary-content: oklch(100% 0 0);
-  --color-accent: oklch(97.5% 0.012 340);       /* Light Pink #fdf6fa */
+  --color-accent: oklch(0.9749 0.0144 350.08);       /* Light Pink #FFF3F8 */
   --color-accent-content: oklch(21% 0.006 200);
 
   /* Neutral Colors */
