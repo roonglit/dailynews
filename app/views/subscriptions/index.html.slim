@@ -39,9 +39,9 @@
                 .flex.justify-between.mt-4
                   div
                     - if @membership.auto_renew?
-                      text-xl.font-bold Auto renew is enable
+                      text-xl.font-bold Auto-renew is enabled.
                     - else
-                      text-xl.font-bold Auto renew is disable
+                      text-xl.font-bold Auto-renew is disabled.
                   = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
                     .flex.items-center.space-x-2
                       = form.check_box :auto_renew, class: "toggle toggle-md toggle-primary", onchange: "this.form.submit()"
