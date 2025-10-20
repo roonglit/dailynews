@@ -1,37 +1,56 @@
-.flex.flex-col
-  .card.bg-base-100.shadow-xl.rounded-xl.py-4.px-4.mx-4
-    .flex.justify-between.my-4
-      text-xl.font-bold Username
-      = current_user.email
-    hr class="border-gray-300 opacity-70"
-    .flex.justify-between.my-4
-      text-xl.font-bold Memberships duration
-      = duration(@membership.start_date, @membership.end_date)
-    hr class="border-gray-300 opacity-70"
-    .flex.justify-between.my-4
-      text-xl.font-bold Memberships Status
-      - if @membership.active?
-        = "Active"
-      - else
-        = "Inactive"
-    hr class="border-gray-300 opacity-70"
-    .flex.justify-between.my-4
-      text-xl.font-bold Memberships Status
-      div
-        = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
-          .flex.items-center.space-x-2
-            = form.check_box :auto_renew, checked: @membership.auto_renew, class: "toggle-checkbox w-6 h-6 accent-primary cursor-pointer", onchange: "this.form.submit()"
-            = form.label :auto_renew, "Auto Renew", class: "text-gray-700"
-
-        
-  .div
+.flex.flex-col.px-12.py-4
+  .text-2xl.font-bold.mb-6 Subscription Details
+  hr class="border-gray-300 opacity-70"
+  .flex.justify-between.mt-2
     - if @membership.present?
-      .flex.flex-col.space-y-2
+      div
+        .text-md.font-bold.my-4 = @membership.order.product.title
+        .flex.my-4
+          text-xl.font-bold.mr-2 Status:
+          - if @membership.active?
+            span.inline-flex.items-center.rounded-md.bg-green-400/10.px-2.py-1.text-xs.font-medium.text-green-400.inset-ring.inset-ring-green-500/20 Active
+          - else
+            span.inline-flex.items-center.rounded-md.bg-gray-400/10.px-2.py-1.text-xs.font-medium.text-gray-400.inset-ring.inset-ring-gray-500/20 Inactive
+        .flex.my-4
+          text-xl.font-bold.mr-2 Memberships duration: 
+          = duration(@membership.start_date, @membership.end_date)
 
-        / = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
-        /   .flex.items-center.space-x-2
-        /     = form.check_box :auto_renew, checked: @membership.auto_renew, class: "toggle-checkbox w-6 h-6 accent-blue-600 cursor-pointer", onchange: "this.form.submit()"
-        /     = form.label :auto_renew, "Auto Renew", class: "text-gray-700"
+      div.flex.items-center
+        button class="btn drop-shadow-md bg-accent" onclick="my_modal_3.showModal()" Manage
+        dialog id="my_modal_3" class="modal"
+          div class="modal-box"
+            form method="dialog"
+              button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" ✕
+            div
+              div class="text-lg font-bold py-2 mb-2" Your current subscription
+
+              hr class="border-gray-300 opacity-70"
+              .text-md.font-bold.my-4 = @membership.order.product.title
+              .flex.my-4
+                text-xl.font-bold.mr-2 Status: 
+                - if @membership.active?
+                  span.inline-flex.items-center.rounded-md.bg-green-400/10.px-2.py-1.text-xs.font-medium.text-green-400.inset-ring.inset-ring-green-500/20 Active
+                - else
+                  span.inline-flex.items-center.rounded-md.bg-gray-400/10.px-2.py-1.text-xs.font-medium.text-gray-400.inset-ring.inset-ring-gray-500/20 Inactive
+              .flex.my-4
+                text-xl.font-bold.mr-2 Memberships duration: 
+                = duration(@membership.start_date, @membership.end_date)
+              hr class="border-gray-300 opacity-70"
+                .flex.justify-between.mt-4
+                  div
+                    - if @membership.auto_renew?
+                      text-xl.font-bold Auto renew is enable
+                    - else
+                      text-xl.font-bold Auto renew is disable
+                  = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
+                    .flex.items-center.space-x-2
+                      = form.check_box :auto_renew, class: "toggle toggle-md toggle-primary", onchange: "this.form.submit()"
+
+                .text-md.mt-6 At the end of your subscription, we'll renew it automatically so you'll naver miss an issue.
+
+          
+          form method="dialog" class="modal-backdrop"
+            button Close
 
     - else
       = "No memberships available"
