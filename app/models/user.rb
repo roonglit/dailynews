@@ -18,6 +18,10 @@ class User < ApplicationRecord
     false
   end
 
+  def administrator?
+    false
+  end
+
   def name
     email || "User"
   end
