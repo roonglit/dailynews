@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :cart_items, only: %i[create update]
   resource :checkout, only: %i[show create]
   resources :newspapers
-  resources :orders do
+  resources :orders, only: %i[create] do
     member do
       get "complete"
     end
@@ -43,4 +43,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "home#index"
+
+  match "*path", to: redirect("/"), via: :all
 end
