@@ -39,3 +39,6 @@
 /config/credentials/staging.key
 node_modules
 CLAUDE.md
+
+# Ignore Coverage
+coverage

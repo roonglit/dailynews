@@ -78,6 +78,7 @@ group :test do
   gem "selenium-webdriver"
   gem "database_cleaner-active_record"
   gem "cuprite"
+  gem "simplecov", require: false
 end
 
 gem "pundit", "~> 2.5"
