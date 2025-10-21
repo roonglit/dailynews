@@ -10,10 +10,6 @@ class Guest < User
     false
   end
 
-  def administrator?
-    false
-  end
-
   def name
     "Guest"
   end

@@ -9,10 +9,6 @@ class Member < User
     true
   end
 
-  def administrator?
-    false
-  end
-
   def name
     email
   end
