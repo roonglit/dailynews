@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, skip: [ :registrations ]
+
   # Scoped Devise routes for Members (STI)
   devise_for :members, class_name: "Member", controllers: {
     registrations: "members/registrations",
