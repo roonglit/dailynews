@@ -1,8 +1,6 @@
 .flex.w-full.justify-center.mt-5
   .w-95
     h3.text-center.text-lg.font-medium.mt-5 Admin Sign In
-    / h3.mt-8.text-center.text-xl.font-semibold.md:mt-12.lg:mt-12 Welcome to Dailynews Online Edit
-    / h3.text-base-content/70.mt-2.text-center.text-sm Enter your email.
 
     .mt-6
       = render "alert", flash: flash
@@ -12,4 +10,6 @@
 
         = form.submit "SIGN IN", class: "btn btn-primary btn-wide mt-4 max-w-full"
 
-    / = render "devise/shared/links"
+    .flex.justify-center.font-extralight.mt-6.gap-1
+      p = "Don't have an account?"
+      = link_to "Register here", new_first_admin_path, data: {turbo: false}, class: "text-primary"
