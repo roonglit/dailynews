@@ -1,0 +1,40 @@
+<div class="group bg-white rounded-md shadow-sm overflow-hidden h-full flex flex-col">
+  <% if newspaper.cover.attached? %>
+    <div class="relative w-full aspect-[3/4] bg-gray-100">
+      <%= image_tag newspaper.cover,
+          alt: newspaper.title,
+          class: "absolute inset-0 w-full h-full object-cover" %>
+    </div>
+  <% else %>
+    <div class="w-full aspect-[3/4] bg-gray-200 flex items-center justify-center">
+      <span class="text-gray-400 text-xl"><i class="ti-book"></i></span>
+    </div>
+  <% end %>
+
+  <div class="bg-white text-center p-[24px_12px] md:p-[28px_14px] flex-1 group-hover:bg-accent">
+    <h3 class="text-[18px] md:text-[16px] mb-[10px] font-bold">
+      <%= link_to newspaper.title, newspaper_path(newspaper),
+            class: "text-[#0a272c] group-hover:text-primary transition-all duration-300 line-clamp-2" %>
+    </h3>
+
+    <% if newspaper.respond_to?(:price) %>
+      <div class="mt-1">
+        <% if newspaper.respond_to?(:original_price) && newspaper.original_price.present? %>
+          <del class="text-[#0a272c]">$<%= number_with_precision(newspaper.original_price, precision: 2) %></del>
+          <span class="inline-block pl-5">$<%= number_with_precision(newspaper.price, precision: 2) %></span>
+        <% else %>
+          <span>$<%= number_with_precision(newspaper.price, precision: 2) %></span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="mt-5">
+      <%= link_to newspaper_path(newspaper),
+            class: "btn btn-outline btn-primary text-[14px] md:text-[13px] font-semibold px-5 py-2
+                    border-2 border-primary inline-block rounded-full transition-all duration-300" do %>
+        View Details
+        <i class="ti-arrow-right text-[15px] inline-block pl-[5px]"></i>
+      <% end %>
+    </div>
+  </div>
+</div>

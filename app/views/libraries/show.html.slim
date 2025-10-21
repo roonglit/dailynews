@@ -33,12 +33,12 @@ div.flex.justify-end.mt-4.mr-8
       = flash[:alert]
 
 / start newspapers-section
-section(class="py-[100px] md:py-[80px] sm:py-[60px]")
+section(class="py-8")
   div(class="wrapper max-w-[1200px] mx-auto px-4")
     - if @newspapers&.any?
-      div(class="mx-[-15px] sm:mx-[-7px]")
+      div.grid.grid-cols-2.md:grid-cols-3.lg:grid-cols-4.gap-4.md:gap-5.lg:gap-6
         - @newspapers.each do |newspaper|
-          = render partial: 'home/newspaper_card', locals: { newspaper: newspaper }
+          = render partial: 'newspaper_card', locals: { newspaper: newspaper }
 
       / Pagination (if needed in future)
       div(class="text-center mt-[60px] md:text-left md:mt-[40px] clear-both")
