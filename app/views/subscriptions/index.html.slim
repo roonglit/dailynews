@@ -8,15 +8,15 @@
         .flex.my-4
           text-xl.font-bold.mr-2 Status:
           - if @membership.active?
-            span.inline-flex.items-center.rounded-md.bg-green-400/10.px-2.py-1.text-xs.font-medium.text-green-400.inset-ring.inset-ring-green-500/20 Active
+            span.badge.badge-primary Active
           - else
-            span.inline-flex.items-center.rounded-md.bg-gray-400/10.px-2.py-1.text-xs.font-medium.text-gray-400.inset-ring.inset-ring-gray-500/20 Inactive
+            span.badge.badge-error Inactive
         .flex.my-4
           text-xl.font-bold.mr-2 Memberships duration: 
           = duration(@membership.start_date, @membership.end_date)
 
       div.flex.items-center
-        button class="btn drop-shadow-md bg-primary text-base-100" onclick="subscription_modal.showModal()" Manage
+        button class="btn btn-primary drop-shadow-md text-base-100" onclick="subscription_modal.showModal()" Manage
         dialog id="subscription_modal" class="modal"
           div class="modal-box"
             form method="dialog"
@@ -29,9 +29,9 @@
               .flex.my-4
                 text-xl.font-bold.mr-2 Status: 
                 - if @membership.active?
-                  span.inline-flex.items-center.rounded-md.bg-green-400/10.px-2.py-1.text-xs.font-medium.text-green-400.inset-ring.inset-ring-green-500/20 Active
+                  span.badge.badge-primary Active
                 - else
-                  span.inline-flex.items-center.rounded-md.bg-gray-400/10.px-2.py-1.text-xs.font-medium.text-gray-400.inset-ring.inset-ring-gray-500/20 Inactive
+                  span.badge.badge-error Inactive
               .flex.my-4
                 text-xl.font-bold.mr-2 Memberships duration: 
                 = duration(@membership.start_date, @membership.end_date)
