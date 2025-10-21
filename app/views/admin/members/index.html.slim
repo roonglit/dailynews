@@ -1,5 +1,5 @@
 .flex.items-center.justify-between
-  h3.text-lg.font-medium Users
+  h3.text-lg.font-medium Members
 
 .mt-6 
   .bg-base-100.card.shadow 
@@ -20,12 +20,12 @@
               th Membership Duration
               th Action
           tbody 
-            - @users.each do |user|
+            - @members.each do |member|
               tr.hover:bg-base-200/40 class='*:text-nowrap'
                 th
                   input.checkbox.checkbox-sm type='checkbox' aria-label='Single check'
-                td = user.id
-                td = user.email
-                td = duration(user.memberships.last&.start_date, user.memberships.last&.end_date)
+                td = member.id
+                td = member.email
+                td = duration(member.memberships.last&.start_date, member.memberships.last&.end_date)
                 td
-                  = link_to "Manage", edit_admin_user_path(user), class: "inline-block bg-primary hover:bg-secondary text-white px-4 py-2 rounded-sm text-sm font-medium"
+                  = link_to "Manage", edit_admin_member_path(member), class: "inline-block bg-primary hover:bg-secondary text-white px-4 py-2 rounded-sm text-sm font-medium"

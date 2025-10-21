@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  resources :first_admins, only: %i[new create]
   resources :subscriptions, only: %i[index update]
   resource :library, only: %i[show]
   resources :memberships
@@ -21,7 +22,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :products
-    resources :users, only: [ :index, :edit, :update ]
+    resources :members, only: [ :index, :edit, :update ]
     resources :newspapers
     root "home#index"
   end
