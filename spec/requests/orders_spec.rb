@@ -87,6 +87,24 @@ RSpec.describe "/orders", type: :request do
       end
     end
 
+    context "order save fails" do
+      before do
+        allow_any_instance_of(Order).to receive(:save).and_return(false)
+      end
+
+      it "with testing_only token" do
+        expect {
+          post orders_path, params: { order: { token: "testing_only" } }
+        }.not_to change(Order, :count)
+      end
+
+      it "with real payment token" do
+        expect {
+          post orders_path, params: { order: { token: "token_test_12345" } }
+        }.not_to change(Order, :count)
+      end
+    end
+
     context "without a cart" do
       before do
         cart.destroy
