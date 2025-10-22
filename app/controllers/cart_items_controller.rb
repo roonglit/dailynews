@@ -21,25 +21,25 @@ class CartItemsController < ApplicationController
     end
   end
 
-  def update
-    cart_item = current_user.cart&.cart_item
+  # def update
+  #   cart_item = current_user.cart&.cart_item
 
-    if cart_item.blank?
-      redirect_to root_path, alert: "Cart item not found"
-      return
-    end
+  #   if cart_item.blank?
+  #     redirect_to root_path, alert: "Cart item not found"
+  #     return
+  #   end
 
-    product = Product.find_by(sku: params[:sku])
+  #   product = Product.find_by(sku: params[:sku])
 
-    if product.blank?
-      redirect_to checkout_path, alert: "Product not found"
-      return
-    end
+  #   if product.blank?
+  #     redirect_to checkout_path, alert: "Product not found"
+  #     return
+  #   end
 
-    if cart_item.update(product: product)
-      redirect_to checkout_path, notice: "Switched to #{product.title}"
-    else
-      redirect_to checkout_path, alert: "Failed to update cart"
-    end
-  end
+  #   if cart_item.update(product: product)
+  #     redirect_to checkout_path, notice: "Switched to #{product.title}"
+  #   else
+  #     redirect_to checkout_path, alert: "Failed to update cart"
+  #   end
+  # end
 end
