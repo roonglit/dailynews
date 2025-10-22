@@ -10,8 +10,8 @@ class CheckoutsController < ApplicationController
     @cart_item = current_user&.cart&.cart_item
   end
 
-  def create
-  end
+  # def create
+  # end
 
   private
 

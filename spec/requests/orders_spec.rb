@@ -10,7 +10,7 @@ RSpec.describe "/orders", type: :request do
     sign_in user
   end
 
-  describe "/GET /orders/:id/complete" do
+  describe "GET /orders/:id/complete" do
     let(:order) { create(:order, user_id: user.id) }
 
     it "returns a successful response" do
