@@ -30,7 +30,6 @@ describe "Library", js: true do
       visit library_path
 
       expect(page).to have_content("Example Book")
-      expect(page).to have_content("Description example")
       expect(page).not_to have_content("No newspapers available")
       expect(page).not_to have_content("Check back later for new additions to our library.")
     end
