@@ -4,8 +4,8 @@ class LibrariesController < ApplicationController
   def show
     @newspapers = []
 
-    @months = current_user.memberships.map do |month|
-      (month.start_date..month.end_date).map { |day| day.strftime("%m") }
+    @months = current_user.memberships.map do |membership|
+      (membership.start_date..membership.end_date).map { |day| day.strftime("%m") }
     end.flatten.uniq.sort
 
     current_user.memberships.each do |membership|
