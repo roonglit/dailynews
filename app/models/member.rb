@@ -17,9 +17,9 @@ class Member < User
     guest_cart = guest.cart
     return if guest_cart&.cart_item.blank?
 
-    user_cart = Cart.find_or_create_by(user_id: id)
-    user_cart.cart_item&.destroy
+    member_cart = Cart.find_or_create_by(user_id: id)
+    member_cart.cart_item&.destroy
 
-    user_cart.create_cart_item!(product_id: guest_cart.cart_item.product_id)
+    member_cart.create_cart_item!(product_id: guest_cart.cart_item.product_id)
   end
 end
