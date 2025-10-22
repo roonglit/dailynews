@@ -6,13 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :current_or_guest_user
   before_action :store_user_location!, if: :storable_location?
 
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
   private
-    def user_not_authorized
-      flash[:alert] = "You are not authorized to perform this action."
-      redirect_to new_membership_path
-    end
 
     # Override Devise's current_user to include guest users
     def current_user
