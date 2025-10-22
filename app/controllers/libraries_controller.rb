@@ -10,7 +10,7 @@ class LibrariesController < ApplicationController
 
     current_user.memberships.each do |membership|
       newspapers = Newspaper.where("published_at >= ? and published_at <= ?", membership.start_date, membership.end_date)
-      .filter_by_month(params[:month].to_i)
+      .filter_by_month(params[:month])
       .order_by_created_at
       @newspapers += newspapers
     end
