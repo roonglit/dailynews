@@ -18,7 +18,7 @@ RSpec.describe "Libraries", type: :request do
       expect(response).to have_http_status(:found)
     end
 
-    context "sign in member" do
+    context "member sign in" do
       before { sign_in member }
 
       it "shows newspapers within any membership ranges (uniq) when no month filter" do
