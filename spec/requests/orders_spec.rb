@@ -10,6 +10,15 @@ RSpec.describe "/orders", type: :request do
     sign_in user
   end
 
+  describe "/GET /orders/:id/complete" do
+    let(:order) { create(:order, user_id: user.id) }
+
+    it "returns a successful response" do
+      get complete_order_path(order)
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe "POST /orders" do
     context "with testing_only token" do
       let(:order_params) do
@@ -96,7 +105,7 @@ RSpec.describe "/orders", type: :request do
 
     context "with a real payment token" do
       let(:order_params) do
-        { order: { token: "tokn_test_12345" } }
+        { order: { token: "token_test_12345" } }
       end
 
       it "creates a new order" do
@@ -113,6 +122,25 @@ RSpec.describe "/orders", type: :request do
 
       # Note: In the future, this should actually process payment with Omise
       # For now, it just creates the order and membership
+    end
+
+    context "when membership creation fails" do
+      before do
+        allow(MembershipCreator).to receive(:new).and_return(double(call: false))
+      end
+
+      it "does not create membership or save order" do
+        expect {
+          post orders_path, params: { order: { token: "testing_only" } }
+        }.not_to change(Membership, :count)
+
+        expect(Order.count).to eq(0)
+      end
+
+      it "shows an error message" do
+        post orders_path, params: { order: { token: "testing_only" } }
+        expect(flash[:alert]).to eq("Failed to create membership")
+      end
     end
   end
 end
