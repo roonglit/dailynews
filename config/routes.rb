@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   resources :first_admins, only: %i[new create]
   resources :subscriptions, only: %i[index update]
   resource :library, only: %i[show]
-  resources :memberships
   resources :cart_items, only: %i[create update]
   resource :checkout, only: %i[show create]
   resources :newspapers

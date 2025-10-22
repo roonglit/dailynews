@@ -94,7 +94,7 @@ RSpec.describe "/orders", type: :request do
 
       it "redirects to new membership path" do
         post orders_path, params: { order: { token: "testing_only" } }
-        expect(response).to redirect_to(new_membership_path)
+        expect(response).to redirect_to(root_path)
       end
 
       it "shows an error message" do

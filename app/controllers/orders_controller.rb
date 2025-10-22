@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
     @product = @cart&.product
 
     unless @product
-      redirect_to new_membership_path, alert: "No product in cart" and return
+      redirect_to root_path, alert: "No product in cart" and return
     end
 
     @order = current_user.orders.build(order_params)
