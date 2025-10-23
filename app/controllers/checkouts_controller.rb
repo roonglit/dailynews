@@ -1,21 +1,18 @@
 class CheckoutsController < ApplicationController
-  before_action :required_cart, only: %i[show]
-
   def show
-    @order = Order.new
+    @cart = current_user&.cart
+    @cart_item = @cart&.cart_item
+    @product = @cart_item&.product
 
-    current_user.merge_cart_from_guest(Guest.last) if current_user.member?
-
-    @product = current_user&.cart&.cart_item&.product
-    @cart_item = current_user&.cart&.cart_item
+    if member_signed_in?
+      p "<<<< Member Signed In >>>>"
+    else
+      p "<<<< Member Not Signed In >>>>"
+      p request.fullpath
+      session[:member_return_to] = request.fullpath
+    end
   end
 
   # def create
   # end
-
-  private
-
-  def required_cart
-    redirect_to root_path if current_user&.cart.blank?
-  end
 end

@@ -3,4 +3,8 @@ class Cart < ApplicationRecord
 
   has_one :cart_item, dependent: :destroy
   has_one :product, through: :cart_item
+
+  def total
+    product&.amount || Money.new(0, "THB")
+  end
 end

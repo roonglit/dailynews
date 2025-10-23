@@ -11,7 +11,7 @@ header.w-full.flex.items-center.justify-between.top-0.z-10.h-16.px-10.min-md:px-
     - text_color = current_page?(library_path) ? "text-secondary font-semibold" : "text-accent"
     = link_to "My Library", library_path, class: "text-sm min-sm:text-lg font-semibold #{text_color} pr-4 hover:text-secondary transition"
 
-    - if user_signed_in? && current_user.member?
+    - if member_signed_in?
       .relative.inline-block
         .flex.flex-cols
           input#dropdown-toggle(type="checkbox" class="hidden peer")

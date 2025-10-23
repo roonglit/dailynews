@@ -4,8 +4,9 @@ class Product < ApplicationRecord
   has_rich_text :description
   has_one :order_item, dependent: :destroy
 
+  monetize :amount_cents
+
   validates :title, presence: true, uniqueness: true
-  validates :amount, presence: true
   validates :sku, presence: true, uniqueness: true
 
   scope :order_by_created_at, -> { order(created_at: :asc) }
