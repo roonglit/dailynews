@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :admin_users, skip: [ :registrations ]
-
   # Scoped Devise routes for Members (STI)
   devise_for :members, class_name: "Member", controllers: {
     registrations: "members/registrations",
@@ -22,6 +20,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    devise_for :users, skip: [ :registrations ], controllers: {
+      sessions: "admin/users/sessions",
+      passwords: "admin/users/passwords",
+    }
+
     resources :products
     resources :members, only: [ :index, :edit, :update ]
     resources :newspapers
