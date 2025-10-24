@@ -19,7 +19,7 @@
                 td = member.email
                 td = full_name(member.first_name, member.last_name)
                 td
-                    = link_to admin_customer_path(member.id), class: "w-full m-0 p-0 cursor-pointer" do
+                    = link_to edit_admin_customer_path(member.id), class: "w-full m-0 p-0 cursor-pointer" do
                         label.iconify.lucide--pencil.size-5.cursor-pointer.mx-1
                     = link_to admin_customer_path(member.id), class: "w-full m-0 p-0 cursor-pointer" do
                         label.iconify.lucide--eye.size-5.cursor-pointer.mx-1
