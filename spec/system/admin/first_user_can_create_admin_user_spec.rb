@@ -27,7 +27,7 @@ describe "Create Admin user" do
       fill_in 'password', with: 'password123'
       click_link_or_button 'SIGN IN'
 
-      expect(page).to have_content("Sign Out")
+      expect(page).to have_content("Signed in successfully.")
     end
   end
 end

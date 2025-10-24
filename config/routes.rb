@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     resources :products
     resources :members, only: [ :index, :edit, :update ]
     resources :newspapers
-    root "home#index"
+    root "overviews#show"
   end
 
   # Style Guide (only accessible in development/staging)
