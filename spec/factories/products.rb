@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :product do
-    description { "description test" }
+    title { "Dailynews Newspaper" }
+    description { "Dailynews newspaper" }
+    sequence(:sku) { |n| "sku_#{n}" }
 
     factory :one_month do
       title { "1 Month Only" }
