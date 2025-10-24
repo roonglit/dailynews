@@ -3,11 +3,11 @@ module Admin
     before_action :set_member, only: %i[show edit update]
 
     def index
-      @members = Member.all
+      @members = Member.all.order(:id)
     end
 
     def show
-      @memberhips = @member&.memberships&.order_by_created_at
+      @memberships = @member&.memberships.order(id: :desc)
     end
 
     def edit
@@ -15,11 +15,11 @@ module Admin
 
     def update
     end
-  end
 
   private
 
-  def set_member
-    @member = Member.find(params.expect(:id))
+    def set_member
+      @member = Member.find(params.expect(:id))
+    end
   end
 end
