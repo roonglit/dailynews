@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :customers, only: %i[index show edit update]
     resource :subscription, only: %i[show]
     resource :overview, only: %i[show]
+    resources :first_users
     resources :products
     resources :members, only: [ :index, :edit, :update ]
     resources :newspapers
