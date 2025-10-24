@@ -12,7 +12,7 @@
               th Email
               th Status
               th Next Payment
-              th Details
+              th Actions
           tbody 
             - @members.each do |member|
               tr.hover:bg-base-200/40 class='*:text-nowrap'
@@ -20,10 +20,11 @@
                 td = member.email
                 - if member.memberships.last&.active?
                     td.align-middle
-                        span.badge.badge-success Active
+                        span.badge.badge-outline.badge-primary Active
                 - else
                     td.align-middle
-                        span.badge.badge-warning Inactive
+                        span.badge.badge-outline.badge-secondary Inactive
                 td = member.memberships.last&.end_date || "-"
                 td
-                  = link_to "See Details", edit_admin_member_path(member), class: "btn btn-ghost btn-sm"
+                  = link_to admin_customer_path(member.id), class: "w-full m-0 p-0 cursor-pointer" do
+                    label.iconify.lucide--circle-user-round.size-5.cursor-pointer
