@@ -1,2 +1,29 @@
-h1 Admin::Subscriptions#show
-p Find me in app/views/admin/subscriptions/show.html.slim
+.flex.items-center.justify-between
+  h3.text-lg.font-medium Members
+
+.mt-6 
+  .bg-base-100.card.shadow 
+    .card-body.p-0 
+      .mt-4.overflow-auto 
+        table.table 
+          thead
+            tr
+              th ID
+              th Email
+              th Status
+              th Next Payment
+              th Details
+          tbody 
+            - @members.each do |member|
+              tr.hover:bg-base-200/40 class='*:text-nowrap'
+                td = member.id
+                td = member.email
+                - if member.memberships.last&.active?
+                    td.align-middle
+                        span.badge.badge-success Active
+                - else
+                    td.align-middle
+                        span.badge.badge-warning Inactive
+                td = member.memberships.last&.end_date || "-"
+                td
+                  = link_to "See Details", edit_admin_member_path(member), class: "btn btn-ghost btn-sm"
