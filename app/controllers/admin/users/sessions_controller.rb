@@ -3,6 +3,7 @@
 module Admin
   module Users
     class SessionsController < Devise::SessionsController
+      before_action :admin_signup_required
       # before_action :configure_sign_in_params, only: [:create]
 
       # GET /resource/sign_in
@@ -20,7 +21,11 @@ module Admin
       #   super
       # end
 
-      # protected
+      protected
+
+      def admin_signup_required
+        redirect_to new_admin_first_user_path unless Admin::User.exists?
+      end
 
       # If you have extra params to permit, append them to the sanitizer.
       # def configure_sign_in_params

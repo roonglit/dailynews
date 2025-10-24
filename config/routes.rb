@@ -7,7 +7,6 @@ Rails.application.routes.draw do
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :first_admins, only: %i[new create]
   resources :subscriptions, only: %i[index update]
   resource :library, only: %i[show]
   resources :cart_items, only: %i[create update]
@@ -20,9 +19,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    devise_for :users, skip: [ :registrations ], controllers: {
+    devise_for :users, class_name: "Admin::User", skip: [ :registrations ], controllers: {
       sessions: "admin/users/sessions",
-      passwords: "admin/users/passwords",
+      passwords: "admin/users/passwords"
     }
 
     resources :customers, only: %i[index show edit update]

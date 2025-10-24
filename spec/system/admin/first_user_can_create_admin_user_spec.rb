@@ -1,0 +1,33 @@
+require 'rails_helper'
+
+describe "Create Admin user" do
+  it "user can create admin user account" do
+    visit admin_root_path
+
+    expect(page).to have_content("Admin Sign Up")
+
+    fill_in 'email', with: "register1@gmail.com"
+    fill_in 'password', with: 'password123'
+    fill_in 'confirm_password', with: 'password123'
+    click_link_or_button 'SIGN UP'
+
+    expect(page).to have_content("You need to sign in or sign up before continuing.")
+  end
+
+  context "admin user exists" do
+    before { @admin_user = create(:admin_user) }
+
+    it "allows a admin user to login" do
+      visit admin_root_path
+
+      expect(page).to have_content("Admin Sign In")
+      expect(page).to have_content("You need to sign in or sign up before continuing.")
+
+      fill_in 'email', with: @admin_user.email
+      fill_in 'password', with: 'password123'
+      click_link_or_button 'SIGN IN'
+
+      expect(page).to have_content("Sign Out")
+    end
+  end
+end

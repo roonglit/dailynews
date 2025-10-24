@@ -79,7 +79,13 @@ class TurboFailureApp < Devise::FailureApp
 
   def build_resource_from_params(scope_name)
     # Get the model class (e.g., User)
-    resource_class = scope_name.to_s.classify.constantize
+    if scope_name == Admin::User
+      scope_name = Admin::User
+    else
+      scope_name = scope_name.to_s.classify.constantize
+    end
+
+    resource_class = scope_name
 
     # Build a new resource with the submitted params (email, etc.)
     # This preserves the form data so the user doesn't have to re-type

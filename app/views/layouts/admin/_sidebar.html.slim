@@ -25,9 +25,9 @@ input#layout-sidebar-toggle-trigger.hidden type='checkbox' aria-label="Toggle la
             = link_to "Newspaper", admin_newspapers_path
   .mb-2 
     hr.border-base-300
-    ul.menu.w-full 
-      li 
-        = button_to destroy_admin_user_session_path, method: :delete, class: 'flex items-center gap-2 cursor-pointer'
+    ul.menu.w-full
+      li
+        = button_to destroy_admin_user_session_path, method: :delete, class: 'flex w-55 items-center gap-2 cursor-pointer'
           span.iconify.lucide--log-out.size-4
           | Sign Out
 
