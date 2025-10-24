@@ -5,7 +5,14 @@ input#layout-sidebar-toggle-trigger.hidden type='checkbox' aria-label="Toggle la
     = image_tag "auth/dailynews.logo.png", alt: "Dailynews", class: "mx-auto w-40"
   .relative.min-h-0.grow 
     .size-full[data-simplebar]
-      #sidebar-menu
+      #sidebar-menu.mt-4
+        .card.bg-accent.drop-shadow-lg class="hover:bg-base-300"
+          = link_to "Overview", admin_overview_path, class:"text-md text-secondary px-4 py-2"
+        .card.bg-accent.drop-shadow-lg class="hover:bg-base-300"
+          .text-md.text-secondary.px-4.py-2 Subscriptions
+        .card.bg-accent.drop-shadow-lg class="hover:bg-base-300"
+          .text-md.text-secondary.px-4.py-2 Users
+
         .group.collapse
           input.peer type='checkbox' aria-label='Sidemenu item trigger' name='sidebar-menu-parent-item'
           .collapse-title 
