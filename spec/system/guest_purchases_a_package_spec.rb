@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe "Guest purchases a package" do
   context "a monthly subscription product exists" do
-    before { create(:product, sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION") }
+    before { create(:monthly_subscription_product) }
+
     it "can pay with credit card successfully" do
       # visit home page
       visit root_path
