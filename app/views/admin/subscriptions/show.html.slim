@@ -27,4 +27,4 @@
                 td = member.memberships.last&.end_date || "-"
                 td
                   = link_to admin_customer_path(member.id), class: "w-full m-0 p-0 cursor-pointer" do
-                    label.iconify.lucide--circle-user-round.size-5.cursor-pointer
+                    label.iconify.lucide--circle-user-round.size-5.cursor-pointer class="hover:bg-gray-500"
