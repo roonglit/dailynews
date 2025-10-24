@@ -6,12 +6,12 @@ input#layout-sidebar-toggle-trigger.hidden type='checkbox' aria-label="Toggle la
   .relative.min-h-0.grow 
     .size-full[data-simplebar]
       #sidebar-menu.mt-4
-        .card class="hover:bg-base-300"
-          = link_to "Overview", admin_overview_path, class:"text-md text-secondary px-4 py-2"
-        .card class="hover:bg-base-300"
-          = link_to "Subscriptions", admin_subscription_path, class:"text-md text-secondary px-4 py-2"
-        .card class="hover:bg-base-300"
-          = link_to "Customers", admin_customers_path, class:"text-md text-secondary px-4 py-2"
+        .card class="hover:bg-base-300 hover:rounded-sm"
+          = link_to "Overview", admin_overview_path, class:"text-md text-secondary px-4 py-2 #{current_page?(admin_overview_path) ? "rounded-sm bg-gray-200" : '' }"
+        .card class="hover:bg-base-300 hover:rounded-sm"
+          = link_to "Subscriptions", admin_subscription_path, class:"text-md text-secondary px-4 py-2 #{current_page?(admin_subscription_path) ? "rounded-sm bg-gray-200" : '' }"
+        .card class="hover:bg-base-300 hover:rounded-sm"
+          = link_to "Customers", admin_customers_path, class:"text-md text-secondary px-4 py-2 #{current_page?(admin_customers_path) ? "rounded-sm bg-gray-200" : '' }"
 
         .group.collapse.mt-8
           input.peer type='checkbox' aria-label='Sidemenu item trigger' name='sidebar-menu-parent-item'
