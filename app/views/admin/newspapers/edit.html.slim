@@ -1,13 +1,13 @@
 - content_for :title, "New newspaper"
 
 .flex.items-center.justify-between
-  h3.text-lg.font-medium New Newspaper 
+  h3.text-lg.font-medium Edit Newspaper 
   .breadcrumbs.hidden.p-0.text-sm.sm:inline
     ul
       li Newspaper
       li
         = link_to "Newspapers", admin_newspaper_path
-      li.opacity-80 New
+      li.opacity-80 Edit
 
 
 = render "form", newspaper: @newspaper do |form|

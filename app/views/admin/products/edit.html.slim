@@ -1,13 +1,13 @@
 - content_for :title, "New product"
 
 .flex.items-center.justify-between
-  h3.text-lg.font-medium New Product 
+  h3.text-lg.font-medium Edit Product 
   .breadcrumbs.hidden.p-0.text-sm.sm:inline
     ul
       li Product
       li
         = link_to "Products", admin_products_path
-      li.opacity-80 New
+      li.opacity-80 Edit
 
 
 = render "form", product: @product do |form|

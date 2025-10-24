@@ -1,8 +1,11 @@
-h1 Editing member
+.flex.items-center.justify-between
+  h3.text-lg.font-medium Edit member
+  .breadcrumbs.hidden.p-0.text-sm.sm:inline
+      ul
+        li Member
+        li
+          = link_to "Members", admin_members_path
+        li.opacity-80 Edit
 
 == render "form", member: @member
 
-br
-
-div
-  =< link_to "Back to members", admin_members_path

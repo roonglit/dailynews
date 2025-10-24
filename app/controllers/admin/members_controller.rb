@@ -1,6 +1,6 @@
 module Admin
   class MembersController < BaseController
-    before_action :set_member, only: %i[ edit update ]
+    before_action :set_user, only: %i[ edit update ]
 
     # GET /admin/members or /admin/members.json
     def index
