@@ -9,7 +9,7 @@ class MembershipCreator
     return false unless order.product
 
     @membership = order.build_membership(
-      user: order.user,
+      user: order.member,
       start_date: Date.current,
       end_date: calculate_end_date
     )

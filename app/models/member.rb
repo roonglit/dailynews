@@ -1,5 +1,5 @@
 class Member < User
-  has_many :orders
+  has_many :orders, foreign_key: :user_id
   # Members have full authentication and can purchase memberships
 
   def guest?

@@ -1,39 +1,70 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_member!, only: %i[ complete ]
-  before_action :required_order, only: %i[ complete ]
-
-  def complete
-    @order = Order.find(params[:id])
-  end
+  before_action :set_order, only: %i[ verify complete ]
 
   # POST /orders or /orders.json
   def create
-    @cart = current_user.cart
-    @product = @cart&.product
+    @order = current_user.orders.create(order_params)
 
-    unless @product
-      redirect_to root_path, alert: "No product in cart" and return
+    if @order.valid?
+      # first step, we will be using omise token for creating a charge
+      charge = Omise::Charge.create({
+        amount: (order_params[:total_cents].to_i),
+        currency: "thb",
+        return_uri: verify_order_url(@order),
+        card: order_params[:token]
+      })
+
+      @order.update charge_id: charge.id
+      redirect_to charge.authorize_uri, allow_other_host: true
+    else
+      p @order.errors.full_messages
     end
 
-    @order = current_user.orders.build(order_params)
-    @order.sub_total = Money.new(@product.amount * 100, "THB")
-    @order.total = @order.sub_total
+    # @cart = current_user.cart
+    # @product = @cart&.product
 
-    respond_to do |format|
-      if process_order
-        format.html { redirect_to complete_order_path(@order), notice: "Order was successfully created." }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { redirect_to checkout_path, alert: @order.errors.full_messages.join(", "), status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
+    # unless @product
+    #   redirect_to root_path, alert: "No product in cart" and return
+    # end
+
+    # @order = current_user.orders.build(order_params)
+    # @order.sub_total = Money.new(@product.amount * 100, "THB")
+    # @order.total = @order.sub_total
+
+    # respond_to do |format|
+    #   if process_order
+    #     format.html { redirect_to complete_order_path(@order), notice: "Order was successfully created." }
+    #     format.json { render :show, status: :created, location: @order }
+    #   elseb
+    #     format.html { redirect_to checkout_path, alert: @order.errors.full_messages.join(", "), status: :unprocessable_entity }
+    #     format.json { render json: @order.errors, status: :unprocessable_entity }
+    #   end
+    # end
+  end
+
+  def verify
+    charge = Omise::Charge.retrieve(@order.charge_id)
+
+    if charge.paid
+      @order.paid!
+      redirect_to complete_order_path(@order)
+    else
+      p "order not paid!"
+      # redirect to order page
     end
   end
 
+  def complete
+  end
+
   private
+    def set_order
+      @order = Order.find(params[:id])
+    end
+
     # Only allow a list of trusted parameters through.
     def order_params
-      params.expect(order: [ :token ])
+      params.expect(order: [ :token, :total_cents ])
     end
 
     def process_order

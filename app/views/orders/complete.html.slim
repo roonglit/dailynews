@@ -1,9 +1,52 @@
+.min-h-screen.bg-gradient-to-br.from-base-100.to-base-200.flex.items-center.justify-center.py-12.px-4
+  .container.max-w-3xl
+    .text-center.mb-8
+      / Success Icon
+      .inline-flex.items-center.justify-center.w-24.h-24.rounded-full.bg-success.bg-opacity-10.mb-6
+        span.iconify.lucide--check-circle.text-success style="font-size: 3rem;"
 
+      / Heading
+      h1.text-4xl.md:text-5xl.font-bold.text-primary.mb-4 Thank You for Your Purchase!
+      p.text-xl.text-base-content.opacity-70 Your membership is now active
 
-.container.flex.flex-col.items-center
-    div
-        = image_tag "auth/dailynews.logo.png", alt: "Icon", class: "py-6 px-20"
-    .mt-20.text-3xl.font-bold.text-secondary Transaction Completed
-    .text-md.text-secondary.mt-8 Your order has been successfully processed and is now available in your library. You may now proceed to begin reading. If you need help, please contact support.
+    / Order Summary Card
+    .card.bg-base-100.shadow-xl.mb-8
+      .card-body
+        h2.card-title.text-2xl.mb-6.justify-center Transaction Completed
 
-    = link_to "Go to my library", library_path, class: "btn btn-primary text-base-100 mt-8 rounded px-16"
+        .divider.my-2
+
+        / Order Details
+        .space-y-4.mb-6
+          .flex.justify-between.items-center
+            span.text-base-content.opacity-70 Order Number
+            span.font-semibold.text-primary = "##{@order.id}"
+
+          .flex.justify-between.items-center
+            span.text-base-content.opacity-70 Total Amount
+            span.font-bold.text-2xl.text-success = number_to_currency(@order.total, unit: "฿", precision: 0)
+
+          .flex.justify-between.items-center
+            span.text-base-content.opacity-70 Status
+            .badge.badge-success.badge-lg.gap-2
+              span.iconify.lucide--check
+              span Paid
+
+        .divider.my-2
+
+        / Membership Info
+        .bg-success.bg-opacity-10.border.border-success.border-opacity-20.rounded-lg.p-6.text-center
+          span.iconify.lucide--sparkles.mb-2 style="font-size: 2rem;"
+          h3.text-lg.font-bold.mb-2 Membership Activated
+          p.text-base-content.text-sm Your subscription is now active and ready to use. Start exploring our collection of newspapers today!
+
+    / Actions
+    .text-center.space-y-4
+      = link_to library_path, class: "btn btn-primary btn-lg gap-2 w-full sm:w-auto min-w-64" do
+        span.iconify.lucide--book-open
+        span Go to My Library
+
+      .flex.flex-col.sm:flex-row.gap-4.justify-center.mt-4
+        = link_to "#", class: "btn btn-ghost btn-sm gap-2" do
+          span.iconify.lucide--help-circle
+          span Need Help?

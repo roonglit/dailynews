@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :memberships, dependent: :destroy
   has_one :cart, dependent: :destroy
-  has_many :orders
+  has_many :orders, foreign_key: :member_id
   # after_create :create_cart
 
   # STI: Guest and Member subclasses will override these

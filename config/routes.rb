@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :newspapers, only: %i[show]
   resources :orders, only: %i[create] do
     member do
+      get "verify"
       get "complete"
     end
   end

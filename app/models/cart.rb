@@ -4,7 +4,7 @@ class Cart < ApplicationRecord
   has_one :cart_item, dependent: :destroy
   has_one :product, through: :cart_item
 
-  def total
+  def total_cents
     amount = product&.amount || Money.new(0, "THB")
     amount.cents
   end

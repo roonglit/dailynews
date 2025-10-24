@@ -1,7 +1,7 @@
 class CheckoutsController < ApplicationController
   def show
     if member_signed_in?
-      @order = Order.new(user: current_user)
+      @order = Order.new(member: current_user)
     else
       session[:member_return_to] = request.fullpath
     end
