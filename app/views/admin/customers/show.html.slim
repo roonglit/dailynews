@@ -1,1 +1,47 @@
-= @member.email
+.div class="card bg-base-100 shadow-xl border border-base-300 mt-8"
+    .div class="card-body"
+        h2 class="card-title" Customer Details
+        .flex.flex-col
+            .flex.mt-2
+                .text-md.font-bold.mr-2 ID:
+                = @member.id
+            .flex.mt-2
+                .text-md.font-bold.mr-2 Email:
+                = @member.email
+            .flex.mt-2
+                .text-md.font-bold.mr-2 Full Name:
+                = full_name(@member.first_name, @member.last_name)
+            .flex.mt-2
+                .text-md.font-bold.mr-2 Status:
+                - if @member.memberships.last&.active?
+                    .align-middle
+                        span.badge.badge-outline.badge-primary Active
+                - else
+                    .align-middle
+                        span.badge.badge-outline.badge-secondary Inactive
+            .flex.mt-2
+                .text-md.font-bold.mr-2 Auto Renew:
+                - if @member.memberships.last&.auto_renew?
+                    .align-middle
+                        .text-primary.font-bold Enable
+                - else
+                    .align-middle
+                        .text-secondary.font-bold Disable
+
+.mt-6 
+  .bg-base-100.card.shadow 
+    .card-body.p-0 
+      .mt-4.overflow-auto 
+        table.table 
+          thead
+            tr
+              th ID
+              th Start Date
+              th End Date
+          tbody 
+            - @memberships.each do |membership|
+              tr.hover:bg-base-200/40 class='*:text-nowrap'
+                td = membership.id
+                td = membership.start_date
+                td = membership.end_date
+                
