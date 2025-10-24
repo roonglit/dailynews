@@ -7,10 +7,14 @@ module OmiseHelpers
       window.OmiseCard = {
         configure: function() {},
         open: function(config) {
+          console.log('✓ OmiseCard.open called with token: #{token}');
           // Simulate immediate success with a fake token
-          config.onCreateTokenSuccess(token);
+          config.onCreateTokenSuccess('#{token}');
         }
       };
     JS
+
+    # Click the payment button to trigger the mocked Omise flow
+    click_button "Continue to Payment"
   end
 end

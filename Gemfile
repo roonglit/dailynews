@@ -66,6 +66,8 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "launchy"
+  gem "rack-mini-profiler", require: false
+  gem "sinatra", require: false
 end
 
 group :development do
@@ -80,6 +82,7 @@ group :test do
   gem "database_cleaner-active_record"
   gem "cuprite"
   gem "simplecov", require: false
+  gem "webmock"
 end
 
 gem "pundit", "~> 2.5"
