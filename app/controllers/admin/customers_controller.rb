@@ -7,7 +7,7 @@ module Admin
     end
 
     def show
-      @memberhips = current_user&.memberships&.order_by_created_at
+      @memberhips = @member&.memberships&.order_by_created_at
     end
 
     def edit
