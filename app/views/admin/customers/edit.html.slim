@@ -1,2 +1,11 @@
-h1 Admin::Customers#edit
-p Find me in app/views/admin/customers/edit.html.slim
+.flex.items-center.justify-between
+  h3.text-lg.font-medium Edit member
+  .breadcrumbs.hidden.p-0.text-sm.sm:inline
+      ul
+        li Member
+        li
+          = link_to "Members", admin_members_path
+        li.opacity-80 Edit
+
+== render "form", member: @member
+
