@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resource :library, only: %i[show]
   resources :cart_items, only: %i[create update]
   resource :checkout, only: %i[show create]
-  resources :newspapers
+  resources :newspapers, only: %i[show]
   resources :orders, only: %i[create] do
     member do
       get "complete"
