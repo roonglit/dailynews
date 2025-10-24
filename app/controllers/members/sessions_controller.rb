@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class Members::SessionsController < Devise::SessionsController
-  # Use default Devise authentication - it will work with STI if configured properly
-  # The key is that the route uses devise_for :members with class_name: "Member"
+  include TransfersGuestCart
+
+  # POST /members/sign_in
+  def create
+    super do |member|
+      # Transfer guest cart to member after successful sign-in
+      transfer_guest_cart_to_member(member) if member.persisted?
+    end
+  end
 end

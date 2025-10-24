@@ -20,6 +20,7 @@ class Member < User
     member_cart = Cart.find_or_create_by(user_id: id)
     member_cart.cart_item&.destroy
 
-    member_cart.create_cart_item!(product_id: guest_cart.cart_item.product_id)
+    # Transfer guest's cart_item to member's cart
+    guest_cart.cart_item.update!(cart: member_cart)
   end
 end
