@@ -1,4 +1,5 @@
 class Member < User
+  has_many :orders
   # Members have full authentication and can purchase memberships
 
   def guest?

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-describe "Guest purchases a package", js: true do
+describe "guest purchases a package", js: true do
+  include OmiseHelpers 
+
   context "a monthly subscription product exists" do
     before { create(:monthly_subscription_product) }
 
@@ -21,8 +23,12 @@ describe "Guest purchases a package", js: true do
 
       # continue for a payment
       click_link_or_button "Continue to Payment"
+
       # fill in credit card info
+      user_pays_with_omise(token: 'test_token')
+      
       # see the complete page
+      expect(page).to have_content "Thank you for your purchase"
       # visit library and see the content
     end
   end

@@ -1,9 +1,8 @@
 class CheckoutsController < ApplicationController
   def show
     if member_signed_in?
-      p "<<<< Member Signed In >>>>"
+      @order = Order.new(user: current_user)
     else
-      p "<<<< Member Not Signed In >>>>"
       session[:member_return_to] = request.fullpath
     end
 
@@ -11,7 +10,4 @@ class CheckoutsController < ApplicationController
     @cart_item = @cart&.cart_item
     @product = @cart_item&.product
   end
-
-  # def create
-  # end
 end

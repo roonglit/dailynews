@@ -2,7 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = {
-    omiseKey: String
+    omiseKey: String,
+    amount: Number
   }
 
   static targets = ["form", "token"]
@@ -22,7 +23,7 @@ export default class extends Controller {
     console.log("Checkout clicked")
 
     OmiseCard.open({
-      amount: 12345,
+      amount: this.amountValue,
       currency: "THB",
       defaultPaymentMethod: "credit_card",
       onCreateTokenSuccess: (nonce) => {

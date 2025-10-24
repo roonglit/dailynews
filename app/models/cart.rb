@@ -5,6 +5,7 @@ class Cart < ApplicationRecord
   has_one :product, through: :cart_item
 
   def total
-    product&.amount || Money.new(0, "THB")
+    amount = product&.amount || Money.new(0, "THB")
+    amount.cents
   end
 end
