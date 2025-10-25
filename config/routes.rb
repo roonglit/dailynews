@@ -62,6 +62,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "home#index"
-
-  match "*path", to: redirect("/"), via: :all
 end
