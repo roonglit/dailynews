@@ -29,9 +29,9 @@
         <%= render "layouts/admin/sidebar" %>
 
         <div class="flex h-screen min-w-0 grow flex-col overflow-auto">
+          <%= render "layouts/admin/topbar" %>
           <div id="layout-content">
-            <%= render "layouts/admin/topbar" %>
-            <%= yield %>    
+            <%= yield %>
           </div>
         </div>
       </div>
