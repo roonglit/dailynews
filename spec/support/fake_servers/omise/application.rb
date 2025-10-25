@@ -1,5 +1,7 @@
 require "sinatra/base"
 require "json"
+require "cgi"
+require "uri"
 
 module FakeServers
   module Omise
@@ -11,10 +13,16 @@ module FakeServers
 
       # Store charges in memory for retrieval (class variable for persistence)
       @@charges = {}
+      @@failed_charge_ids = []
 
       class << self
         def reset_charges!
           @@charges = {}
+          @@failed_charge_ids = []
+        end
+
+        def mark_charge_as_failed!(charge_id)
+          @@failed_charge_ids << charge_id
         end
 
         # Load charge template from JSON file
@@ -27,6 +35,14 @@ module FakeServers
           charge_id = "chrg_test_#{SecureRandom.hex(8)}"
           return_uri = params["return_uri"]
           amount = params["amount"].to_i
+          card_token = params["card"]
+
+          # Check if this is a failure token
+          is_failure_token = card_token&.include?("failure")
+
+          # Extract host from return_uri to use same host for authorize_uri
+          uri = URI.parse(return_uri)
+          base_url = "#{uri.scheme}://#{uri.host}:#{uri.port}"
 
           # Load template and merge with request params
           charge = load_charge_template(template)
@@ -34,9 +50,16 @@ module FakeServers
           charge["location"] = "/charges/#{charge_id}"
           charge["amount"] = amount
           charge["currency"] = params["currency"] || charge["currency"] || "thb"
-          charge["authorize_uri"] = return_uri
           charge["return_uri"] = return_uri
           charge["created"] = Time.now.utc.iso8601
+
+          # Set authorize_uri to go directly to verify (skip 3DS for faster tests)
+          charge["authorize_uri"] = return_uri
+
+          # Track failure tokens so retrieve_charge returns failed status
+          if is_failure_token
+            @@failed_charge_ids << charge_id
+          end
 
           # Update nested card if present
           if charge["card"]
@@ -47,17 +70,20 @@ module FakeServers
           charge
         end
 
-        def retrieve_charge(charge_id, template: "charge_paid.json")
+        def retrieve_charge(charge_id, template: nil)
           charge = @@charges[charge_id]
 
           if charge
-            # Merge with paid template to get complete paid charge response
-            paid_template = load_charge_template(template)
+            # Determine which template to use based on whether charge is marked as failed
+            template ||= @@failed_charge_ids.include?(charge_id) ? "charge_failed.json" : "charge_paid.json"
+
+            # Merge with appropriate template to get complete charge response
+            charge_template = load_charge_template(template)
             charge.merge!(
-              "authorized" => paid_template["authorized"],
-              "paid" => paid_template["paid"],
-              "status" => paid_template["status"],
-              "transaction" => "trxn_test_#{SecureRandom.hex(8)}"
+              "authorized" => charge_template["authorized"],
+              "paid" => charge_template["paid"],
+              "status" => charge_template["status"],
+              "transaction" => charge_template["paid"] ? "trxn_test_#{SecureRandom.hex(8)}" : nil
             )
             charge
           else
@@ -106,6 +132,27 @@ module FakeServers
           charge["paid"] = true
           charge["status"] = "successful"
           charge["transaction"] = "trxn_test_#{SecureRandom.hex(8)}"
+
+          redirect return_uri
+        else
+          status 404
+          "Charge not found"
+        end
+      end
+
+      # GET /fake-3ds/authorize-failed/:charge_id - Simulate failed 3DS authorization
+      get "/fake-3ds/authorize-failed/:charge_id" do
+        charge_id = params[:charge_id]
+        return_uri = CGI.unescape(params[:return_uri] || "")
+        charge = @@charges[charge_id]
+
+        if charge
+          # Mark charge as failed
+          charge["authorized"] = false
+          charge["paid"] = false
+          charge["status"] = "failed"
+          charge["failure_code"] = "insufficient_fund"
+          charge["failure_message"] = "Insufficient funds in the account"
 
           redirect return_uri
         else

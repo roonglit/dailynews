@@ -83,6 +83,50 @@ describe "guest purchases a package", js: true do
           expect(page).to have_content("Renews on")
         end
       end
+
+      it "shows error and redirects to checkout when payment fails" do
+        # visit home page as guest
+        visit root_path
+
+        # clicks for subscription
+        click_button "subscribe"
+        expect(page).to have_content("Product added to cart")
+        product = Product.last
+
+        # continue for payment, should show sign up dialog
+        click_link_or_button "Continue to Payment"
+        expect(page).to have_content("Sign Up")
+
+        # choose to login instead of signing up
+        click_link "Sign in here"
+        expect(page).to have_content("Sign In")
+
+        # fill in existing member credentials
+        fill_in 'email', with: existing_member.email
+        fill_in 'password', with: 'password123'
+        click_link_or_button 'SIGN IN'
+
+        # should be logged in successfully
+        expect(page).to have_content('Signed in successfully.')
+
+        # attempt payment but it fails
+        user_pays_with_omise_but_fails
+
+        # should be redirected to checkout page with error
+        expect(page).to have_current_path(checkout_path)
+        expect(page).to have_content("Payment failed. Please try again.")
+
+        # verify order was marked as cancelled
+        order = Order.last
+        expect(order.state).to eq("cancelled")
+
+        # verify cart was recreated with the product
+        cart = existing_member.reload.cart
+        expect(cart.product).to eq(product)
+
+        # verify user can see the product in cart to retry
+        expect(page).to have_content(product.title)
+      end
     end
   end
 end

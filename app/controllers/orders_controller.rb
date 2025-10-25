@@ -46,8 +46,16 @@ class OrdersController < ApplicationController
         redirect_to root_path, alert: "Payment successful but failed to create membership. Please contact support."
       end
     else
-      p "order not paid!"
-      # redirect to order page
+      # Mark order as cancelled when payment fails
+      @order.cancelled!
+
+      # Recreate cart with the product from failed order so user can retry
+      cart = Cart.find_or_create_by(user_id: @order.member.id)
+      cart_item = cart.cart_item || cart.build_cart_item
+      cart_item.product = @order.product
+      cart_item.save
+
+      redirect_to checkout_path, alert: "Payment failed. Please try again."
     end
   end
 
