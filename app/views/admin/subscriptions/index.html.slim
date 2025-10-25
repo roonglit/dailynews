@@ -1,30 +1,54 @@
 .flex.items-center.justify-between
-  h3.text-lg.font-medium Customers Subscriptions
+  h3.text-lg.font-medium Subscriptions
 
-.mt-6 
-  .bg-base-100.card.shadow 
-    .card-body.p-0 
-      .mt-4.overflow-auto 
-        table.table 
+.mt-6
+  .bg-base-100.card.shadow
+    .card-body.p-0
+      .flex.items-center.justify-between.px-5.pt-5
+        .inline-flex.items-center.gap-3
+          = form_with url: admin_subscriptions_path, method: :get, local: true, id: 'search-form', data: { turbo_frame: '_top' } do |form|
+            = form.hidden_field :per_page, value: params[:per_page]
+            label.input.input-sm
+              span.iconify.lucide--search.size-3.5.text-base-content/80
+              = form.text_field :q, value: params[:q], placeholder: 'Search by customer...', aria_label: 'Search subscriptions', class: 'w-24 sm:w-36'
+      .mt-4.overflow-auto
+        table.table
           thead
             tr
               th ID
-              th Email
+              th Customer
+              th Start Date
+              th End Date
+              th Auto Renew
               th Status
-              th Next Payment
               th Actions
           tbody
-            - @members.each do |member|
-              tr.hover:bg-base-200/40 class='*:text-nowrap'
-                td = member.id
-                td = member.email
-                - if member.subscriptions.last&.active?
-                    td.align-middle
-                        span.badge.badge-outline.badge-primary Active
-                - else
-                    td.align-middle
-                        span.badge.badge-outline.badge-secondary Inactive
-                td = member.subscriptions.last&.end_date || "-"
+            - @subscriptions.each do |subscription|
+              tr.hover:bg-base-200/40
+                td.font-medium= subscription.id
+                td= subscription.user.email
+                td= subscription.start_date.strftime("%b %d, %Y")
+                td= subscription.end_date.strftime("%b %d, %Y")
                 td
-                  = link_to admin_customer_path(member.id), class: "w-full m-0 p-0 cursor-pointer" do
-                    label.iconify.lucide--circle-user-round.size-5.cursor-pointer class="hover:bg-gray-500"
+                  - if subscription.auto_renew?
+                    span.badge.badge-success.badge-sm Enabled
+                  - else
+                    span.badge.badge-ghost.badge-sm Disabled
+                td
+                  - if subscription.active?
+                    span.badge.badge-primary.badge-sm Active
+                  - else
+                    span.badge.badge-ghost.badge-sm Expired
+                td
+                  = link_to admin_customer_path(subscription.user), class: 'btn btn-ghost btn-xs' do
+                    span.iconify.lucide--eye.size-4
+                    span View Customer
+      .flex.items-center.justify-between.p-6
+        .text-base-content/80.hover:text-base-content.flex.gap-2.text-sm
+          span.hidden.sm:inline Per page
+          = form_with url: admin_subscriptions_path, method: :get, local: true, class: 'inline' do |form|
+            = form.hidden_field :page, value: params[:page] || 1
+            = form.hidden_field :q, value: params[:q]
+            = form.select :per_page, options_for_select([[10, 10], [20, 20], [50, 50], [100, 100]], params[:per_page] || @pagy.limit), {}, { class: 'select select-xs w-18', aria_label: 'Per page', onchange: 'this.form.submit();' }
+        .inline-flex.items-center.gap-1
+          = render 'admin/newspapers/pagy_nav', pagy: @pagy

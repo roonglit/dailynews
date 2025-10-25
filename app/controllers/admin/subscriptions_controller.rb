@@ -1,11 +1,18 @@
 module Admin
   class SubscriptionsController < BaseController
+    include Pagy::Backend
+
     before_action :set_customer, only: %i[new create]
     before_action :set_subscription, only: %i[edit update]
     before_action :check_editable, only: %i[edit update]
 
     def index
-      @members = Member.all.order(:id)
+      items_per_page = params[:per_page].to_i
+      items_per_page = 10 unless items_per_page.positive?
+      page = params[:page].present? && params[:page].to_i > 0 ? params[:page].to_i : 1
+
+      subscriptions = Subscription.includes(:user).search(params[:q]).order(created_at: :desc)
+      @pagy, @subscriptions = pagy(subscriptions, limit: items_per_page, page: page, params: { q: params[:q], per_page: params[:per_page] }.compact)
     end
 
     def new

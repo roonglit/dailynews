@@ -5,6 +5,18 @@ class Subscription < ApplicationRecord
   validates :start_date, presence: true
   validates :end_date, presence: true
 
+  scope :search, ->(query) {
+    if query.present?
+      term = "%#{query}%"
+      joins(:user).where(
+        "users.email ILIKE :term OR users.first_name ILIKE :term OR users.last_name ILIKE :term",
+        term: term
+      )
+    else
+      all
+    end
+  }
+
   def active?
     end_date >= Date.today
   end
