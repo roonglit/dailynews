@@ -39,6 +39,8 @@ Rails.application.routes.draw do
         get :active_subscriptions
         get :customers
         get :new_subscriptions
+        get :revenue_chart
+        get :customers_chart
       end
     end
 

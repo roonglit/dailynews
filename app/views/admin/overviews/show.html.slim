@@ -14,3 +14,9 @@
     = turbo_frame_tag "active_subscriptions_widget", src: active_subscriptions_admin_widgets_path, loading: :lazy
     = turbo_frame_tag "customers_widget", src: customers_admin_widgets_path, loading: :lazy
     = turbo_frame_tag "new_subscriptions_widget", src: new_subscriptions_admin_widgets_path, loading: :lazy
+
+  .mt-6.grid.grid-cols-1.gap-6.xl:grid-cols-12
+    .xl:col-span-7
+      = turbo_frame_tag "revenue_chart", src: revenue_chart_admin_widgets_path, loading: :lazy
+    .xl:col-span-5
+      = turbo_frame_tag "customers_chart", src: customers_chart_admin_widgets_path, loading: :lazy

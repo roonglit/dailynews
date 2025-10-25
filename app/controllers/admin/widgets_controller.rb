@@ -48,6 +48,22 @@ module Admin
       @format = :number
     end
 
+    def revenue_chart
+      months = (11.downto(0)).map { |i| i.months.ago.beginning_of_month }
+
+      @labels = months.map { |month| month.strftime("%b %Y") }
+      @data = months.map { |month| revenue_for_month(month) }
+      @title = "Revenue Statistics"
+    end
+
+    def customers_chart
+      months = (11.downto(0)).map { |i| i.months.ago.beginning_of_month }
+
+      @labels = months.map { |month| month.strftime("%b %Y") }
+      @data = months.map { |month| User.where("created_at <= ?", month.end_of_month).count }
+      @title = "Total Customers"
+    end
+
     private
 
     def revenue_for_month(month_start)

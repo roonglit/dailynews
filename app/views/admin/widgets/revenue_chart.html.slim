@@ -1,0 +1,14 @@
+= turbo_frame_tag "revenue_chart"
+  .card.bg-base-100.shadow
+    .card-body
+      .flex.items-start.justify-between
+        span.font-medium = @title
+      .mt-3
+        .flex.items-center.gap-3
+          span.text-4xl.font-semibold = "฿#{number_with_delimiter(@data.sum.round(2))}"
+          - growth = @data.first > 0 ? ((@data.last - @data.first) / @data.first * 100).round(1) : 0
+          - if growth != 0
+            span.text-success.font-medium = "+#{growth}%"
+        span.text-base-content/60.text-sm Total revenue in this period
+      .mt-4 style="height: 288px;"
+        canvas data-controller="chart" data-chart-type-value="bar" data-chart-labels-value=@labels.to_json data-chart-data-value=@data.to_json data-chart-label-value="Revenue" data-chart-border-color-value="rgb(99, 102, 241)" data-chart-background-color-value="rgb(99, 102, 241)" data-chart-fill-value="false" data-chart-tension-value="0" style="height: 100%;"
