@@ -1,2 +1,16 @@
 = render "application/alert"
-h3.text-lg.font-medium Overview
+
+.flex.items-center.justify-between
+  h3.text-lg.font-medium Business Overview
+  .breadcrumbs.hidden.p-0.text-sm.sm:inline
+    ul
+      li
+        = link_to "Dailynews", admin_root_path
+      li.opacity-80 Overview
+
+.mt-6
+  .grid.gap-5.lg:grid-cols-2.xl:grid-cols-4
+    = turbo_frame_tag "revenue_widget", src: revenue_admin_widgets_path, loading: :lazy
+    = turbo_frame_tag "active_subscriptions_widget", src: active_subscriptions_admin_widgets_path, loading: :lazy
+    = turbo_frame_tag "customers_widget", src: customers_admin_widgets_path, loading: :lazy
+    = turbo_frame_tag "new_subscriptions_widget", src: new_subscriptions_admin_widgets_path, loading: :lazy

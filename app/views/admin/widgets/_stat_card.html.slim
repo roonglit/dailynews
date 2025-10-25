@@ -1,0 +1,26 @@
+.card.bg-base-100.shadow
+  .card-body.gap-2
+    .flex.items-start.justify-between.gap-2.text-sm
+      div
+        p.text-base-content/80.font-medium = title
+        .mt-3.flex.items-center.gap-2
+          - if format == :money
+            p.inline.text-2xl.font-semibold = current_value
+          - else
+            p.inline.text-2xl.font-semibold = number_with_delimiter(current_value)
+          - if percentage_change != 0
+            - badge_class = percentage_change > 0 ? "badge-success" : "badge-error"
+            - arrow_icon = percentage_change > 0 ? "lucide--arrow-up" : "lucide--arrow-down"
+            div class="badge badge-soft #{badge_class} badge-sm gap-0.5 px-1 font-medium"
+              span class="iconify #{arrow_icon} size-3.5"
+              = "#{percentage_change.abs}%"
+      .bg-base-200.rounded-box.flex.items-center.p-2
+        span class="iconify #{icon} size-5"
+    p.text-base-content/60.text-sm
+      | vs.
+      span.mx-1
+        - if format == :money
+          = previous_value
+        - else
+          = number_with_delimiter(previous_value)
+      |  last month

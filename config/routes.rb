@@ -32,6 +32,16 @@ Rails.application.routes.draw do
     resources :products
     resources :members, only: [ :index, :edit, :update ]
     resources :newspapers
+
+    resources :widgets, only: [] do
+      collection do
+        get :revenue
+        get :active_subscriptions
+        get :customers
+        get :new_subscriptions
+      end
+    end
+
     root "overviews#show"
   end
 
