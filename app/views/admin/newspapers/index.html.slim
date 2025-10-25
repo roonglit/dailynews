@@ -5,10 +5,12 @@
   .bg-base-100.card.shadow 
     .card-body.p-0 
       .flex.items-center.justify-between.px-5.pt-5 
-        .inline-flex.items-center.gap-3 
-          label.input.input-sm
-            span.iconify.lucide--search.size-3.5.text-base-content/80
-            input.w-24 class="sm:w-36" placeholder='Search courses...' aria-label='Search courses' type='search'
+        .inline-flex.items-center.gap-3
+          = form_with url: admin_newspapers_path, method: :get, local: true, id: 'search-form', data: { turbo_frame: '_top' } do |form|
+            = form.hidden_field :per_page, value: params[:per_page]
+            label.input.input-sm
+              span.iconify.lucide--search.size-3.5.text-base-content/80
+              = form.text_field :q, value: params[:q], placeholder: 'Search newspapers...', aria_label: 'Search newspapers', class: 'w-24 sm:w-36'
         .inline-flex.items-center.gap-3
           = link_to new_admin_newspaper_path, class: 'btn btn-primary btn-sm max-sm:btn-square', html: { "aria-label": "Create newspaper link"} do
             span.iconify.lucide--plus.size-4
@@ -50,17 +52,7 @@
           span.hidden.sm:inline Per page
           = form_with url: admin_newspapers_path, method: :get, local: true, class: 'inline' do |form|
             = form.hidden_field :page, value: params[:page] || 1
+            = form.hidden_field :q, value: params[:q]
             = form.select :per_page, options_for_select([[10, 10], [20, 20], [50, 50], [100, 100]], params[:per_page] || @pagy.limit), {}, { class: 'select select-xs w-18', aria_label: 'Per page', onchange: 'this.form.submit();' }
-        span.text-base-content/80.hidden.text-sm.lg:inline
-          | Showing
-          span.text-base-content.font-medium
-            = @pagy.from
-          |  to
-          span.text-base-content.font-medium
-            = @pagy.to
-          |  of
-          span.text-base-content.font-medium
-            = @pagy.count
-          |  items
         .inline-flex.items-center.gap-1
           = render 'pagy_nav', pagy: @pagy

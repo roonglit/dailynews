@@ -13,4 +13,20 @@ class Newspaper < ApplicationRecord
       all
     end
   }
+
+  scope :search, ->(query) {
+    if query.present?
+      term = "%#{query}%"
+      where(
+        "title ILIKE :term OR description ILIKE :term OR " \
+        "to_char(published_at, 'DD Mon') ILIKE :term OR " \
+        "to_char(published_at, 'Mon DD') ILIKE :term OR " \
+        "to_char(published_at, 'DD/MM') ILIKE :term OR " \
+        "to_char(published_at, 'Month DD, YYYY') ILIKE :term",
+        term: term
+      )
+    else
+      all
+    end
+  }
 end

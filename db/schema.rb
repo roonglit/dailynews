@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_24_143248) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_25_133508) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -80,18 +80,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_24_143248) do
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
-  create_table "memberships", force: :cascade do |t|
-    t.boolean "auto_renew", default: true
-    t.datetime "created_at", null: false
-    t.date "end_date", null: false
-    t.bigint "order_id"
-    t.date "start_date", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["order_id"], name: "index_memberships_on_order_id"
-    t.index ["user_id"], name: "index_memberships_on_user_id"
-  end
-
   create_table "newspapers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
@@ -134,6 +122,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_24_143248) do
     t.index ["title"], name: "index_products_on_title", unique: true
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.boolean "auto_renew", default: true
+    t.datetime "created_at", null: false
+    t.date "end_date", null: false
+    t.bigint "order_id"
+    t.date "start_date", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["order_id"], name: "index_subscriptions_on_order_id"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
@@ -155,9 +155,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_24_143248) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
-  add_foreign_key "memberships", "orders"
-  add_foreign_key "memberships", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "subscriptions", "orders"
+  add_foreign_key "subscriptions", "users"
 end

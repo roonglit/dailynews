@@ -1,5 +1,5 @@
-class CreateMembershipForOrder
-  attr_reader :order, :membership
+class CreateSubscriptionForOrder
+  attr_reader :order, :subscription
 
   def initialize(order)
     @order = order
@@ -8,13 +8,13 @@ class CreateMembershipForOrder
   def perform
     return false unless order.product
 
-    @membership = order.build_membership(
+    @subscription = order.build_subscription(
       user: order.member,
       start_date: Date.current,
       end_date: calculate_end_date
     )
 
-    @membership.save
+    @subscription.save
   end
 
   private

@@ -6,7 +6,8 @@
     ul
       li
         = link_to "Customers", admin_customers_path
-      li.opacity-80 Edit
+      li
+        = link_to @member.email, admin_customer_path(@member)
+      li.opacity-80 New Subscription
 
-== render "form", member: @member
-
+== render "form", subscription: @subscription

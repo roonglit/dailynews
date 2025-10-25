@@ -1,47 +1,149 @@
-.div class="card bg-base-100 shadow-xl border border-base-300 mt-8"
-    .div class="card-body"
-        h2 class="card-title" Customer Details
-        .flex.flex-col
-            .flex.mt-2
-                .text-md.font-bold.mr-2 ID:
-                = @member.id
-            .flex.mt-2
-                .text-md.font-bold.mr-2 Email:
-                = @member.email
-            .flex.mt-2
-                .text-md.font-bold.mr-2 Full Name:
-                = full_name(@member.first_name, @member.last_name)
-            .flex.mt-2
-                .text-md.font-bold.mr-2 Status:
-                - if @member.memberships.last&.active?
-                    .align-middle
-                        span.badge.badge-outline.badge-primary Active
-                - else
-                    .align-middle
-                        span.badge.badge-outline.badge-secondary Inactive
-            .flex.mt-2
-                .text-md.font-bold.mr-2 Auto Renew:
-                - if @member.memberships.last&.auto_renew?
-                    .align-middle
-                        .text-primary.font-bold Enable
-                - else
-                    .align-middle
-                        .text-secondary.font-bold Disable
+.flex.items-center.justify-between.mb-6
+  = link_to admin_customers_path, class: 'btn btn-ghost btn-sm' do
+    span.iconify.lucide--arrow-left.size-4
+    span Back to list
 
-.mt-6 
-  .bg-base-100.card.shadow 
-    .card-body.p-0 
-      .mt-4.overflow-auto 
-        table.table 
-          thead
-            tr
-              th ID
-              th Start Date
-              th End Date
-          tbody 
-            - @memberships.each do |membership|
-              tr.hover:bg-base-200/40 class='*:text-nowrap'
-                td = membership.id
-                td = membership.start_date
-                td = membership.end_date
-                
+/ Basic Information Section
+.card.bg-base-100.shadow.mb-6
+  .card-body
+    .flex.items-center.justify-between.mb-4
+      h3.text-lg.font-medium Basic Information
+      = link_to edit_admin_customer_path(@member), class: 'btn btn-primary btn-sm' do
+        span.iconify.lucide--pencil.size-4
+        span Edit
+    .grid.grid-cols-1.gap-4 class='md:grid-cols-2'
+      / ID
+      div
+        .text-sm.text-base-content/60.mb-1 ID
+        span.badge.badge-outline= @member.id
+
+      / Email
+      div
+        .text-sm.text-base-content/60.mb-1 Email
+        .flex.items-center.gap-2
+          span.iconify.lucide--mail.size-4.text-base-content/60
+          = @member.email
+
+      / Full Name
+      div
+        .text-sm.text-base-content/60.mb-1 Full Name
+        .flex.items-center.gap-2
+          span.iconify.lucide--user.size-4.text-base-content/60
+          = full_name(@member.first_name, @member.last_name)
+
+      / Status
+      div
+        .text-sm.text-base-content/60.mb-1 Subscription Status
+        - if @member.subscriptions.last&.active?
+          span.badge.badge-primary Active
+        - else
+          span.badge.badge-ghost Inactive
+
+      / Auto Renew
+      div
+        .text-sm.text-base-content/60.mb-1 Auto Renew
+        - if @member.subscriptions.last&.auto_renew?
+          span.badge.badge-success Enabled
+        - else
+          span.badge.badge-warning Disabled
+
+      / Created At
+      div
+        .text-sm.text-base-content/60.mb-1 Member Since
+        .flex.items-center.gap-2
+          span.iconify.lucide--calendar.size-4.text-base-content/60
+          = @member.created_at.strftime("%B %d, %Y")
+
+/ Purchase History Section
+.card.bg-base-100.shadow
+  .card-body
+    h3.text-lg.font-medium.mb-4 Purchase History
+
+    / Subscriptions Table
+    .mb-6
+      .flex.items-center.justify-between.mb-3
+        h4.text-md.font-medium.flex.items-center.gap-2
+          span.iconify.lucide--credit-card.size-5
+          | Subscriptions
+        = link_to new_admin_customer_subscription_path(@member), class: 'btn btn-primary btn-sm' do
+          span.iconify.lucide--plus.size-4
+          span Create Subscription
+      - if @subscriptions.any?
+        .overflow-auto
+          table.table
+            thead
+              tr
+                th ID
+                th Start Date
+                th End Date
+                th Auto Renew
+                th Status
+                th Actions
+            tbody
+              - @subscriptions.each do |subscription|
+                tr.hover:bg-base-200/40
+                  td.font-medium= subscription.id
+                  td= subscription.start_date.strftime("%B %d, %Y")
+                  td= subscription.end_date.strftime("%B %d, %Y")
+                  td
+                    - if subscription.auto_renew?
+                      span.badge.badge-success.badge-sm Enabled
+                    - else
+                      span.badge.badge-ghost.badge-sm Disabled
+                  td
+                    - if subscription.active?
+                      span.badge.badge-primary.badge-sm Active
+                    - else
+                      span.badge.badge-ghost.badge-sm Expired
+                  td
+                    - if subscription.editable?
+                      = link_to edit_admin_subscription_path(subscription), class: 'btn btn-ghost btn-xs' do
+                        span.iconify.lucide--pencil.size-4
+                    - else
+                      .flex.items-center.gap-2
+                        span.iconify.lucide--lock.size-4.text-base-content/40
+                        span.text-xs.text-base-content/60 From order
+      - else
+        .text-center.py-8.text-base-content/40
+          span.iconify.lucide--credit-card.size-12.mb-2
+          p No subscriptions yet
+
+    .divider
+
+    / Orders Table
+    div
+      h4.text-md.font-medium.mb-3.flex.items-center.gap-2
+        span.iconify.lucide--shopping-cart.size-5
+        | Orders
+      - if @orders.any?
+        .overflow-auto
+          table.table
+            thead
+              tr
+                th ID
+                th Amount
+                th Status
+                th Purchase Date
+            tbody
+              - @orders.each do |order|
+                tr.hover:bg-base-200/40
+                  td.font-medium= order.id
+                  td
+                    .flex.flex-col
+                      span.font-medium= humanized_money_with_symbol(order.total)
+                      span.text-xs.text-base-content/60= "Subtotal: #{humanized_money_with_symbol(order.sub_total)}"
+                  td
+                    - case order.state
+                    - when 'pending'
+                      span.badge.badge-warning.badge-sm Pending
+                    - when 'completed'
+                      span.badge.badge-success.badge-sm Completed
+                    - when 'failed'
+                      span.badge.badge-error.badge-sm Failed
+                    - else
+                      span.badge.badge-ghost.badge-sm= order.state
+                  td= order.created_at.strftime("%B %d, %Y at %I:%M %p")
+      - else
+        .text-center.py-8.text-base-content/40
+          span.iconify.lucide--shopping-cart.size-12.mb-2
+          p No orders yet

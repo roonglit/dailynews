@@ -1,0 +1,27 @@
+- if subscription.errors.any?
+  .alert.alert-error.mb-6
+    span.iconify.lucide--alert-circle.size-5
+    div
+      h3.font-bold= "#{pluralize(subscription.errors.count, "error")} prohibited this subscription from being saved:"
+      ul.list-disc.list-inside.mt-2
+        - subscription.errors.each do |error|
+          li= error.full_message
+
+- url = subscription.persisted? ? admin_subscription_path(subscription) : admin_customer_subscriptions_path(@member)
+= simple_form_for subscription, url: url do |form|
+  .card.bg-base-100.shadow
+    .card-body
+      h3.text-lg.font-medium.mb-6 Subscription Details
+
+      / Start Date
+      = form.input :start_date, as: :string, input_html: { type: 'date', class: "input input-bordered w-full" }, wrapper_html: { class: 'w-full' }
+
+      / End Date
+      = form.input :end_date, as: :string, input_html: { type: 'date', class: "input input-bordered w-full" }, wrapper_html: { class: 'w-full' }
+
+      .divider
+
+      / Action buttons
+      .flex.justify-end.gap-3
+        = link_to "Cancel", admin_customer_path(subscription.user), class: 'btn btn-ghost'
+        = form.submit "Save", class: "btn btn-primary"

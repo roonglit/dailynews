@@ -25,8 +25,10 @@ Rails.application.routes.draw do
       passwords: "admin/users/passwords"
     }
 
-    resources :customers, only: %i[index show edit update]
-    resource :subscription, only: %i[show]
+    resources :customers, only: %i[index show edit update] do
+      resources :subscriptions, only: %i[new create]
+    end
+    resources :subscriptions, only: %i[index show edit update]
     resource :overview, only: %i[show]
     resources :first_users
     resources :products

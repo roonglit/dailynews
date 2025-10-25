@@ -1,4 +1,4 @@
-class Membership < ApplicationRecord
+class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :order, optional: true
 
@@ -7,6 +7,10 @@ class Membership < ApplicationRecord
 
   def active?
     end_date >= Date.today
+  end
+
+  def editable?
+    order.nil?
   end
 
   def cover_image

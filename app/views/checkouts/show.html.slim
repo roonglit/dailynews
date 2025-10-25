@@ -58,7 +58,7 @@
             = button_tag "Continue to Payment", id: "pay-button", class: "w-full btn btn-primary py-3 px-6 rounded-lg transition cursor-pointer", type: "button", data: { "action": "click->payment#payButtonClicked" }
             
             .border-t.border-gray-200.my-4
-            = button_to "Grant Free Membership (Testing)", orders_path, method: :post, params: { order: { token: "testing_only" } }, class: "w-full btn btn-accent py-3 px-6 rounded-lg transition cursor-pointer", data: { turbo_confirm: "Skip payment and grant free membership?" }
+            = button_to "Grant Free Subscription (Testing)", orders_path, method: :post, params: { order: { token: "testing_only" } }, class: "w-full btn btn-accent py-3 px-6 rounded-lg transition cursor-pointer", data: { turbo_confirm: "Skip payment and grant free subscription?" }
           / - else 
             = button_tag "Continue to Payment", id: "pay-button", class: "w-full btn btn-primary py-3 px-6 rounded-lg transition cursor-pointer", type: "button", onclick: "auth_modal.showModal()"
 

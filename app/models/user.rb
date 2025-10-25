@@ -4,10 +4,22 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :memberships, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_one :cart, dependent: :destroy
   has_many :orders, foreign_key: :member_id
   # after_create :create_cart
+
+  scope :search, ->(query) {
+    if query.present?
+      term = "%#{query}%"
+      where(
+        "email ILIKE :term OR first_name ILIKE :term OR last_name ILIKE :term",
+        term: term
+      )
+    else
+      all
+    end
+  }
 
   # STI: Guest and Member subclasses will override these
   def guest?

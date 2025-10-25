@@ -1,13 +1,19 @@
 module Admin
   class CustomersController < BaseController
+    include Pagy::Backend
     before_action :set_member, only: %i[show edit update]
 
     def index
-      @members = Member.all.order(:id)
+      items_per_page = params[:per_page].to_i
+      items_per_page = 10 unless items_per_page.positive?
+      page = params[:page].present? && params[:page].to_i > 0 ? params[:page].to_i : 1
+      members = Member.search(params[:q]).order(:id)
+      @pagy, @members = pagy(members, limit: items_per_page, page: page, params: { q: params[:q], per_page: params[:per_page] }.compact)
     end
 
     def show
-      @memberships = @member&.memberships.order(id: :desc)
+      @subscriptions = @member&.subscriptions.order(id: :desc)
+      @orders = @member&.orders.order(created_at: :desc)
     end
 
     def edit

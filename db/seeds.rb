@@ -10,11 +10,11 @@
 
 require 'prawn'
 
-# Create membership products
+# Create subscription products
 Product.find_or_create_by!(sku: "MEMBERSHIP_ONE_MONTH") do |product|
   product.title = "1 Month Only"
   product.amount = Money.new(25000, "THB")
-  product.description = "One-time payment for 1 month membership access to all newspapers"
+  product.description = "One-time payment for 1 month subscription access to all newspapers"
 end
 
 Product.find_or_create_by!(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION") do |product|

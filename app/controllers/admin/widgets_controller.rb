@@ -73,7 +73,7 @@ module Admin
 
     def active_subscriptions_for_month(month_start)
       month_end = month_start.end_of_month
-      Membership.where("start_date <= ? AND end_date >= ?", month_end, month_start).count
+      Subscription.where("start_date <= ? AND end_date >= ?", month_end, month_start).count
     end
 
     def customers_for_month(month_start)
@@ -83,7 +83,7 @@ module Admin
 
     def new_subscriptions_for_month(month_start)
       month_range = month_start..month_start.end_of_month
-      Membership.where(created_at: month_range).count
+      Subscription.where(created_at: month_range).count
     end
 
     def calculate_percentage_change(current, previous)

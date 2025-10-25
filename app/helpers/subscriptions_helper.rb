@@ -1,7 +1,7 @@
 module SubscriptionsHelper
-  def subscription_cover_image(membership)
-    if membership.cover_image&.attached?
-      membership.cover_image
+  def subscription_cover_image(subscription)
+    if subscription.cover_image&.attached?
+      subscription.cover_image
     else
       # Return placeholder image path or asset
       "placeholder-subscription.png"

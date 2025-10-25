@@ -28,7 +28,7 @@ describe "guest purchases a package", js: true do
       # and eventually land on the complete page
       expect(page).to have_content "Thank You for Your Purchase"
 
-      # customer should see information of his membership
+      # customer should see information of his subscription
       find('.user-profile').click
       click_link_or_button "Subscriptions"
       expect(page).to have_content "Subscription Details"
@@ -73,7 +73,7 @@ describe "guest purchases a package", js: true do
         # and eventually land on the complete page
         expect(page).to have_content "Thank You for Your Purchase"
 
-        # verify membership was created
+        # verify subscription was created
         find('.user-profile').click
         click_link_or_button "Subscriptions"
         expect(page).to have_content "Subscription Details"

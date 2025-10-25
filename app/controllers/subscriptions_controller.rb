@@ -1,14 +1,14 @@
 class SubscriptionsController < AccountSettingController
-  before_action :set_membership, only: %i[index update]
+  before_action :set_subscription, only: %i[index update]
   before_action :authenticate_member!, only: %i[ index ]
 
   def index
-    @membership = current_user.memberships.last
+    @subscription = current_user.subscriptions.last
   end
 
   def update
     respond_to do |format|
-      if @membership.update(membership_params)
+      if @subscription.update(subscription_params)
         format.html { redirect_to subscriptions_path, notice: "Auto renew updated successfully." }
       end
     end
@@ -16,11 +16,11 @@ class SubscriptionsController < AccountSettingController
 
   private
 
-  def set_membership
-    @membership = current_user.memberships.last
+  def set_subscription
+    @subscription = current_user.subscriptions.last
   end
 
-  def membership_params
-    params.expect(membership: [ :auto_renew ])
+  def subscription_params
+    params.expect(subscription: [ :auto_renew ])
   end
 end

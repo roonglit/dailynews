@@ -37,13 +37,13 @@ class OrdersController < ApplicationController
     if charge.paid
       @order.paid!
 
-      # Create membership for the user
-      if CreateMembershipForOrder.new(@order).perform
+      # Create subscription for the user
+      if CreateSubscriptionForOrder.new(@order).perform
         # Clear the user's cart after successful order
         ClearCurrentUserCart.new(@order.member).perform
         redirect_to complete_order_path(@order)
       else
-        redirect_to root_path, alert: "Payment successful but failed to create membership. Please contact support."
+        redirect_to root_path, alert: "Payment successful but failed to create subscription. Please contact support."
       end
     else
       # Mark order as cancelled when payment fails

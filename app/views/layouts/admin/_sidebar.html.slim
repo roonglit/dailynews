@@ -19,7 +19,7 @@ input#layout-sidebar-toggle-trigger.hidden type='checkbox' aria-label="Toggle la
             span.iconify.lucide--users.size-5
             span Customers
         .card class="hover:bg-base-300 hover:rounded-sm"
-          = link_to admin_subscription_path, class:"text-md text-secondary px-4 py-2 flex items-center gap-3 #{current_page?(admin_subscription_path) ? "rounded-sm bg-gray-200" : '' }" do
+          = link_to admin_subscriptions_path, class:"text-md text-secondary px-4 py-2 flex items-center gap-3 #{current_page?(admin_subscriptions_path) ? "rounded-sm bg-gray-200" : '' }" do
             span.iconify.lucide--credit-card.size-5
             span Subscriptions
   .mb-2 

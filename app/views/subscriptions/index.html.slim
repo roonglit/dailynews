@@ -3,36 +3,36 @@
 
   .text-md.mb-4 Manage your subscriptions
 
-  - if @membership.present?
+  - if @subscription.present?
     .flex.justify-between.items-start.mt-6.pb-6 class="border-b border-gray-300"
       / Left side: Cover image and subscription details
       .flex.gap-6
         / Cover image
         .flex-shrink-0
-          - if subscription_cover_image(@membership) != "placeholder-subscription.png"
-            = image_tag subscription_cover_image(@membership), class: "w-32 h-40 object-cover rounded shadow-md", alt: "Subscription cover"
+          - if subscription_cover_image(@subscription) != "placeholder-subscription.png"
+            = image_tag subscription_cover_image(@subscription), class: "w-32 h-40 object-cover rounded shadow-md", alt: "Subscription cover"
           - else
             .w-32.h-40.bg-gray-200.rounded.shadow-md.flex.items-center.justify-center
               span.text-gray-400.text-xs.text-center No cover
 
         / Subscription details
         div
-          .text-xl.font-bold.mb-3 = @membership&.order&.product&.title
+          .text-xl.font-bold.mb-3 = @subscription&.order&.product&.title
 
           .flex.items-center.gap-2.mb-3
             span.text-base.font-bold Status:
-            - if @membership.active?
+            - if @subscription.active?
               span.badge.badge-primary.badge-sm ACTIVE
             - else
               span.badge.badge-error.badge-sm INACTIVE
 
           .mb-2
             span.text-base.font-bold.mr-2 Subscription:
-            span.text-base = duration(@membership.start_date, @membership.end_date)
+            span.text-base = duration(@subscription.start_date, @subscription.end_date)
 
           .mb-2
-            span.text-base.font-bold.mr-2 = "#{@membership.renewal_text}:"
-            span.text-base = format_renewal_date(@membership.renewal_or_expiry_date)
+            span.text-base.font-bold.mr-2 = "#{@subscription.renewal_text}:"
+            span.text-base = format_renewal_date(@subscription.renewal_or_expiry_date)
 
       / Right side: Manage button
       div.flex.items-start
@@ -45,27 +45,27 @@
           div class="text-lg font-bold py-2 mb-2" Your current subscription
 
           hr class="border-gray-300 opacity-70"
-          .text-md.font-bold.my-4 = @membership&.order&.product&.title
+          .text-md.font-bold.my-4 = @subscription&.order&.product&.title
           .flex.items-center.gap-2.my-4
             span.text-base.font-bold Status:
-            - if @membership.active?
+            - if @subscription.active?
               span.badge.badge-primary.badge-sm ACTIVE
             - else
               span.badge.badge-error.badge-sm INACTIVE
           .my-4
             span.text-base.font-bold.mr-2 Subscription:
-            span.text-base = duration(@membership.start_date, @membership.end_date)
+            span.text-base = duration(@subscription.start_date, @subscription.end_date)
           .my-4
-            span.text-base.font-bold.mr-2 = "#{@membership.renewal_text}:"
-            span.text-base = format_renewal_date(@membership.renewal_or_expiry_date)
+            span.text-base.font-bold.mr-2 = "#{@subscription.renewal_text}:"
+            span.text-base = format_renewal_date(@subscription.renewal_or_expiry_date)
           hr class="border-gray-300 opacity-70"
           .flex.justify-between.mt-4.items-center
             div
-              - if @membership.auto_renew?
+              - if @subscription.auto_renew?
                 .text-base.font-bold Auto-renew is enabled
               - else
                 .text-base.font-bold Auto-renew is disabled
-            = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
+            = form_with model: @subscription, url: subscription_path(@subscription), method: :patch, local: true do |form|
               .flex.items-center.space-x-2
                 = form.check_box :auto_renew, class: "toggle toggle-md toggle-primary", onchange: "this.form.submit()"
 
@@ -76,4 +76,4 @@
         button Close
 
   - else
-    = "No memberships available"
+    = "No subscriptions available"

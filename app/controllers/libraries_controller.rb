@@ -4,12 +4,12 @@ class LibrariesController < ApplicationController
   def show
     @newspapers = []
 
-    @months = current_user.memberships.map do |membership|
-      (membership.start_date..membership.end_date).map { |day| day.strftime("%m") }
+    @months = current_user.subscriptions.map do |subscription|
+      (subscription.start_date..subscription.end_date).map { |day| day.strftime("%m") }
     end.flatten.uniq.sort
 
-    conditions = current_user.memberships.map do |membership|
-      "(published_at >= '#{membership.start_date}' and published_at <= '#{membership.end_date}')"
+    conditions = current_user.subscriptions.map do |subscription|
+      "(published_at >= '#{subscription.start_date}' and published_at <= '#{subscription.end_date}')"
     end
 
     @newspapers = Newspaper.where(conditions).filter_by_month(params[:month]).order_by_created_at.distinct

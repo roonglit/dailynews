@@ -18,11 +18,11 @@ module Admin
         return
       end
 
-      membership = @member.memberships.new(start_date: params[:start_date], end_date: params[:end_date])
-      if membership.save
-        redirect_to admin_members_path, notice: "Membership created"
+      subscription = @member.subscriptions.new(start_date: params[:start_date], end_date: params[:end_date])
+      if subscription.save
+        redirect_to admin_members_path, notice: "Subscription created"
       else
-        redirect_to admin_members_path, alert: "Membership cannot be created"
+        redirect_to admin_members_path, alert: "Subscription cannot be created"
       end
     end
 

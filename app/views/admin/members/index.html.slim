@@ -17,15 +17,15 @@
                 input.checkbox.checkbox-sm type='checkbox' aria-label='Check all'
               th ID
               th Email
-              th Membership Duration
+              th Subscription Duration
               th Action
-          tbody 
+          tbody
             - @members.each do |member|
               tr.hover:bg-base-200/40 class='*:text-nowrap'
                 th
                   input.checkbox.checkbox-sm type='checkbox' aria-label='Single check'
                 td = member.id
                 td = member.email
-                td = duration(member.memberships.last&.start_date, member.memberships.last&.end_date)
+                td = duration(member.subscriptions.last&.start_date, member.subscriptions.last&.end_date)
                 td
                   = link_to "Manage", edit_admin_member_path(member), class: "inline-block bg-primary hover:bg-secondary text-white px-4 py-2 rounded-sm text-sm font-medium"

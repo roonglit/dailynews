@@ -5,9 +5,11 @@ module Admin
 
     # GET /admin/newspapers or /admin/newspapers.json
     def index
-      items_per_page = params[:per_page]&.to_i || 20
+      items_per_page = params[:per_page].to_i
+      items_per_page = 10 unless items_per_page.positive?
       page = params[:page].present? && params[:page].to_i > 0 ? params[:page].to_i : 1
-      @pagy, @newspapers = pagy(Newspaper.all, limit: items_per_page, page: page)
+      newspapers = Newspaper.search(params[:q])
+      @pagy, @newspapers = pagy(newspapers, limit: items_per_page, page: page, params: { q: params[:q], per_page: params[:per_page] }.compact)
     end
 
     # GET /admin/newspapers/1 or /admin/newspapers/1.json

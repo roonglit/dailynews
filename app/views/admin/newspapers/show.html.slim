@@ -1,10 +1,83 @@
-p style="color: green" = notice
+.flex.items-center.justify-between.mb-6
+  = link_to admin_newspapers_path, class: 'btn btn-ghost btn-sm' do
+    span.iconify.lucide--arrow-left.size-4
+    span Back to list
+  = link_to edit_admin_newspaper_path(@newspaper), class: 'btn btn-primary btn-sm' do
+    span.iconify.lucide--pencil.size-4
+    span Edit
 
-== render @newspaper
+.card.bg-base-100.shadow
+  .card-body
+    .grid.grid-cols-1.gap-6 class='lg:grid-cols-3'
+      / Cover image section
+      .col-span-1
+        div class='aspect-[3/4] bg-base-200 rounded-lg overflow-hidden flex items-center justify-center'
+          - if @newspaper.cover.attached?
+            = image_tag @newspaper.cover, class: 'w-full h-full object-cover', alt: @newspaper.title
+          - else
+            .text-center.text-base-content/40
+              span.iconify.lucide--image.size-16.mb-2
+              p.text-sm No cover image
 
-div
-  => link_to "Edit this newspaper", edit_admin_newspaper_path(@newspaper)
-  '|
-  =< link_to "Back to newspapers", admin_newspapers_path
+      / Metadata section
+      .col-span-1 class='lg:col-span-2'
+        .space-y-4
+          / Title
+          div
+            .text-sm.text-base-content/60.mb-1 Title
+            .text-xl.font-semibold= @newspaper.title
 
-  = button_to "Destroy this newspaper", @newspaper, method: :delete
+          / ID
+          div
+            .text-sm.text-base-content/60.mb-1 ID
+            span.badge.badge-outline= @newspaper.id
+
+          / Published Date
+          div
+            .text-sm.text-base-content/60.mb-1 Published At
+            .flex.items-center.gap-2
+              span.iconify.lucide--calendar.size-4.text-base-content/60
+              = @newspaper.published_at ? @newspaper.published_at.strftime("%B %d, %Y at %I:%M %p") : "-"
+
+          / Description
+          div
+            .text-sm.text-base-content/60.mb-1 Description
+            - if @newspaper.description.present?
+              .text-base-content= @newspaper.description
+            - else
+              .text-base-content/40.italic No description provided
+
+          / PDF Info
+          div
+            .text-sm.text-base-content/60.mb-1 PDF Attachment
+            - if @newspaper.pdf.attached?
+              .flex.items-center.gap-2
+                span.iconify.lucide--file-text.size-4.text-base-content/60
+                div
+                  .font-medium= @newspaper.pdf.filename
+                  .text-sm.text-base-content/60= number_to_human_size(@newspaper.pdf.byte_size)
+            - else
+              .text-base-content/40.italic No PDF attached
+
+          .divider
+
+          / Timestamps
+          .grid.grid-cols-1.gap-3 class='sm:grid-cols-2'
+            div
+              .text-sm.text-base-content/60.mb-1 Created
+              .flex.items-center.gap-2
+                span.iconify.lucide--clock.size-4.text-base-content/60
+                = @newspaper.created_at.strftime("%B %d, %Y at %I:%M %p")
+            div
+              .text-sm.text-base-content/60.mb-1 Last Updated
+              .flex.items-center.gap-2
+                span.iconify.lucide--clock.size-4.text-base-content/60
+                = @newspaper.updated_at.strftime("%B %d, %Y at %I:%M %p")
+
+    .divider
+
+    / Action buttons
+    .flex.justify-end
+      = button_to admin_newspaper_path(@newspaper), method: :delete, data: { confirm: 'Are you sure you want to delete this newspaper?' }, class: 'btn btn-error btn-sm' do
+        span.iconify.lucide--trash.size-4
+        span Delete

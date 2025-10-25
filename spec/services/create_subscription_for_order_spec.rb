@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MembershipCreator do
+RSpec.describe CreateSubscriptionForOrder do
   let(:user) { create(:member) }
   let(:product) { create(:product, sku: "MEMBERSHIP_ONE_MONTH", title: "1 Month", amount: 299) }
   let(:order) do
@@ -16,28 +16,28 @@ RSpec.describe MembershipCreator do
     subject(:creator) { described_class.new(order) }
 
     context "with a valid order" do
-      it "creates a membership" do
-        expect { creator.call }.to change(Membership, :count).by(1)
+      it "creates a subscription" do
+        expect { creator.call }.to change(Subscription, :count).by(1)
       end
 
-      it "links the membership to the order" do
+      it "links the subscription to the order" do
         creator.call
-        expect(order.reload.membership).to be_present
+        expect(order.reload.subscription).to be_present
       end
 
-      it "links the membership to the user" do
+      it "links the subscription to the user" do
         creator.call
-        expect(order.membership.user).to eq(user)
+        expect(order.subscription.user).to eq(user)
       end
 
       it "sets start_date to today" do
         creator.call
-        expect(order.membership.start_date).to eq(Date.current)
+        expect(order.subscription.start_date).to eq(Date.current)
       end
 
       it "sets end_date to 1 month from today" do
         creator.call
-        expect(order.membership.end_date).to eq(Date.current + 1.month)
+        expect(order.subscription.end_date).to eq(Date.current + 1.month)
       end
 
       it "returns true" do
@@ -50,7 +50,7 @@ RSpec.describe MembershipCreator do
 
       it "sets end_date to 1 month from today" do
         creator.call
-        expect(order.membership.end_date).to eq(Date.current + 1.month)
+        expect(order.subscription.end_date).to eq(Date.current + 1.month)
       end
     end
 
@@ -59,7 +59,7 @@ RSpec.describe MembershipCreator do
 
       it "defaults to 1 month duration" do
         creator.call
-        expect(order.membership.end_date).to eq(Date.current + 1.month)
+        expect(order.subscription.end_date).to eq(Date.current + 1.month)
       end
     end
 
@@ -75,8 +75,8 @@ RSpec.describe MembershipCreator do
         expect(creator.call).to be false
       end
 
-      it "does not create a membership" do
-        expect { creator.call }.not_to change(Membership, :count)
+      it "does not create a subscription" do
+        expect { creator.call }.not_to change(Subscription, :count)
       end
     end
   end
