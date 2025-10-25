@@ -13,7 +13,7 @@
       .col-span-1
         div class='aspect-[3/4] bg-base-200 rounded-lg overflow-hidden flex items-center justify-center'
           - if @newspaper.cover.attached?
-            = image_tag @newspaper.cover, class: 'w-full h-full object-cover', alt: @newspaper.title
+            = image_tag @newspaper.cover, class: 'w-full h-full object-contain', alt: @newspaper.title
           - else
             .text-center.text-base-content/40
               span.iconify.lucide--image.size-16.mb-2
