@@ -38,10 +38,29 @@
                   - else
                     | No cover
                 td
-                  .inline-flex 
+                  .inline-flex
                     = link_to edit_admin_newspaper_path(newspaper), class: 'btn btn-square btn-ghost btn-sm', html: { "aria-label": "Edit newspaper link" } do
                       span.iconify.lucide--pencil.text-base-content/80.size-4
                     = link_to admin_newspaper_path(newspaper), class: 'btn btn-square btn-ghost btn-sm', html: { "aria-label": "Show newspaper link" } do
                       span.iconify.lucide--eye.text-base-content/80.size-4
                     = button_to admin_newspaper_path(newspaper), class: 'btn btn-square btn-error btn-outline btn-sm border-transparent', method: :delete, data: { confirm: 'Are you sure?' } do
                       span.iconify.lucide--trash.size-4
+      .flex.items-center.justify-between.p-6
+        .text-base-content/80.hover:text-base-content.flex.gap-2.text-sm
+          span.hidden.sm:inline Per page
+          = form_with url: admin_newspapers_path, method: :get, local: true, class: 'inline' do |form|
+            = form.hidden_field :page, value: params[:page] || 1
+            = form.select :per_page, options_for_select([[10, 10], [20, 20], [50, 50], [100, 100]], params[:per_page] || @pagy.limit), {}, { class: 'select select-xs w-18', aria_label: 'Per page', onchange: 'this.form.submit();' }
+        span.text-base-content/80.hidden.text-sm.lg:inline
+          | Showing
+          span.text-base-content.font-medium
+            = @pagy.from
+          |  to
+          span.text-base-content.font-medium
+            = @pagy.to
+          |  of
+          span.text-base-content.font-medium
+            = @pagy.count
+          |  items
+        .inline-flex.items-center.gap-1
+          = render 'pagy_nav', pagy: @pagy

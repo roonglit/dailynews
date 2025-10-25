@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def duration(start_date, end_date)
     return "-" if start_date.blank?
     if start_date.year != end_date.year

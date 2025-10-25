@@ -1,10 +1,13 @@
 module Admin
   class NewspapersController < BaseController
+    include Pagy::Backend
     before_action :set_newspaper, only: %i[ show edit update destroy ]
 
     # GET /admin/newspapers or /admin/newspapers.json
     def index
-      @newspapers = Newspaper.order_by_created_at
+      items_per_page = params[:per_page]&.to_i || 20
+      page = params[:page].present? && params[:page].to_i > 0 ? params[:page].to_i : 1
+      @pagy, @newspapers = pagy(Newspaper.all, limit: items_per_page, page: page)
     end
 
     # GET /admin/newspapers/1 or /admin/newspapers/1.json

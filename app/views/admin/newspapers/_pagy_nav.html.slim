@@ -1,0 +1,22 @@
+- if pagy.pages > 1
+  - if pagy.prev
+    = link_to pagy_url_for(pagy, pagy.prev), class: 'btn btn-sm btn-ghost', aria_label: 'Prev' do
+      | < Prev
+  - else
+    button.btn.btn-sm.btn-ghost.btn-disabled aria-label="Prev"
+      | < Prev
+
+  - pagy.series.each do |item|
+    - if item.is_a?(Integer)
+      = link_to item, pagy_url_for(pagy, item), class: 'btn btn-sm btn-ghost'
+    - elsif item.is_a?(String)
+      button.btn.btn-sm.btn-primary= item
+    - elsif item == :gap
+      span.btn.btn-sm.btn-ghost.btn-disabled ...
+
+  - if pagy.next
+    = link_to pagy_url_for(pagy, pagy.next), class: 'btn btn-sm btn-ghost', aria_label: 'Next' do
+      | Next >
+  - else
+    button.btn.btn-sm.btn-ghost.btn-disabled aria-label="Next"
+      | Next >
