@@ -10,21 +10,22 @@
           li = error.full_message
 
   .mt-6
-    .grid.grid-cols-1.gap-6.md:grid-cols-2  
+    .grid.grid-cols-1.gap-6.md:grid-cols-2
       .card.bg-base-100.shadow
         .card-body
           .card-title Basic Information
           = form.input :title, input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
           = form.input :description, as: :text, input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
-          = form.label :published_at, "Published At", class: "text-xs font-semibold mt-2 mb-1"
-          = form.datetime_field :published_at, class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+          = form.label :published_at, "Publish Date", class: "text-xs font-semibold mt-2 mb-1"
+          = form.date_field :published_at, class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
 
-      .card.bg-base-100.shadow 
-        .card-body 
+      .card.bg-base-100.shadow
+        .card-body
           .card-title PDF
-          / - if newspaper.cover.attached?
-          /   .mt-5 
-          /     = image_tag newspaper.cover.url
+          - if newspaper.cover.attached?
+            .mt-5.mb-3
+              p.text-sm.font-semibold.mb-2 Cover (extracted from PDF)
+              = image_tag newspaper.cover, class: "w-full max-w-xs rounded-lg shadow-md"
           .mt-5
             div data-controller="filepond"
               = form.file_field :pdf, class: "filepond", direct_upload: true, accept: 'application/pdf', data: { "filepond-target": "input"}
