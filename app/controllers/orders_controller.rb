@@ -3,9 +3,19 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
+    @cart = current_user.cart
+    @product = @cart&.cart_item&.product
+
+    unless @product
+      redirect_to root_path, alert: "No product in cart" and return
+    end
+
     @order = current_user.orders.create(order_params)
 
     if @order.valid?
+      # Link order to product via order_item
+      @order.create_order_item(product: @product)
+
       # first step, we will be using omise token for creating a charge
       charge = Omise::Charge.create({
         amount: (order_params[:total_cents].to_i),
@@ -19,27 +29,6 @@ class OrdersController < ApplicationController
     else
       p @order.errors.full_messages
     end
-
-    # @cart = current_user.cart
-    # @product = @cart&.product
-
-    # unless @product
-    #   redirect_to root_path, alert: "No product in cart" and return
-    # end
-
-    # @order = current_user.orders.build(order_params)
-    # @order.sub_total = Money.new(@product.amount * 100, "THB")
-    # @order.total = @order.sub_total
-
-    # respond_to do |format|
-    #   if process_order
-    #     format.html { redirect_to complete_order_path(@order), notice: "Order was successfully created." }
-    #     format.json { render :show, status: :created, location: @order }
-    #   elseb
-    #     format.html { redirect_to checkout_path, alert: @order.errors.full_messages.join(", "), status: :unprocessable_entity }
-    #     format.json { render json: @order.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   def verify
@@ -47,7 +36,15 @@ class OrdersController < ApplicationController
 
     if charge.paid
       @order.paid!
-      redirect_to complete_order_path(@order)
+
+      # Create membership for the user
+      if CreateMembershipForOrder.new(@order).perform
+        # Clear the user's cart after successful order
+        ClearCurrentUserCart.new(@order.member).perform
+        redirect_to complete_order_path(@order)
+      else
+        redirect_to root_path, alert: "Payment successful but failed to create membership. Please contact support."
+      end
     else
       p "order not paid!"
       # redirect to order page
@@ -65,43 +62,5 @@ class OrdersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def order_params
       params.expect(order: [ :token, :total_cents ])
-    end
-
-    def process_order
-      Order.transaction do
-        # Create order item linking order to product
-        @order.build_order_item(product: @product)
-
-        # Check if this is a test order or paid order
-        if @order.token == "testing_only"
-          # Skip payment processing for testing
-          unless @order.save
-            raise ActiveRecord::Rollback
-          end
-        else
-          # TODO: Process payment with Omise using @order.token
-          # For now, just save the order
-          unless @order.save
-            raise ActiveRecord::Rollback
-          end
-        end
-
-        # Create membership after successful order
-        creator = MembershipCreator.new(@order)
-        unless creator.call
-          @order.errors.add(:base, "Failed to create membership")
-          raise ActiveRecord::Rollback
-        end
-
-        # Clear the cart
-        @cart.cart_item&.destroy
-        @cart.destroy
-
-        true
-      end
-    end
-
-    def required_order
-      redirect_to root_path if current_user&.orders.blank? || !current_user.orders.exists?(id: params[:id])
     end
 end

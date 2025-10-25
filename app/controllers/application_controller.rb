@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   helper_method :current_user
   before_action :current_or_guest_user
-  # before_action :store_user_location!, if: :storable_location?
+  before_action :store_user_location!, if: :storable_location?
 
   private
 
@@ -48,11 +48,11 @@ class ApplicationController < ActionController::Base
     #   end
     # end
 
-    # def storable_location?
-    #   request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
-    # end
+    def storable_location?
+      request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+    end
 
-    # def store_user_location!
-    #   store_location_for(:member, request.fullpath)
-    # end
+    def store_user_location!
+      store_location_for(:member, request.fullpath)
+    end
 end

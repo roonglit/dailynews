@@ -3,6 +3,7 @@ class SubscriptionsController < AccountSettingController
   before_action :authenticate_member!, only: %i[ index ]
 
   def index
+    @membership = current_user.memberships.last
   end
 
   def update

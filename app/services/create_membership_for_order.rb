@@ -1,11 +1,11 @@
-class MembershipCreator
+class CreateMembershipForOrder
   attr_reader :order, :membership
 
   def initialize(order)
     @order = order
   end
 
-  def call
+  def perform
     return false unless order.product
 
     @membership = order.build_membership(

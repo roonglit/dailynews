@@ -1,56 +1,79 @@
-.flex.flex-col.px-12.py-4
+#my-subscriptions.flex.flex-col.px-12.py-4
   .text-2xl.font-bold.mb-6 Subscription Details
-  hr class="border-gray-300 opacity-70"
-  .flex.justify-between.mt-2
-    - if @membership.present?
-      div
-        .text-md.font-bold.my-4 = @membership&.order&.product&.title
-        .flex.my-4
-          text-xl.font-bold.mr-2 Status:
-          - if @membership.active?
-            span.badge.badge-primary Active
+
+  .text-md.mb-4 Manage your subscriptions
+
+  - if @membership.present?
+    .flex.justify-between.items-start.mt-6.pb-6 class="border-b border-gray-300"
+      / Left side: Cover image and subscription details
+      .flex.gap-6
+        / Cover image
+        .flex-shrink-0
+          - if subscription_cover_image(@membership) != "placeholder-subscription.png"
+            = image_tag subscription_cover_image(@membership), class: "w-32 h-40 object-cover rounded shadow-md", alt: "Subscription cover"
           - else
-            span.badge.badge-error Inactive
-        .flex.my-4
-          text-xl.font-bold.mr-2 Memberships duration: 
-          = duration(@membership.start_date, @membership.end_date)
+            .w-32.h-40.bg-gray-200.rounded.shadow-md.flex.items-center.justify-center
+              span.text-gray-400.text-xs.text-center No cover
 
-      div.flex.items-center
-        button class="btn btn-primary drop-shadow-md text-base-100" onclick="subscription_modal.showModal()" Manage
-        dialog id="subscription_modal" class="modal"
-          div class="modal-box"
-            form method="dialog"
-              button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" ✕
+        / Subscription details
+        div
+          .text-xl.font-bold.mb-3 = @membership&.order&.product&.title
+
+          .flex.items-center.gap-2.mb-3
+            span.text-base.font-bold Status:
+            - if @membership.active?
+              span.badge.badge-primary.badge-sm ACTIVE
+            - else
+              span.badge.badge-error.badge-sm INACTIVE
+
+          .mb-2
+            span.text-base.font-bold.mr-2 Subscription:
+            span.text-base = duration(@membership.start_date, @membership.end_date)
+
+          .mb-2
+            span.text-base.font-bold.mr-2 = "#{@membership.renewal_text}:"
+            span.text-base = format_renewal_date(@membership.renewal_or_expiry_date)
+
+      / Right side: Manage button
+      div.flex.items-start
+        button class="btn btn-outline btn-primary px-8" onclick="subscription_modal.showModal()" MANAGE
+    dialog id="subscription_modal" class="modal"
+      div class="modal-box"
+        form method="dialog"
+          button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" ✕
+        div
+          div class="text-lg font-bold py-2 mb-2" Your current subscription
+
+          hr class="border-gray-300 opacity-70"
+          .text-md.font-bold.my-4 = @membership&.order&.product&.title
+          .flex.items-center.gap-2.my-4
+            span.text-base.font-bold Status:
+            - if @membership.active?
+              span.badge.badge-primary.badge-sm ACTIVE
+            - else
+              span.badge.badge-error.badge-sm INACTIVE
+          .my-4
+            span.text-base.font-bold.mr-2 Subscription:
+            span.text-base = duration(@membership.start_date, @membership.end_date)
+          .my-4
+            span.text-base.font-bold.mr-2 = "#{@membership.renewal_text}:"
+            span.text-base = format_renewal_date(@membership.renewal_or_expiry_date)
+          hr class="border-gray-300 opacity-70"
+          .flex.justify-between.mt-4.items-center
             div
-              div class="text-lg font-bold py-2 mb-2" Your current subscription
+              - if @membership.auto_renew?
+                .text-base.font-bold Auto-renew is enabled
+              - else
+                .text-base.font-bold Auto-renew is disabled
+            = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
+              .flex.items-center.space-x-2
+                = form.check_box :auto_renew, class: "toggle toggle-md toggle-primary", onchange: "this.form.submit()"
 
-              hr class="border-gray-300 opacity-70"
-              .text-md.font-bold.my-4 = @membership&.order&.product&.title
-              .flex.my-4
-                text-xl.font-bold.mr-2 Status: 
-                - if @membership.active?
-                  span.badge.badge-primary Active
-                - else
-                  span.badge.badge-error Inactive
-              .flex.my-4
-                text-xl.font-bold.mr-2 Memberships duration: 
-                = duration(@membership.start_date, @membership.end_date)
-              hr class="border-gray-300 opacity-70"
-                .flex.justify-between.mt-4
-                  div
-                    - if @membership.auto_renew?
-                      text-xl.font-bold Auto-renew is enabled.
-                    - else
-                      text-xl.font-bold Auto-renew is disabled.
-                  = form_with model: @membership, url: subscription_path(@membership), method: :patch, local: true do |form|
-                    .flex.items-center.space-x-2
-                      = form.check_box :auto_renew, class: "toggle toggle-md toggle-primary", onchange: "this.form.submit()"
+          .text-sm.mt-6.text-gray-600 At the end of your subscription, we'll renew it automatically so you'll never miss an issue.
 
-                .text-md.mt-6 At the end of your subscription, we'll renew it automatically so you'll naver miss an issue.
 
-          
-          form method="dialog" class="modal-backdrop"
-            button Close
+      form method="dialog" class="modal-backdrop"
+        button Close
 
-    - else
-      = "No memberships available"
+  - else
+    = "No memberships available"

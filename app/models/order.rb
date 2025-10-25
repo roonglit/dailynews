@@ -2,6 +2,7 @@ class Order < ApplicationRecord
   belongs_to :member, foreign_key: :user_id
   has_one :order_item, dependent: :destroy
   has_one :product, through: :order_item
+  has_one :membership, dependent: :destroy
 
   monetize :total_cents, :sub_total_cents
 
