@@ -16,12 +16,28 @@ class OrdersController < ApplicationController
       # Link order to product via order_item
       @order.create_order_item(product: @product)
 
+      # find existing omise customer by email
+      if current_user.omise_customer_id.present?
+        customer = Omise::Customer.retrieve(current_user.omise_customer_id)
+        customer.update(card: order_params[:token])
+      else
+        # second step, we will create omise customer for future use
+        customer = Omise::Customer.create({
+          email: current_user.email,
+          description: "#{current_user.email} - #{current_user.id}",
+          card: order_params[:token]
+        })
+        current_user.update(omise_customer_id: customer.id)
+      end
+
       # first step, we will be using omise token for creating a charge
       charge = Omise::Charge.create({
         amount: (order_params[:total_cents].to_i),
         currency: "thb",
+        customer: customer.id,
+        capture: false,
         return_uri: verify_order_url(@order),
-        card: order_params[:token]
+        recurring_reason: "subscription"
       })
 
       @order.update charge_id: charge.id
@@ -33,6 +49,7 @@ class OrdersController < ApplicationController
 
   def verify
     charge = Omise::Charge.retrieve(@order.charge_id)
+    charge.capture
 
     if charge.paid
       @order.paid!
@@ -69,6 +86,14 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.expect(order: [ :token, :total_cents ])
+      permitted = params.expect(order: [ :token, :total_cents ])
+
+      # Calculate sub_total_cents (base price before 7% VAT) from tax-included total
+      if permitted[:total_cents].present?
+        total_cents = permitted[:total_cents].to_i
+        permitted[:sub_total_cents] = (total_cents / 1.07).round
+      end
+
+      permitted
     end
 end
