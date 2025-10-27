@@ -19,12 +19,12 @@ RSpec.describe "Checkout", type: :request do
             end
         end
 
-        # context 'When user is guest with cart' do
-        #     it 'renders checkout page and returns 200' do
-        #         get "/checkout"
-        #         expect(response).to have_http_status(:ok)
-        #         expect(response.body).to include("Checkout")
-        #     end
-        # end
+      # context 'When user is guest with cart' do
+      #     it 'renders checkout page and returns 200' do
+      #         get "/checkout"
+      #         expect(response).to have_http_status(:ok)
+      #         expect(response.body).to include("Checkout")
+      #     end
+      # end
     end
 end
