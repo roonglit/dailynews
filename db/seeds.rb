@@ -135,6 +135,23 @@ newspapers_data = [
   }
 ]
 
+# Create company information
+puts "\n🏢 Creating company record..."
+
+Company.find_or_create_by!(name: "บริษัท เดลินิวส์ เว็บ จำกัด") do |company|
+  company.address_1     = "1/4 ถนนวิภาวดีรังสิต"
+  company.address_2     = ""
+  company.sub_district  = "ตลาดบางเขน"
+  company.district      = "หลักสี่"
+  company.province      = "กรุงเทพมหานคร"
+  company.postal_code   = "10210"
+  company.country       = "ประเทศไทย"
+  company.phone_number  = "0-2790-1111"
+  company.email         = "webmaster@dailynews.co.th"
+end
+
+puts "\n✅ Company seeded successfully"
+
 # Create newspapers with PDFs
 puts "\n📰 Creating newspapers..."
 

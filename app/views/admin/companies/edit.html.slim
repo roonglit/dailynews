@@ -1,0 +1,11 @@
+.flex.items-center.justify-between.mb-6
+  = link_to admin_company_path(@company), class: 'btn btn-ghost btn-sm' do
+    span.iconify.lucide--arrow-left.size-4
+    span Back
+  .breadcrumbs.text-sm
+    ul
+      li
+        = link_to "Company", admin_company_path
+      li.opacity-80 Edit
+
+== render "form", company: @company

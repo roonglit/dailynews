@@ -1,0 +1,75 @@
+.flex.items-center.justify-between.mb-6
+  = link_to admin_customers_path, class: 'btn btn-ghost btn-sm' do
+    span.iconify.lucide--arrow-left.size-4
+    span Back to list
+
+/ Basic Information Section
+.card.bg-base-100.shadow.mb-6
+  .card-body
+    .flex.items-center.justify-between.mb-4
+      h3.text-lg.font-medium Basic Information
+      = link_to edit_admin_company_path, class: 'btn btn-primary btn-sm' do
+        span.iconify.lucide--pencil.size-4
+        span Edit
+
+
+    .grid.grid-cols-1.gap-4 class='md:grid-cols-2'
+
+      / Company Name
+      div.col-span-2
+        .text-sm.text-base-content/60.mb-1 Company Name
+        = @company.name
+
+      / Address line 1
+      div
+        .text-sm.text-base-content/60.mb-1 Address Line 1
+        = @company.address_1
+
+      / Address line 2
+      div
+        .text-sm.text-base-content/60.mb-1 Address Line 2
+        = @company.address_2
+
+      / Sub district
+      div
+        .text-sm.text-base-content/60.mb-1 Sub district
+        .flex.items-center.gap-2
+        = @company.sub_district
+
+      / District
+      div
+        .text-sm.text-base-content/60.mb-1 District
+        = @company.district
+      
+      / Province
+      div
+        .text-sm.text-base-content/60.mb-1 Province
+        = @company.province
+      
+      / Country
+      div
+        .text-sm.text-base-content/60.mb-1 Country
+        = @company.country
+      
+      / Postal Code
+      div
+        .text-sm.text-base-content/60.mb-1 Postal Code
+        = @company.postal_code
+
+    .divider
+
+    .grid.grid-cols-1.gap-4 class='md:grid-cols-2'
+
+        / Email
+        div
+            .text-sm.text-base-content/60.mb-1 Email
+            .flex.items-center.gap-2
+                span.iconify.lucide--mail.size-4.text-base-content/60
+                = @company.email
+            
+        / Phone Number
+        div
+            .text-sm.text-base-content/60.mb-1 Phone Number
+            .flex.items-center.gap-2
+                span.iconify.lucide--phone.size-4.text-base-content/60
+                = @company.phone_number
