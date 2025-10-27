@@ -1,0 +1,21 @@
+.w-full
+  h1.text-3xl.font-bold.mb-2 Edit Information
+  p.text-gray-600.mb-8 Update your account information
+
+  = form_with model: @user, url: account_information_path, method: :patch, local: true do |f|
+    .space-y-6
+      div
+        = f.label :email, "Email", class: "text-sm text-gray-600 mb-1 block"
+        = f.email_field :email, class: "input input-bordered w-full max-w-md", required: true
+
+      div
+        = f.label :first_name, "First Name", class: "text-sm text-gray-600 mb-1 block"
+        = f.text_field :first_name, class: "input input-bordered w-full max-w-md"
+
+      div
+        = f.label :last_name, "Last Name", class: "text-sm text-gray-600 mb-1 block"
+        = f.text_field :last_name, class: "input input-bordered w-full max-w-md"
+
+    .mt-8.flex.gap-3
+      = link_to "Cancel", account_information_path, class: "btn btn-ghost"
+      = f.submit "Save Changes", class: "btn btn-primary"

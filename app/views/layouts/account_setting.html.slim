@@ -32,10 +32,23 @@ html data-theme="dailynews"
           = flash[:alert]
 
     = render "layouts/header"
-    .grid.min-md:grid-cols-4.grid-cols-5.h-screen
-      .bg-gray-50.border-r.border-gray-200.min-md:p-10.pt-4.min-md:col-span-1.col-span-2
+
+    / Mobile tabs navigation (visible on small screens only)
+    .block.lg:hidden.border-b.border-gray-200.bg-white
+      .overflow-x-auto
+        .flex.gap-6.px-4.py-3.min-w-max
+          = link_to "Information", account_information_path, class: "text-base whitespace-nowrap pb-2 border-b-2 #{current_page?(account_information_path) ? "border-blue-600 text-blue-600 font-medium" : "border-transparent text-gray-600 hover:text-gray-900"}"
+          = link_to "Subscriptions", account_subscriptions_path, class: "text-base whitespace-nowrap pb-2 border-b-2 #{current_page?(account_subscriptions_path) ? "border-blue-600 text-blue-600 font-medium" : "border-transparent text-gray-600 hover:text-gray-900"}"
+          = link_to "Purchase history", account_purchases_path, class: "text-base whitespace-nowrap pb-2 border-b-2 #{current_page?(account_purchases_path) ? "border-blue-600 text-blue-600 font-medium" : "border-transparent text-gray-600 hover:text-gray-900"}"
+          = link_to "Payment method", account_payment_method_path, class: "text-base whitespace-nowrap pb-2 border-b-2 #{current_page?(account_payment_method_path) ? "border-blue-600 text-blue-600 font-medium" : "border-transparent text-gray-600 hover:text-gray-900"}"
+
+    .grid.lg:grid-cols-4.grid-cols-1.h-screen
+      / Sidebar (visible on large screens only)
+      .hidden.lg:block.bg-gray-50.border-r.border-gray-200.p-10.col-span-1
         = render "layouts/sidebar"
-      #layout-content.flex.flex-col.items-start.p-4.min-md:col-span-3.col-span-3
+
+      / Main content
+      #layout-content.flex.flex-col.items-start.p-4.lg:col-span-3.col-span-1
         .w-full
           = yield
 

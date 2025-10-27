@@ -1,7 +1,6 @@
-#my-subscriptions.flex.flex-col.px-12.py-4
-  .text-2xl.font-bold.mb-6 Subscription Details
-
-  .text-md.mb-4 Manage your subscriptions
+.w-full
+  h1.text-3xl.font-bold.mb-2 Subscription Details
+  p.text-gray-600.mb-8 Manage your subscriptions
 
   - if @subscription.present?
     .flex.justify-between.items-start.mt-6.pb-6 class="border-b border-gray-300"
@@ -65,7 +64,7 @@
                 .text-base.font-bold Auto-renew is enabled
               - else
                 .text-base.font-bold Auto-renew is disabled
-            = form_with model: @subscription, url: subscription_path(@subscription), method: :patch, local: true do |form|
+            = form_with model: @subscription, url: account_subscription_path(@subscription), method: :patch, local: true do |form|
               .flex.items-center.space-x-2
                 = form.check_box :auto_renew, class: "toggle toggle-md toggle-primary", onchange: "this.form.submit()"
 

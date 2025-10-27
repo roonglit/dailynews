@@ -1,0 +1,23 @@
+.w-full
+  h1.text-3xl.font-bold.mb-2 Information
+  p.text-gray-600.mb-8 Manage your account information
+
+  .space-y-6
+    div
+      label.text-sm.text-gray-600.mb-1.block Email
+      p.text-base = @user.email
+
+    div
+      label.text-sm.text-gray-600.mb-1.block First Name
+      p.text-base = @user.first_name || "Not set"
+
+    div
+      label.text-sm.text-gray-600.mb-1.block Last Name
+      p.text-base = @user.last_name || "Not set"
+
+    div
+      label.text-sm.text-gray-600.mb-1.block Member Since
+      p.text-base = @user.created_at.strftime("%B %d, %Y")
+
+  .mt-8
+    = link_to "Edit Information", edit_account_information_path, class: "btn btn-primary"

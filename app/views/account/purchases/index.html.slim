@@ -1,0 +1,29 @@
+.w-full
+  h1.text-3xl.font-bold.mb-2 Purchase history
+  p.text-gray-600.mb-8 View your purchase history
+
+  - if @orders.any?
+    .space-y-6
+      - @orders.each do |order|
+        .border-b.border-gray-200.pb-6
+          .flex.justify-between.items-start
+            .flex-1
+              h2.text-lg.font-semibold = order.product.title
+              .text-sm.text-gray-500.mt-1
+                | Order ##{order.id}
+              .text-sm.text-gray-500
+                | Purchased on #{order.created_at.strftime("%B %d, %Y")}
+              .mt-2
+                - if order.paid?
+                  span.badge.badge-success PAID
+                - elsif order.pending?
+                  span.badge.badge-warning PENDING
+                - elsif order.cancelled?
+                  span.badge.badge-error CANCELLED
+            .text-right
+              .text-2xl.font-bold = order.total.format
+  - else
+    .py-8
+      .text-center
+        p.text-base.text-gray-500 You have no purchase history yet.
+        = link_to "Browse Newspapers", root_path, class: "btn btn-primary mt-4"

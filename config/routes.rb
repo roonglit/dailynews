@@ -7,7 +7,13 @@ Rails.application.routes.draw do
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :subscriptions, only: %i[index update]
+  namespace :account do
+    resource :information, only: %i[show edit update]
+    resources :subscriptions, only: %i[index update]
+    resources :purchases, only: %i[index]
+    resource :payment_method, only: %i[show edit update]
+  end
+
   resource :library, only: %i[show]
   resources :cart_items, only: %i[create update]
   resource :checkout, only: %i[show create]
