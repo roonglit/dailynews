@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
+  body
+    h1
+      | Welcome to example.com, 
+      = @email
+    p
+      | You have successfully signed up to example.com,
+      | your username is: 
+      = @email
+      | .
+      br
+    p
+      | To login to the site, just follow this link: 
+      = @url
+      | .
+    p Thanks for joining and have a great day!
