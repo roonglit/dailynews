@@ -6,9 +6,9 @@
   .relative.inline-block
     .flex.flex-cols
       input#admin-dropdown-toggle(type="checkbox" class="hidden peer")
-      label.iconify.lucide--circle-user-round.size-8.cursor-pointer.hover:text-primary.transition for="admin-dropdown-toggle"
+      label.iconify.lucide--circle-user-round.size-6.mr-2.cursor-pointer.hover:text-primary.transition for="admin-dropdown-toggle"
       .absolute.right-0.z-50.mt-12.p-2.w-60.bg-white.border.rounded-md.shadow-lg.hidden.peer-checked:block
-        p.p-2.mb-2.font-medium = "Hello, #{current_user.email}"
+        p.p-2.mb-2.font-medium = "Hello, #{current_admin_user.email}"
         ul
           li
             = button_to destroy_admin_user_session_path, method: :delete, class: "w-full m-0 p-0 cursor-pointer" do
