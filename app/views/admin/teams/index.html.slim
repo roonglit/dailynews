@@ -1,2 +1,29 @@
-h1 Admin::Teams#index
-p Find me in app/views/admin/teams/index.html.slim
+
+.flex-flex-col
+    .text-lg.font-bold 3 Team members
+    .text-md.mt-2 At least 1 Owner on a team is required.
+    .flex.justify-between.mt-4
+        .flex.items-center
+            .inline-flex.items-center.gap-3
+            = form_with url: admin_customers_path, method: :get, local: true, id: 'search-form', data: { turbo_frame: '_top' } do |form|
+                = form.hidden_field :per_page, value: params[:per_page]
+                label.input.input-sm
+                    span.iconify.lucide--search.size-3.5.text-base-content/80
+                    = form.text_field :q, value: params[:q], placeholder: 'Search customers...', aria_label: 'Search customers', class: 'w-24 sm:w-36'
+            .text-md.ml-4 class="btn btn-outline btn-sm btn-primary" Filter
+        .text-md class="btn btn-outline btn-sm btn-primary" Invite Team Members
+    .mt-4.overflow-auto 
+        table.table 
+          thead
+            tr
+              th ID
+              th Email
+              th Role
+              th Status
+          tbody 
+            - @admins.each do |member|
+              tr.hover:bg-base-200/40 class='*:text-nowrap'
+                td = member.id
+                td = member.email
+                td = "Admin"
+                td = "Joined"
