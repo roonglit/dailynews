@@ -10,8 +10,11 @@
                 label.input.input-sm
                     span.iconify.lucide--search.size-3.5.text-base-content/80
                     = form.text_field :q, value: params[:q], placeholder: 'Search customers...', aria_label: 'Search customers', class: 'w-24 sm:w-36'
-            .text-md.ml-4 class="btn btn-outline btn-sm btn-primary" Filter
-        .text-md class="btn btn-outline btn-sm btn-primary" Invite Team Members
+            = link_to new_admin_team_path, class: "btn btn-outline btn-sm btn-primary ml-4"
+                span.iconify.lucide--list-filter.size-4
+                | Filter
+        = link_to new_admin_team_path, class: "btn btn-outline btn-sm btn-primary"
+            | Invite Team Members
     .mt-4.overflow-auto 
         table.table 
           thead
