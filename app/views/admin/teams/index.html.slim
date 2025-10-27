@@ -2,18 +2,14 @@
 .flex-flex-col
     .text-lg.font-bold 
         = "#{@all_admins.count} Team Admins"
-    .text-md.mt-2 At least 1 Owner on a team is required.
     .flex.justify-between.mt-4
-        .flex.items-center
-            .inline-flex.items-center.gap-3
+        .inline-flex.items-center.gap-3
             = form_with url: admin_teams_path, method: :get, local: true, id: 'search-form', data: { turbo_frame: '_top' } do |form|
                 = form.hidden_field :per_page, value: params[:per_page]
                 label.input.input-sm
                     span.iconify.lucide--search.size-3.5.text-base-content/80
                     = form.text_field :q, value: params[:q], placeholder: 'Search by name', aria_label: 'Search customers', class: 'w-24 sm:w-36'
-            = link_to new_admin_team_path, class: "btn btn-outline btn-sm btn-primary ml-4"
-                span.iconify.lucide--list-filter.size-4
-                | Filter
+
         = link_to new_admin_team_path, class: "btn btn-outline btn-sm btn-primary"
             | Invite Team Members
     .mt-4.overflow-auto 
