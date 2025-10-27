@@ -1,6 +1,7 @@
 
 .flex-flex-col
-    .text-lg.font-bold 3 Team members
+    .text-lg.font-bold 
+        = "#{@all_admins.count} Team Admins"
     .text-md.mt-2 At least 1 Owner on a team is required.
     .flex.justify-between.mt-4
         .flex.items-center
