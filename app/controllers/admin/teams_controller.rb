@@ -1,7 +1,7 @@
 module Admin
   class TeamsController < BaseController
     include Pagy::Backend
-    
+
     def index
       items_per_page = params[:per_page].to_i
       items_per_page = 10 unless items_per_page.positive?
@@ -14,6 +14,11 @@ module Admin
     end
 
     def create
+    end
+
+    def invite
+      Admin::UserMailer.invite_admin(params[:email]).deliver_now
+      redirect_to new_admin_team_path, notice: "Invitation sent successfully."
     end
   end
 end

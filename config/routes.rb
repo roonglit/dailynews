@@ -26,7 +26,11 @@ Rails.application.routes.draw do
     }
 
     resource :company, only: %i[show edit update]
-    resources :teams, only: %i[index new create]
+    resources :teams, only: %i[index new create] do
+      collection do
+        post "invite"
+      end
+    end
     resources :customers, only: %i[index show edit update] do
       resources :subscriptions, only: %i[new create]
     end

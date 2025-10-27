@@ -5,6 +5,7 @@ module Admin
     def invite_admin(email)
       @email = email
       mail(to: email, subject: "Invite admin, u can init your password")
+      p "="*100
     end
   end
 end
