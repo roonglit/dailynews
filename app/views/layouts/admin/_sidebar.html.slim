@@ -23,4 +23,16 @@ input#layout-sidebar-toggle-trigger.hidden type='checkbox' aria-label="Toggle la
             span.iconify.lucide--credit-card.size-5
             span Subscriptions
 
+  .mb-2
+    hr.border-base-300
+    ul.menu.w-full 
+      li 
+        = link_to "", class: 'flex items-center gap-2'
+          span.iconify.lucide--settings-2.size-4 
+          | Company Info
+      li
+        = link_to "", class: 'flex items-center gap-2'
+          span.iconify.lucide--circle-help.size-4 
+          | Admin Teams
+
 label#layout-sidebar-backdrop for='layout-sidebar-toggle-trigger'
