@@ -5,5 +5,17 @@ module Admin
     # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :validatable
+
+    scope :search, ->(query) {
+      if query.present?
+        term = "%#{query}%"
+        where(
+          "email ILIKE :term",
+          term: term
+        )
+      else
+        all
+      end
+    }
   end
 end

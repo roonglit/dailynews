@@ -38,4 +38,4 @@
             = form.hidden_field :q, value: params[:q]
             = form.select :per_page, options_for_select([[10, 10], [20, 20], [50, 50], [100, 100]], params[:per_page] || @pagy.limit), {}, { class: 'select select-xs w-18', aria_label: 'Per page', onchange: 'this.form.submit();' }
         .inline-flex.items-center.gap-1
-          = render 'pagy_nav', pagy: @pagy
+          = render 'admin/shared/pagy_nav', pagy: @pagy
