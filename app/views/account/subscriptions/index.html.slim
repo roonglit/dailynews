@@ -3,39 +3,40 @@
   p.text-gray-600.mb-8 Manage your subscriptions
 
   - if @subscription.present?
-    .flex.justify-between.items-start.mt-6.pb-6 class="border-b border-gray-300"
-      / Left side: Cover image and subscription details
-      .flex.gap-6
-        / Cover image
-        .flex-shrink-0
-          - if subscription_cover_image(@subscription) != "placeholder-subscription.png"
-            = image_tag subscription_cover_image(@subscription), class: "w-32 h-40 object-cover rounded shadow-md", alt: "Subscription cover"
-          - else
-            .w-32.h-40.bg-gray-200.rounded.shadow-md.flex.items-center.justify-center
-              span.text-gray-400.text-xs.text-center No cover
-
-        / Subscription details
-        div
-          .text-xl.font-bold.mb-3 = @subscription&.order&.product&.title
-
-          .flex.items-center.gap-2.mb-3
-            span.text-base.font-bold Status:
-            - if @subscription.active?
-              span.badge.badge-primary.badge-sm ACTIVE
+    #my-subscriptions
+      .flex.justify-between.items-start.mt-6.pb-6 class="border-b border-gray-300"
+        / Left side: Cover image and subscription details
+        .flex.gap-6
+          / Cover image
+          .flex-shrink-0
+            - if subscription_cover_image(@subscription) != "placeholder-subscription.png"
+              = image_tag subscription_cover_image(@subscription), class: "w-32 h-40 object-cover rounded shadow-md", alt: "Subscription cover"
             - else
-              span.badge.badge-error.badge-sm INACTIVE
+              .w-32.h-40.bg-gray-200.rounded.shadow-md.flex.items-center.justify-center
+                span.text-gray-400.text-xs.text-center No cover
 
-          .mb-2
-            span.text-base.font-bold.mr-2 Subscription:
-            span.text-base = duration(@subscription.start_date, @subscription.end_date)
+          / Subscription details
+          div
+            .text-xl.font-bold.mb-3 = @subscription&.order&.product&.title
 
-          .mb-2
-            span.text-base.font-bold.mr-2 = "#{@subscription.renewal_text}:"
-            span.text-base = format_renewal_date(@subscription.renewal_or_expiry_date)
+            .flex.items-center.gap-2.mb-3
+              span.text-base.font-bold Status:
+              - if @subscription.active?
+                span.badge.badge-primary.badge-sm ACTIVE
+              - else
+                span.badge.badge-error.badge-sm INACTIVE
 
-      / Right side: Manage button
-      div.flex.items-start
-        button class="btn btn-outline btn-primary px-8" onclick="subscription_modal.showModal()" MANAGE
+            .mb-2
+              span.text-base.font-bold.mr-2 Subscription:
+              span.text-base = duration(@subscription.start_date, @subscription.end_date)
+
+            .mb-2
+              span.text-base.font-bold.mr-2 = "#{@subscription.renewal_text}:"
+              span.text-base = format_renewal_date(@subscription.renewal_or_expiry_date)
+
+        / Right side: Manage button
+        div.flex.items-start
+          button class="btn btn-outline btn-primary px-8" onclick="subscription_modal.showModal()" MANAGE
     dialog id="subscription_modal" class="modal"
       div class="modal-box"
         form method="dialog"

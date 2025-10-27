@@ -1,5 +1,11 @@
 class CartItemsController < ApplicationController
   def create
+    # Prevent users with active subscriptions from adding to cart
+    if member_signed_in? && current_user.subscriptions.any?(&:active?)
+      redirect_to library_path, notice: "You already have an active subscription. Enjoy reading!"
+      return
+    end
+
     product = Product.find_by(sku: params[:sku])
 
     if product.blank?

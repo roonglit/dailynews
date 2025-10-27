@@ -11,14 +11,16 @@ module FakeServers
       # Set environment to test to avoid host authorization restrictions
       set :environment, :test
 
-      # Store charges in memory for retrieval (class variable for persistence)
+      # Store charges and customers in memory for retrieval (class variable for persistence)
       @@charges = {}
       @@failed_charge_ids = []
+      @@customers = {}
 
       class << self
         def reset_charges!
           @@charges = {}
           @@failed_charge_ids = []
+          @@customers = {}
         end
 
         def mark_charge_as_failed!(charge_id)
@@ -36,9 +38,14 @@ module FakeServers
           return_uri = params["return_uri"]
           amount = params["amount"].to_i
           card_token = params["card"]
+          customer_id = params["customer"]
 
-          # Check if this is a failure token
+          # Check if this is a failure token (either from card or from customer's default card)
           is_failure_token = card_token&.include?("failure")
+          if !is_failure_token && customer_id
+            customer = @@customers[customer_id]
+            is_failure_token = customer&.dig("default_card")&.include?("failure")
+          end
 
           # Extract host from return_uri to use same host for authorize_uri
           uri = URI.parse(return_uri)
@@ -90,6 +97,46 @@ module FakeServers
             nil
           end
         end
+
+        def create_customer(params)
+          customer_id = "cust_test_#{SecureRandom.hex(8)}"
+
+          customer = {
+            "object" => "customer",
+            "id" => customer_id,
+            "livemode" => false,
+            "location" => "/customers/#{customer_id}",
+            "email" => params["email"],
+            "description" => params["description"],
+            "default_card" => params["card"],
+            "cards" => {
+              "object" => "list",
+              "data" => [],
+              "limit" => 20,
+              "offset" => 0,
+              "total" => 0
+            },
+            "created" => Time.now.utc.iso8601
+          }
+
+          @@customers[customer_id] = customer
+          customer
+        end
+
+        def retrieve_customer(customer_id)
+          @@customers[customer_id]
+        end
+
+        def update_customer(customer_id, params)
+          customer = @@customers[customer_id]
+          return nil unless customer
+
+          customer["default_card"] = params["card"] if params["card"]
+          customer["email"] = params["email"] if params["email"]
+          customer["description"] = params["description"] if params["description"]
+
+          customer
+        end
       end
 
       # POST /charges - Create a new charge
@@ -110,6 +157,27 @@ module FakeServers
         charge = self.class.retrieve_charge(params[:id])
 
         if charge
+          content_type :json
+          status 200
+          charge.to_json
+        else
+          content_type :json
+          status 404
+          { error: "Charge not found" }.to_json
+        end
+      end
+
+      # POST /charges/:id/capture - Capture a charge
+      post "/charges/:id/capture" do
+        charge = self.class.retrieve_charge(params[:id])
+
+        if charge
+          # Mark charge as captured (authorized and paid)
+          charge["captured"] = true
+          charge["authorized"] = true
+          charge["paid"] = true unless @@failed_charge_ids.include?(params[:id])
+          charge["status"] = @@failed_charge_ids.include?(params[:id]) ? "failed" : "successful"
+
           content_type :json
           status 200
           charge.to_json
@@ -158,6 +226,53 @@ module FakeServers
         else
           status 404
           "Charge not found"
+        end
+      end
+
+      # POST /customers - Create a new customer
+      post "/customers" do
+        request.body.rewind
+        body_content = request.body.read
+        request_params = Rack::Utils.parse_nested_query(body_content)
+
+        customer = self.class.create_customer(request_params)
+
+        content_type :json
+        status 200
+        customer.to_json
+      end
+
+      # GET /customers/:id - Retrieve a customer
+      get "/customers/:id" do
+        customer = self.class.retrieve_customer(params[:id])
+
+        if customer
+          content_type :json
+          status 200
+          customer.to_json
+        else
+          content_type :json
+          status 404
+          { error: "Customer not found" }.to_json
+        end
+      end
+
+      # PATCH /customers/:id - Update a customer
+      patch "/customers/:id" do
+        request.body.rewind
+        body_content = request.body.read
+        request_params = Rack::Utils.parse_nested_query(body_content)
+
+        customer = self.class.update_customer(params[:id], request_params)
+
+        if customer
+          content_type :json
+          status 200
+          customer.to_json
+        else
+          content_type :json
+          status 404
+          { error: "Customer not found" }.to_json
         end
       end
     end

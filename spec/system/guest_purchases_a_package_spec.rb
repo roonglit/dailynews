@@ -30,7 +30,7 @@ describe "guest purchases a package", js: true do
 
       # customer should see information of his subscription
       find('.user-profile').click
-      click_link_or_button "Subscriptions"
+      click_link_or_button "Subscriptions & Payments"
       expect(page).to have_content "Subscription Details"
 
       within("#my-subscriptions") do
@@ -75,7 +75,7 @@ describe "guest purchases a package", js: true do
 
         # verify subscription was created
         find('.user-profile').click
-        click_link_or_button "Subscriptions"
+        click_link_or_button "Subscriptions & Payments"
         expect(page).to have_content "Subscription Details"
 
         within("#my-subscriptions") do

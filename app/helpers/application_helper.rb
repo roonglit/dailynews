@@ -15,4 +15,11 @@ module ApplicationHelper
       "#{start_date.day} #{start_date.strftime('%b')} - #{end_date.day} #{end_date.strftime('%b %Y')}"
     end
   end
+
+  # Check if the current user has an active subscription
+  def has_active_subscription?
+    return false unless member_signed_in?
+
+    current_user.subscriptions.any?(&:active?)
+  end
 end
