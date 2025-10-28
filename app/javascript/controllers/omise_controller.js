@@ -10,7 +10,7 @@ export default class extends Controller {
 
 
   connect() {
-    console.log("Checkout controller connected")
+    console.log("Omise controller connected")
     // Destroy any existing Omise instance to ensure clean state
     if (typeof OmiseCard !== 'undefined' && OmiseCard.destroy) {
       OmiseCard.destroy()
@@ -25,20 +25,19 @@ export default class extends Controller {
   }
 
   disconnect() {
-    console.log("Checkout controller disconnected")
+    console.log("Omise controller disconnected")
     // Destroy the Omise instance completely
     if (typeof OmiseCard !== 'undefined' && OmiseCard.destroy) {
       OmiseCard.destroy()
     }
   }
 
-  payButtonClicked(e) {
+  openForm(e) {
     e.preventDefault()
 
-    console.log("Checkout clicked")
+    console.log("Omise form triggered")
 
-    OmiseCard.open({
-      amount: this.amountValue,
+    const omiseOptions = {
       currency: "THB",
       defaultPaymentMethod: "credit_card",
       onCreateTokenSuccess: (nonce) => {
@@ -51,6 +50,18 @@ export default class extends Controller {
 
         this.formTarget.submit()
       }
-    })
+    }
+
+    // Only add amount if it exists (for checkout flow)
+    if (this.hasAmountValue) {
+      omiseOptions.amount = this.amountValue
+    }
+
+    OmiseCard.open(omiseOptions)
+  }
+
+  // Keep backward compatibility with old checkout code
+  payButtonClicked(e) {
+    this.openForm(e)
   }
 }

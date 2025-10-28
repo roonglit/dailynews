@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resource :information, only: %i[show edit update]
     resources :subscriptions, only: %i[index update]
     resources :purchases, only: %i[index]
-    resource :payment_method, only: %i[show edit update]
+    resource :payment_method, only: %i[show update destroy]
   end
 
   resource :library, only: %i[show]

@@ -21,6 +21,8 @@ html data-theme="dailynews"
     = stylesheet_link_tag :app, "data-turbo-track": "reload"
     = javascript_importmap_tags
 
+    = javascript_include_tag "https://cdn.omise.co/omise.js", "data-turbo-track": "reload"
+
   body
     - if flash[:notice].present?
       div(class="toast toast-top toast-end m-10 z-100" data-controller="flash")
