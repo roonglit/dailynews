@@ -19,11 +19,11 @@ html
           overflow: hidden;
         }
         .header {
-          background-color: #e6f4ea;
-          color: #166534;
+          background-color: #FFF3F8;
+          color: #ED018C;
           text-align: center;
           padding: 20px 15px;
-          font-size: 20px;
+          font-size: 18px;
           font-weight: bold;
         }
         .content {
@@ -51,16 +51,19 @@ html
 
   body
     .container
-      .header คุณได้รับ Invite เป็น Admin
+      .header คุณได้รับคำเชิญให้เป็น Team Admin
 
       .content
         p
           | เรียน คุณ 
-          strong = "PomPom"
+          strong = ""
 
-        p
-          | คุณสามารถกดปุ่ม "Submit & Sign Up" เพื่อเข้าไปทำการสมัครบัญชีเพื่อเข้าเป็น Admin ที่เว็ปไซต์ Dailynews
-
+        .text-md คุณได้รับคำเชิญให้เข้าร่วมเป็น Admin ของทีม Dailynews
+        .text-md
+          | กดปุ่ม 
+          strong "Submit & Sign Up"
+          |  ด้านล่าง เพื่อสมัครและเริ่มต้นจัดการทีมของคุณได้เลย!
+          
         .button-wrapper
-          a.button href="https://dailynews.getstart.co/admin/users/sign_in" Submit & Sign Up
+          a.button href="https://dailynews.getstart.co/admin/users/sign_in" class="btn text-white" style="background-color:#ED018C;" Submit & Sign Up
 
