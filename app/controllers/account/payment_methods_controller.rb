@@ -1,11 +1,8 @@
 class Account::PaymentMethodsController < Account::BaseController
   def show
     @user = current_user
-    # Future: fetch payment methods from payment provider
     customer = Omise::Customer.retrieve(@user.omise_customer_id) if @user.omise_customer_id.present?
     @cards = customer.cards if customer.present?
-
-    p @cards
   end
 
   def update

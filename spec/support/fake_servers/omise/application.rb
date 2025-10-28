@@ -108,16 +108,25 @@ module FakeServers
             "location" => "/customers/#{customer_id}",
             "email" => params["email"],
             "description" => params["description"],
-            "default_card" => params["card"],
+            "default_card" => nil,
             "cards" => {
               "object" => "list",
               "data" => [],
               "limit" => 20,
               "offset" => 0,
-              "total" => 0
+              "total" => 0,
+              "location" => "/customers/#{customer_id}/cards"
             },
             "created" => Time.now.utc.iso8601
           }
+
+          # If creating with a card token, add the card
+          if params["card"] && params["card"].start_with?("tokn_")
+            card = create_card_from_token(customer_id, params["card"])
+            customer["cards"]["data"] << card
+            customer["cards"]["total"] = 1
+            customer["default_card"] = card["id"]
+          end
 
           @@customers[customer_id] = customer
           customer
@@ -131,11 +140,69 @@ module FakeServers
           customer = @@customers[customer_id]
           return nil unless customer
 
-          customer["default_card"] = params["card"] if params["card"]
+          # If adding a new card via token, create a card and add it
+          if params["card"] && params["card"].start_with?("tokn_")
+            card = create_card_from_token(customer_id, params["card"])
+            customer["cards"]["data"] << card
+            customer["cards"]["total"] = customer["cards"]["data"].length
+            customer["default_card"] = card["id"]
+          end
+
           customer["email"] = params["email"] if params["email"]
           customer["description"] = params["description"] if params["description"]
 
           customer
+        end
+
+        def create_card_from_token(customer_id, token)
+          card_id = "card_test_#{SecureRandom.hex(11)}"
+
+          {
+            "object" => "card",
+            "id" => card_id,
+            "livemode" => false,
+            "location" => "/customers/#{customer_id}/cards/#{card_id}",
+            "deleted" => false,
+            "brand" => "Visa",
+            "last_digits" => "4242",
+            "expiration_month" => 12,
+            "expiration_year" => 2029,
+            "fingerprint" => "kDuzb/MsBhfZhl188OcDQBEhimFLK6PgBWbaybZvAbk=",
+            "name" => "Test Cardholder",
+            "created_at" => Time.now.utc.iso8601
+          }
+        end
+
+        def list_cards(customer_id)
+          customer = @@customers[customer_id]
+          return nil unless customer
+
+          customer["cards"]
+        end
+
+        def retrieve_card(customer_id, card_id)
+          customer = @@customers[customer_id]
+          return nil unless customer
+
+          customer["cards"]["data"].find { |card| card["id"] == card_id }
+        end
+
+        def delete_card(customer_id, card_id)
+          customer = @@customers[customer_id]
+          return nil unless customer
+
+          card = customer["cards"]["data"].find { |c| c["id"] == card_id }
+          return nil unless card
+
+          customer["cards"]["data"].delete(card)
+          customer["cards"]["total"] = customer["cards"]["data"].length
+
+          # Clear default card if it was deleted
+          if customer["default_card"] == card_id
+            customer["default_card"] = customer["cards"]["data"].first&.dig("id")
+          end
+
+          card.merge("deleted" => true)
         end
       end
 
@@ -273,6 +340,51 @@ module FakeServers
           content_type :json
           status 404
           { error: "Customer not found" }.to_json
+        end
+      end
+
+      # GET /customers/:customer_id/cards - List customer's cards
+      get "/customers/:customer_id/cards" do
+        cards = self.class.list_cards(params[:customer_id])
+
+        if cards
+          content_type :json
+          status 200
+          cards.to_json
+        else
+          content_type :json
+          status 404
+          { error: "Customer not found" }.to_json
+        end
+      end
+
+      # GET /customers/:customer_id/cards/:card_id - Retrieve a specific card
+      get "/customers/:customer_id/cards/:card_id" do
+        card = self.class.retrieve_card(params[:customer_id], params[:card_id])
+
+        if card
+          content_type :json
+          status 200
+          card.to_json
+        else
+          content_type :json
+          status 404
+          { error: "Card not found" }.to_json
+        end
+      end
+
+      # DELETE /customers/:customer_id/cards/:card_id - Delete a card
+      delete "/customers/:customer_id/cards/:card_id" do
+        card = self.class.delete_card(params[:customer_id], params[:card_id])
+
+        if card
+          content_type :json
+          status 200
+          card.to_json
+        else
+          content_type :json
+          status 404
+          { error: "Card not found" }.to_json
         end
       end
     end
