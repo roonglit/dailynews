@@ -37,8 +37,8 @@ env:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
   clear:
-    POSTGRES_USER: postgres
-    POSTGRES_DB: dailynews_production
+    RAILS_ENV: production  # Set Rails environment
+    APP_ENV: uat           # Your custom environment for credentials
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
