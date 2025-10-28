@@ -36,7 +36,7 @@ describe "Create Admin user" do
       visit "/admin/first_users/new?mail=abc@hotmail.com"
 
       expect(page).to have_content("Admin Sign Up")
-      expect(page).to have_field("email", with: "abc@hotmail.com", disabled: true)
+      expect(page).to have_field("email", with: "abc@hotmail.com", readonly: true)
     end
   end
 end
