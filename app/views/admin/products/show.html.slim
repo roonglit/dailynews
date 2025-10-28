@@ -1,10 +1,79 @@
-p style="color: green" = notice
+.flex.items-center.justify-between.mb-6
+  = link_to admin_products_path, class: 'btn btn-ghost btn-sm' do
+    span.iconify.lucide--arrow-left.size-4
+    span Back to list
+  = link_to edit_admin_product_path(@product), class: 'btn btn-primary btn-sm' do
+    span.iconify.lucide--pencil.size-4
+    span Edit
 
-== render @product
+.card.bg-base-100.shadow
+  .card-body
+    h3.text-lg.font-medium.mb-4 Product Details
+    .grid.grid-cols-1.gap-4 class='md:grid-cols-2'
+      / ID
+      div
+        .text-sm.text-base-content/60.mb-1 ID
+        span.badge.badge-outline= @product.id
 
-div
-  => link_to "Edit this product", edit_admin_product_path(@product)
-  '|
-  =< link_to "Back to products", admin_products_path
+      / SKU
+      div
+        .text-sm.text-base-content/60.mb-1 SKU
+        .flex.items-center.gap-2
+          span.iconify.lucide--tag.size-4.text-base-content/60
+          = @product.sku || "-"
 
-  = button_to "Destroy this product", admin_product_path(@product), method: :delete
+      / Title
+      div.col-span-1 class='md:col-span-2'
+        .text-sm.text-base-content/60.mb-1 Title
+        .text-xl.font-semibold= @product.title
+
+      / Amount
+      div
+        .text-sm.text-base-content/60.mb-1 Amount (Tax Included)
+        .flex.items-center.gap-2
+          span.iconify.lucide--banknote.size-4.text-base-content/60
+          span.text-lg.font-medium.text-success= humanized_money_with_symbol(@product.amount)
+
+      / Base Price (Before Tax)
+      div
+        .text-sm.text-base-content/60.mb-1 Base Price (Before Tax)
+        .flex.items-center.gap-2
+          span.iconify.lucide--calculator.size-4.text-base-content/60
+          span.text-base= humanized_money_with_symbol(@product.base_price)
+
+      / Tax Amount
+      div
+        .text-sm.text-base-content/60.mb-1 Tax Amount (7%)
+        .flex.items-center.gap-2
+          span.iconify.lucide--percent.size-4.text-base-content/60
+          span.text-base= humanized_money_with_symbol(@product.tax_amount)
+
+      / Created At
+      div
+        .text-sm.text-base-content/60.mb-1 Created
+        .flex.items-center.gap-2
+          span.iconify.lucide--clock.size-4.text-base-content/60
+          = @product.created_at.strftime("%B %d, %Y at %I:%M %p")
+
+      / Updated At
+      div
+        .text-sm.text-base-content/60.mb-1 Last Updated
+        .flex.items-center.gap-2
+          span.iconify.lucide--clock.size-4.text-base-content/60
+          = @product.updated_at.strftime("%B %d, %Y at %I:%M %p")
+
+      / Description
+      div.col-span-1 class='md:col-span-2'
+        .text-sm.text-base-content/60.mb-2 Description
+        - if @product.description.present?
+          .prose.max-w-none= @product.description
+        - else
+          .text-base-content/40.italic No description provided
+
+    .divider
+
+    / Action buttons
+    .flex.justify-end
+      = button_to admin_product_path(@product), method: :delete, data: { confirm: 'Are you sure you want to delete this product?' }, class: 'btn btn-error btn-sm' do
+        span.iconify.lucide--trash.size-4
+        span Delete
