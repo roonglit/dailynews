@@ -3,7 +3,9 @@ module Admin
     before_action :require_admin_exists
 
     def new
-      @admin_user = Admin::User.new
+      email = request.query_parameters[:mail].presence || params[:mail].presence
+
+      @admin_user = Admin::User.new(email: email)
     end
 
     def create

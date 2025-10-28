@@ -1,9 +1,11 @@
 h3.text-center.text-lg.font-medium.mt-5 Admin Sign Up
 
 .mt-6
+  - is_editable = params[:mail].blank?
+
   = render "alert"
-  = simple_form_for(@admin_user, url: admin_first_users_path, html: { class: "contents space-y-2" }, data: { turbo: false }) do |form|
-    = form.input :email, label: "Email Address", icon: "lucide--mail", placeholder: "Enter your email", required: false, autofocus: true, input_html: { id: "email", autocomplete: "email", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-primary w-full" }
+  = simple_form_for(@admin_user, url: admin_first_users_path, html: { class: "contents space-y-2 disabled:bg-black disabled:text-gray-500" }, data: { turbo: false }) do |form|
+    = form.input :email, label: "Email Address", icon: "lucide--mail", placeholder: "Enter your email", required: false, autofocus: true, input_html: { id: "email", autocomplete: "email", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-primary w-full disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed", value: @admin_user.email, disabled: !is_editable }
     = form.input :password, label: "Password", icon: "lucide--key-round", placeholder: "Enter your password", required: false, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { id: "password", autocomplete: "new-password", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-primary w-full" }
     = form.input :password_confirmation, label: "Confirm Password", icon: "lucide--key-round", placeholder: "Confirm your password", required: false, input_html: { id: "confirm_password", autocomplete: "new-password", class: "border border-gray-300 rounded-lg p-3 text-md focus:outline-none focus:ring-2 focus:ring-primary w-full" }
 
