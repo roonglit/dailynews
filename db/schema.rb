@@ -96,6 +96,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_27_142610) do
     t.index ["name"], name: "index_companies_on_name", unique: true
   end
 
+  create_table "invitations", force: :cascade do |t|
+    t.datetime "accepted_at"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.integer "team_id"
+    t.string "token"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "newspapers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
