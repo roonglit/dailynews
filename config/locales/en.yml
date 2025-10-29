@@ -36,3 +36,6 @@ en:
     active_subscription_message: "Access your library to read all newspapers"
     go_to_library: "Go to My Library"
     subscription_package_title: "Daily News Digital Newspaper Package"
+  errors:
+    messages: 
+      blank: "Can't be blank"
