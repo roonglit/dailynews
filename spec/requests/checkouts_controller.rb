@@ -1,30 +1,61 @@
 require "rails_helper"
 
 RSpec.describe "Checkout", type: :request do
-    let(:product) { create(:subscribe_monthly) }
+    it "redirect to root_path" do
+        create(:guest)
+        
+        get checkout_path
 
-    let(:guest) { create(:guest) }
-    let!(:guest_cart) { Cart.create!(user: guest) }
-    let!(:guest_cart_item) { create(:cart_item, cart_id: guest_cart.id, product_id: product.id) }
+        expect(session[:member_return_to]).to eq('/checkout')
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(root_path)
+    end
 
-    describe 'GET /checkout' do
-        context 'When user without cart' do
-            before do
-                guest_cart.destroy
-            end
-            it 'Redirect to root_path and returns 302' do
-                get "/checkout"
-                expect(response).to redirect_to(root_path)
-                expect(response).to have_http_status(302)
-            end
+    context "Signed in" do
+        let!(:member) { create(:member) }
+        let!(:member_cart) { create(:cart, user: member) }
+        let!(:product) { create(:monthly_subscription_product) }
+        let!(:member_cart_item) { create(:cart_item, cart: member_cart, product: product) }
+
+        before do
+            sign_in member
         end
 
-      # context 'When user is guest with cart' do
-      #     it 'renders checkout page and returns 200' do
-      #         get "/checkout"
-      #         expect(response).to have_http_status(:ok)
-      #         expect(response.body).to include("Checkout")
-      #     end
-      # end
+        it "returns http success" do
+            get checkout_path
+
+            expect(response).to have_http_status(:success)
+        end
+
+        it "redirect to library when subscription active" do
+            get library_path
+
+            expect(response).to have_http_status(:success)
+        end
+    end
+
+    context "Subscription Active" do
+        let!(:member) { create(:member) }
+        let!(:member_cart) { create(:cart, user: member) }
+        let!(:product) { create(:monthly_subscription_product) }
+        let!(:member_cart_item) { create(:cart_item, cart: member_cart, product: product) }
+        let!(:subscription) { create(:subscription, user: member) }
+
+        before do
+            sign_in member
+        end
+
+        it "returns http success" do
+            get checkout_path
+
+            expect(response).to have_http_status(:redirect)
+        end
+
+        it "redirect to library when subscription active" do
+            get checkout_path
+
+            expect(flash[:notice]).to eq("You already have an active subscription. Enjoy reading!")
+            expect(response).to have_http_status(:redirect)
+        end
     end
 end
