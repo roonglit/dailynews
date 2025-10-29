@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       passwords: "admin/users/passwords"
     }
 
-    resource :company, only: %i[show edit update]
+    resource :company
     resources :teams, only: %i[index new create] do
       collection do
         post "invite"

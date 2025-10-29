@@ -1,17 +1,16 @@
-.flex.items-center.justify-between.mb-6
-  = link_to admin_customers_path, class: 'btn btn-ghost btn-sm' do
-    span.iconify.lucide--arrow-left.size-4
-    span Back to list
-
 / Basic Information Section
 .card.bg-base-100.shadow.mb-6
   .card-body
     .flex.items-center.justify-between.mb-4
       h3.text-lg.font-medium Basic Information
-      = link_to edit_admin_company_path, class: 'btn btn-primary btn-sm' do
-        span.iconify.lucide--pencil.size-4
-        span Edit
-
+      - if @company.persisted?
+        = link_to edit_admin_company_path, class: 'btn btn-primary btn-sm' do
+          span.iconify.lucide--pencil.size-4
+          span Edit
+      - else 
+        = link_to edit_admin_company_path, class: 'btn btn-primary btn-sm' do
+          span.iconify.lucide--plus.size-4
+          span Create
 
     .grid.grid-cols-1.gap-4 class='md:grid-cols-2'
 

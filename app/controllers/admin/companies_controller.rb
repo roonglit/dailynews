@@ -2,7 +2,26 @@
 module Admin
   class CompaniesController < BaseController
     before_action :set_company, only: %i[show edit update]
+
     def show
+    end
+
+    def new
+      @company = Company.new
+    end
+
+    def create
+      @company = Company.new(company_params)
+
+      respond_to do |format|
+        if @company.save
+          format.html { redirect_to [ :admin, @company ], notice: "Company was successfully created." }
+          format.json { render :show, status: :created, location: @company }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @company.errors, status: :unprocessable_entity }
+        end
+      end
     end
 
     def edit
@@ -22,11 +41,11 @@ module Admin
 
     private
       def set_company
-        @company = Company.first
+        @company = Company.first || Company.new(name: "-", address_1: "-", address_2: "-", sub_district: "-", district: "-", province: "-", postal_code: "-", country: "-", phone_number: "-", email: "-")
       end
 
       def company_params
-        params.expect(company: [ :id, :address_1, :address_2, :sub_district, :district, :province, :postal_code, :country, :phone_number, :email ])
+        params.expect(company: [ :id, :name, :address_1, :address_2, :sub_district, :district, :province, :postal_code, :country, :phone_number, :email ])
       end
   end
 end
