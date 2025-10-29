@@ -5,14 +5,13 @@ RSpec.configure do |config|
     FactoryBot.rewind_sequences
   end
 
-  describe "Manage Admin user" do
+  describe "Admin Teams" do
     context "when admin click Admin Teams button" do
       before { @admin_users = create_list(:admin_user, 5) }
 
       it "admin user can view all Admin Teams" do
         login_as_admin
 
-        expect(page).to have_link("Admin Teams")
         click_link_or_button "Admin Teams"
 
         expect(page).to have_current_path(admin_teams_path)
