@@ -15,6 +15,20 @@ module AuthHelper
     # user should see a welcome message
     expect(page).to have_content('Signed in successfully.')
   end
+
+  def login_as_admin(admin = nil)
+    @admin = admin || create(:admin_user)
+
+    visit admin_root_path
+
+    # user fills in email and password, and sign in
+    fill_in 'email', with: @admin.email
+    fill_in 'password', with: 'password123'
+    click_link_or_button 'SIGN IN'
+
+    # admin user should see a welcome message
+    expect(page).to have_content('Signed in successfully.')
+  end
 end
 
 RSpec.configure do |config|
