@@ -14,6 +14,6 @@ RSpec.describe Cart, type: :model do
   end
 
   it "total_cents have not product" do
-    expect(cart.total_cents).to eq(0)
+    expect(cart.total_cents).to eq(Money.new(0, "THB"))
   end
 end

@@ -40,7 +40,7 @@ RSpec.describe Product, type: :model do
 
     it "should be base price equal than product price / 1.07" do
       cal = product_have_amount.amount.cents / 1.07
-      expect(product_have_amount.base_price).to eq(cal.round)
+      expect(product_have_amount.base_price).to eq(Money.new(cal.round, "THB"))
     end
 
     it "should be tax amount equal than amount - base price" do
@@ -50,11 +50,11 @@ RSpec.describe Product, type: :model do
 
   context "product price does not exists" do
     it "should be base price equal than 0 when not have product price" do
-      expect(product.base_price).to eq(0)
+      expect(product.base_price).to eq(Money.new(0, "THB"))
     end
 
     it "should be tax amount equal than 0 when not have product price" do
-      expect(product.tax_amount).to eq(0)
+      expect(product.tax_amount).to eq(Money.new(0, "THB"))
     end
   end
 

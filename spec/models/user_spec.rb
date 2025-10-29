@@ -21,5 +21,16 @@ RSpec.describe User, type: :model do
       @user = create(:user, email: nil)
       expect(@user.name).to eq("User")
     end
+
+    context "query search exists" do
+      before { create(:user, first_name: "A", last_name: "a") }
+      it "should be return user A when query search is a or A" do
+        expect(User.search("a")).to eq(User.where(first_name: "A"))
+      end
+    end
+
+    it "should be return all user when not have query for search" do
+      expect(User.search(nil)).to eq(User.all)
+    end
   end
 end
