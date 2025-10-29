@@ -42,7 +42,11 @@ Rails.application.routes.draw do
     end
     resources :subscriptions, only: %i[index show edit update]
     resource :overview, only: %i[show]
-    resources :first_users
+    resources :first_users do
+      collection do
+        get :set_email
+      end
+    end
     resources :products
     resources :members, only: [ :index, :edit, :update ]
     resources :newspapers

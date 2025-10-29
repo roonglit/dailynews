@@ -42,8 +42,8 @@ html
         .button {
           display: inline-block;
           padding: 12px 28px;
-          background-color: #2563eb;
           color: #ffffff;
+          background-color: #ED018C;
           text-decoration: none;
           border-radius: 8px;
           font-weight: 500;
@@ -65,5 +65,4 @@ html
           |  ด้านล่าง เพื่อสมัครและเริ่มต้นจัดการทีมของคุณได้เลย!
           
         .button-wrapper
-          a.button href= "http://localhost:3000/admin/first_users/new?mail=#{@email}" class="btn text-white" style="background-color:#ED018C;" Submit & Sign Up
-
+          a.button href= "#{set_email_admin_first_users_url(token: @token)}" style="color: #FFF;" Submit & Sign Up

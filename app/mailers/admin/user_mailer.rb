@@ -3,8 +3,10 @@ module Admin
     default from: Rails.application.credentials.dig(:smtp, :user_name)
 
     def invite_admin(email)
-      @email = email
-      mail(to: email, subject: "Invite admin, u can init your password")
+      verifier = Rails.application.message_verifier(:user_mailer)
+      @token = verifier.generate({ email: email, exp: 1.days.from_now })
+
+      mail(to: email, subject: "Invite admin, you can register with your password")
     end
   end
 end

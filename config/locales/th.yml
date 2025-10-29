@@ -7,3 +7,6 @@ th:
     active_subscription_message: "เข้าสู่ห้องสมุดของคุณเพื่ออ่านหนังสือพิมพ์ทั้งหมด"
     go_to_library: "เข้าสู่ห้องสมุดของฉัน"
     subscription_package_title: "แพ็คเกจหนังสือพิมพ์เดลินิวส์ฉบับดิจิทัล"
+  errors:
+    messages: 
+      blank: "ไม่สามารถว่างได้"
