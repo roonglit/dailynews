@@ -27,9 +27,9 @@
                 td = full_name(member.first_name, member.last_name)
                 td
                     = link_to edit_admin_customer_path(member.id), class: "w-full m-0 p-0 cursor-pointer" do
-                        label.iconify.lucide--pencil.size-5.cursor-pointer.mx-1 class="hover:bg-gray-500"
+                        label.edit-icon.iconify.lucide--pencil.size-5.cursor-pointer.mx-1 class="hover:bg-gray-500"
                     = link_to admin_customer_path(member.id), class: "w-full m-0 p-0 cursor-pointer" do
-                        label.iconify.lucide--eye.size-5.cursor-pointer.mx-1 class="hover:bg-gray-500"
+                        label.show-icon.iconify.lucide--eye.size-5.cursor-pointer.mx-1 class="hover:bg-gray-500"
       .flex.items-center.justify-between.p-6
         .text-base-content/80.hover:text-base-content.flex.gap-2.text-sm
           span.hidden.sm:inline Per page
