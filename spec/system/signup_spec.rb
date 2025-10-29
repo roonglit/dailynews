@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Sign Up" do
+describe "Sign Up", js: true do
   it "allows a user to register" do
     # user clicks on the avatar icon to sign up
     visit root_path

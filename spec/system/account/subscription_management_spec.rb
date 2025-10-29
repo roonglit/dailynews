@@ -63,8 +63,8 @@ describe "Subscription management", js: true do
         find('input[type="checkbox"][name="subscription[auto_renew]"]').click
       end
 
-      # Wait for form submission and page reload
-      sleep 1
+      # Wait for form submission and page reload by checking for success message
+      expect(page).to have_content("Auto renew updated successfully.")
 
       # Verify auto-renew was disabled
       subscription.reload
@@ -117,8 +117,8 @@ describe "Subscription management", js: true do
         find('input[type="checkbox"][name="subscription[auto_renew]"]').click
       end
 
-      # Wait for form submission
-      sleep 1
+      # Wait for form submission by checking for success message
+      expect(page).to have_content("Auto renew updated successfully.")
 
       # Verify auto-renew was enabled
       subscription.reload

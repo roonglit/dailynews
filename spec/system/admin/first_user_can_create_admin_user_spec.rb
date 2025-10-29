@@ -11,7 +11,12 @@ describe "Create Admin user" do
     fill_in 'confirm_password', with: 'password123'
     click_link_or_button 'SIGN UP'
 
+    # Should see success message and be redirected to sign in
+    expect(page).to have_content("Admin account created successfully.")
     expect(page).to have_content("You need to sign in or sign up before continuing.")
+
+    # Verify admin user was created
+    expect(Admin::User.find_by(email: "register1@gmail.com")).to be_present
   end
 
   context "admin user exists" do

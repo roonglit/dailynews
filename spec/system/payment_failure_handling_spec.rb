@@ -45,19 +45,16 @@ describe "Payment failure handling", js: true do
     click_button "subscribe"
     expect(page).to have_content("Product added to cart")
 
-    # Store product reference
-    product_in_cart = Product.last
-
     # Attempt payment but it fails
     user_pays_with_omise_but_fails
 
     # Verify cart was recreated with the product
     cart = existing_member.reload.cart
     expect(cart).to be_present
-    expect(cart.product).to eq(product_in_cart)
+    expect(cart.product).to eq(product)
 
     # Verify user can see the product in cart to retry
-    expect(page).to have_content(product_in_cart.title)
+    expect(page).to have_content(product.title)
     expect(page).to have_content("Order Summary")
   end
 
