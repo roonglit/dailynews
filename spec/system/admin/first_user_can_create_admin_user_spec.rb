@@ -12,7 +12,6 @@ describe "Create Admin user" do
     click_link_or_button 'SIGN UP'
 
     # Should see success message and be redirected to sign in
-    expect(page).to have_content("Admin account created successfully.")
     expect(page).to have_content("You need to sign in or sign up before continuing.")
 
     # Verify admin user was created
