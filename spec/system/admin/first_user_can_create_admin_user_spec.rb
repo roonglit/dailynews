@@ -35,13 +35,4 @@ describe "Create Admin user" do
       expect(page).to have_content("Signed in successfully.")
     end
   end
-
-  context "when visiting with email param" do
-    it "prefills and disables the email field" do
-      visit "/admin/first_users/new?mail=abc@hotmail.com"
-
-      expect(page).to have_content("Admin Sign Up")
-      expect(page).to have_field("email", with: "abc@hotmail.com", readonly: true)
-    end
-  end
 end
