@@ -21,7 +21,7 @@ module Admin
         flash[:notice] = "Admin account created successfully."
         redirect_to admin_root_path
       else
-        render :new, status: :unprocessable_entity
+        redirect_to new_admin_first_user_path
       end
     end
 
