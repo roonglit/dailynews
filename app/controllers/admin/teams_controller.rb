@@ -17,7 +17,9 @@ module Admin
     end
 
     def invite
-      Admin::UserMailer.invite_admin(params[:email]).deliver_now
+      return redirect_to new_admin_team_path, notice: "Email can't be blank" if params[:invite][:email].blank?
+
+      Admin::UserMailer.invite_admin(params[:invite][:email]).deliver_now
       redirect_to new_admin_team_path, notice: "Invitation sent successfully."
     end
   end
