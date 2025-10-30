@@ -1,5 +1,5 @@
 class Subscription < ApplicationRecord
-  belongs_to :user
+  belongs_to :member, foreign_key: :user_id
   belongs_to :order, optional: true
 
   validates :start_date, presence: true
