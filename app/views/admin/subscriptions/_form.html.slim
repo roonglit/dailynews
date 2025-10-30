@@ -14,10 +14,10 @@
       h3.text-lg.font-medium.mb-6 Subscription Details
 
       / Start Date
-      = form.input :start_date, as: :string, input_html: { type: 'date', class: "input input-bordered w-full" }, wrapper_html: { class: 'w-full' }
+      = form.input :start_date, as: :string, input_html: { type: 'date', class: "input input-bordered w-full", data: { testid: "start_date_picker" } }, wrapper_html: { class: 'w-full' }
 
       / End Date
-      = form.input :end_date, as: :string, input_html: { type: 'date', class: "input input-bordered w-full" }, wrapper_html: { class: 'w-full' }
+      = form.input :end_date, as: :string, input_html: { type: 'date', class: "input input-bordered w-full", data: { testid: "end_date_picker" } }, wrapper_html: { class: 'w-full' }
 
       .divider
 

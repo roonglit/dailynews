@@ -120,10 +120,60 @@ describe "Admin Customers" do
     it "when press cancel on create subscription page should navigate back to create subscription page correctly" do
       login_as_admin
 
-      click_link_or_button "Customers"
-      find('.show-icon').click
-      click_link_or_button "Create Subscription"
-      click_link_or_button "Cancel"
+      expect {
+        click_link_or_button "Customers"
+        find('.show-icon').click
+        click_link_or_button "Create Subscription"
+        click_link_or_button "Cancel"
+      }.not_to change(Subscription, :count)
+
+      expect(page).to have_current_path(admin_customer_path(1))
+      expect(page).to have_content("Basic Information")
+    end
+
+    it "given field date correctly when press save on create subscription page should navigate back to create subscription page correctly" do
+      login_as_admin
+
+      expect {
+        click_link_or_button "Customers"
+        find('.show-icon').click
+        click_link_or_button "Create Subscription"
+        find("[data-testid='start_date_picker']").set("2025-10-30")
+        find("[data-testid='end_date_picker']").set("2025-11-30")
+        click_link_or_button "Save"
+      }.to change(Subscription, :count).from(1).to(2)
+
+      expect(page).to have_current_path(admin_customer_path(1))
+      expect(page).to have_content("Basic Information")
+    end
+
+    it "given field date incorrect when press save on create subscription page should stay on same page" do
+      login_as_admin
+
+      expect {
+        click_link_or_button "Customers"
+        find('.show-icon').click
+        click_link_or_button "Create Subscription"
+        find("[data-testid='start_date_picker']").set("yyyy-mm-dd")
+        find("[data-testid='end_date_picker']").set("yyyy-mm-dd")
+        click_link_or_button "Save"
+      }.not_to change(Subscription, :count)
+
+      expect(page).to have_current_path(new_admin_customer_subscription_path(1))
+      expect(page).to have_content("2 errors prohibited this subscription from being saved:")
+      expect(page).to have_content("Start date Can't be blank")
+      expect(page).to have_content("End date Can't be blank")
+    end
+
+    it "given do not field date when press save on create subscription page should fill field and navigate back to create subscription page correctly" do
+      login_as_admin
+
+      expect {
+        click_link_or_button "Customers"
+        find('.show-icon').click
+        click_link_or_button "Create Subscription"
+        click_link_or_button "Save"
+      }.to change(Subscription, :count).from(1).to(2)
 
       expect(page).to have_current_path(admin_customer_path(1))
       expect(page).to have_content("Basic Information")
