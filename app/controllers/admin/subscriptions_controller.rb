@@ -11,7 +11,7 @@ module Admin
       items_per_page = 10 unless items_per_page.positive?
       page = params[:page].present? && params[:page].to_i > 0 ? params[:page].to_i : 1
 
-      subscriptions = Subscription.includes(:user).search(params[:q]).order(created_at: :desc)
+      subscriptions = Subscription.includes(:member).search(params[:q]).order(created_at: :desc)
       @pagy, @subscriptions = pagy(subscriptions, limit: items_per_page, page: page, params: { q: params[:q], per_page: params[:per_page] }.compact)
     end
 

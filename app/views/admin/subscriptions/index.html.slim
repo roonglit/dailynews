@@ -21,12 +21,14 @@
               th End Date
               th Auto Renew
               th Status
+              th Renewal Status
+              th Last Attempt
               th Actions
           tbody
             - @subscriptions.each do |subscription|
               tr.hover:bg-base-200/40
                 td.font-medium= subscription.id
-                td= subscription.user.email
+                td= subscription.member.email
                 td= subscription.start_date.strftime("%b %d, %Y")
                 td= subscription.end_date.strftime("%b %d, %Y")
                 td
@@ -40,7 +42,38 @@
                   - else
                     span.badge.badge-ghost.badge-sm Expired
                 td
-                  = link_to admin_customer_path(subscription.user), class: 'btn btn-ghost btn-xs' do
+                  - if subscription.auto_renew?
+                    - if subscription.renewal_needs_attention?
+                      span.badge.badge-warning.badge-sm
+                        span.iconify.lucide--alert-triangle.size-3.mr-1
+                        | Needs Attention
+                    - elsif subscription.succeeded?
+                      span.badge.badge-success.badge-sm
+                        span.iconify.lucide--check-circle.size-3.mr-1
+                        | Renewed
+                    - elsif subscription.failed?
+                      span.badge.badge-error.badge-sm
+                        span.iconify.lucide--x-circle.size-3.mr-1
+                        | Failed (#{subscription.renewal_attempts})
+                    - elsif subscription.processing?
+                      span.badge.badge-info.badge-sm
+                        span.iconify.lucide--loader.size-3.mr-1
+                        | Processing
+                    - else
+                      span.badge.badge-ghost.badge-sm
+                        | Pending
+                  - else
+                    span.text-xs.text-base-content/40 N/A
+                td
+                  - if subscription.last_renewal_attempt_at
+                    .text-xs
+                      = subscription.last_renewal_attempt_at.strftime("%b %d, %Y")
+                      br
+                      span.text-base-content/60= subscription.last_renewal_attempt_at.strftime("%I:%M %p")
+                  - else
+                    span.text-xs.text-base-content/40 Never
+                td
+                  = link_to admin_customer_path(subscription.member), class: 'btn btn-ghost btn-xs' do
                     span.iconify.lucide--eye.size-4
                     span View Customer
       .flex.items-center.justify-between.p-6

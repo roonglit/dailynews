@@ -47,6 +47,30 @@
         - else
           span.badge.badge-warning Disabled
 
+      / Renewal Status
+      - if @member.subscriptions.last&.auto_renew?
+        div
+          .text-sm.text-base-content/60.mb-1 Renewal Status
+          - subscription = @member.subscriptions.last
+          - if subscription.renewal_needs_attention?
+            span.badge.badge-warning
+              span.iconify.lucide--alert-triangle.size-3.mr-1
+              | Needs Attention
+          - elsif subscription.succeeded?
+            span.badge.badge-success
+              span.iconify.lucide--check-circle.size-3.mr-1
+              | Successfully Renewed
+          - elsif subscription.failed?
+            span.badge.badge-error
+              span.iconify.lucide--x-circle.size-3.mr-1
+              | Failed (#{subscription.renewal_attempts} attempts)
+          - elsif subscription.processing?
+            span.badge.badge-info
+              span.iconify.lucide--loader.size-3.mr-1
+              | Processing
+          - else
+            span.badge.badge-ghost Pending
+
       / Created At
       div
         .text-sm.text-base-content/60.mb-1 Member Since
@@ -78,6 +102,8 @@
                 th End Date
                 th Auto Renew
                 th Status
+                th Renewal Status
+                th Last Attempt
                 th Actions
             tbody
               - @subscriptions.each do |subscription|
@@ -95,6 +121,36 @@
                       span.badge.badge-primary.badge-sm Active
                     - else
                       span.badge.badge-ghost.badge-sm Expired
+                  td
+                    - if subscription.auto_renew?
+                      - if subscription.renewal_needs_attention?
+                        span.badge.badge-warning.badge-sm
+                          span.iconify.lucide--alert-triangle.size-3.mr-1
+                          | Needs Attention
+                      - elsif subscription.succeeded?
+                        span.badge.badge-success.badge-sm
+                          span.iconify.lucide--check-circle.size-3.mr-1
+                          | Renewed
+                      - elsif subscription.failed?
+                        span.badge.badge-error.badge-sm
+                          span.iconify.lucide--x-circle.size-3.mr-1
+                          | Failed (#{subscription.renewal_attempts})
+                      - elsif subscription.processing?
+                        span.badge.badge-info.badge-sm
+                          span.iconify.lucide--loader.size-3.mr-1
+                          | Processing
+                      - else
+                        span.badge.badge-ghost.badge-sm Pending
+                    - else
+                      span.text-xs.text-base-content/40 N/A
+                  td
+                    - if subscription.last_renewal_attempt_at
+                      .text-xs
+                        = subscription.last_renewal_attempt_at.strftime("%b %d")
+                        br
+                        span.text-base-content/60= subscription.last_renewal_attempt_at.strftime("%I:%M %p")
+                    - else
+                      span.text-xs.text-base-content/40 Never
                   td
                     - if subscription.editable?
                       = link_to edit_admin_subscription_path(subscription), class: 'btn btn-ghost btn-xs' do
