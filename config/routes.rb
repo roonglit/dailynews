@@ -37,6 +37,11 @@ Rails.application.routes.draw do
         post "invite"
       end
     end
+    resources :invitations, param: :token, only: [:show] do
+      member do
+        post :accept
+      end
+    end
     resources :customers, only: %i[index show edit update] do
       resources :subscriptions, only: %i[new create]
     end

@@ -29,7 +29,7 @@ RSpec.describe "Admin::Teams", type: :request do
     email = "new_admin@example.com"
 
     it "redirects to new_admin_team_path" do
-      post invite_admin_teams_path, params: { email: email }
+      post invite_admin_teams_path, params: { invite: { email: email } }
 
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(new_admin_team_path)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_30_144622) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_30_153841) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,23 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_30_144622) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "admin_invitations", force: :cascade do |t|
+    t.datetime "accepted_at"
+    t.integer "admin_user_id"
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.datetime "expires_at", null: false
+    t.integer "invited_by_id", null: false
+    t.string "status", default: "pending", null: false
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_user_id"], name: "index_admin_invitations_on_admin_user_id"
+    t.index ["email"], name: "index_admin_invitations_on_email"
+    t.index ["expires_at"], name: "index_admin_invitations_on_expires_at"
+    t.index ["status"], name: "index_admin_invitations_on_status"
+    t.index ["token"], name: "index_admin_invitations_on_token", unique: true
+  end
+
   create_table "admin_users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -59,9 +76,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_30_144622) do
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
+    t.integer "status", default: 1, null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+    t.index ["status"], name: "index_admin_users_on_status"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -175,6 +194,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_30_144622) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "admin_invitations", "admin_users"
+  add_foreign_key "admin_invitations", "admin_users", column: "invited_by_id"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"

@@ -1,0 +1,62 @@
+.flex.w-full.justify-center.mt-10
+  .w-full.max-w-md
+    .card.bg-base-100.shadow-xl
+      .card-body
+        - if @status == :expired
+          .alert.alert-error
+            span.iconify.lucide--alert-circle
+            span This invitation has expired.
+
+          p.text-center.mt-4 This invitation link is no longer valid.
+          p.text-center
+            | Please contact
+            strong= @invitation.invited_by.email
+            |  to request a new invitation.
+
+        - elsif @status == :accepted
+          .alert.alert-success
+            span.iconify.lucide--check-circle
+            span This invitation has already been accepted.
+
+          p.text-center.mt-4 You can now sign in to your admin account.
+          .text-center.mt-4
+            = link_to "Go to Admin Login", new_admin_user_session_path, class: "btn btn-primary"
+
+        - elsif @status == :declined
+          .alert.alert-warning
+            span.iconify.lucide--x-circle
+            span This invitation was declined.
+
+          p.text-center.mt-4 This invitation is no longer active.
+
+        - else
+          h2.card-title.text-center.w-full.justify-center Admin Invitation
+
+          .alert.alert-info.mt-4
+            div
+              p
+                strong= @invitation.invited_by.email
+                |  has invited you to join as an Admin.
+
+              p.text-sm.mt-2
+                strong Email:
+                = @invitation.email
+
+              p.text-sm
+                strong Invitation expires:
+                = @invitation.expires_at.strftime('%B %d, %Y at %I:%M %p')
+
+          = render "application/alert"
+
+          .mt-6
+            = form_with model: @admin_user, url: accept_admin_invitation_path(@invitation.token), method: :post, html: { class: "space-y-4" }, data: { turbo: false } do |form|
+              .form-control
+                = form.label :password, "Set Your Password", class: "label"
+                = form.password_field :password, class: "input input-bordered w-full", placeholder: "Enter your password", required: true, autocomplete: "new-password"
+
+              .form-control
+                = form.label :password_confirmation, "Confirm Password", class: "label"
+                = form.password_field :password_confirmation, class: "input input-bordered w-full", placeholder: "Confirm your password", required: true, autocomplete: "new-password"
+
+              .form-control.mt-6
+                = form.submit "Accept Invitation & Activate Account", class: "btn btn-primary w-full"
