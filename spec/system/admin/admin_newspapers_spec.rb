@@ -1,226 +1,146 @@
 require 'rails_helper'
 
-describe "Manage Admin Newspapers" do
-  context "given an admin user with existing newspapers" do
-    before { @newspapers = create_list(:newspaper, 1) }
-    it "when admin press Newspapers button then navigate to mange newspapers correctly" do
-      # login with admin account
-      login_as_admin
+describe "Admin Newspapers" do
+  before { @newspaper = create(:newspaper) }
 
-      # admin press Newspapers on side bar
-      click_link_or_button "Newspapers"
+  it "navigates to manage newspapers page" do
+    login_as_admin
+    click_link_or_button "Newspapers"
 
-      # system navigate to newspapers page correctly
-      expect(page).to have_current_path(admin_newspapers_path)
-
-      # system show newspaper title correctly
-      expect(page).to have_content("Example Book")
-    end
-
-    it "when admin press trash button then remove newspaper correctly" do
-      # login with admin account
-      login_as_admin
-
-      # admin press Newspapers on side bar, press trash icon then remove newspaper correctly
-      expect {
-        click_link_or_button "Newspapers"
-        find('.trash-icon').click
-      }.to change(Newspaper, :count).from(1).to(0)
-
-      # system navigate to newspaper page correctly
-      expect(page).to have_current_path(admin_newspapers_path)
-
-      # system show newspaper title correctly
-      expect(page).not_to have_content("Example Book")
-    end
+    expect(page).to have_current_path(admin_newspapers_path)
+    expect(page).to have_content(@newspaper.title)
   end
 
-  context "given an admin user navigate to newspaper detail" do
-    before { @newspapers = create_list(:newspaper, 1) }
-    it "when admin eye button then navigate to newspaper detail correctly" do
-      # login with admin account
-      login_as_admin
+  it "deletes a newspaper from the list" do
+    login_as_admin
 
-      # admin press Newspapers on side bar and press show icon
+    expect {
       click_link_or_button "Newspapers"
-      find('.show-icon').click
+      find('.trash-icon').click
+    }.to change(Newspaper, :count).from(1).to(0)
 
-      # system navigate to newspaper page correctly
-      expect(page).to have_current_path(admin_newspaper_path(1))
-
-      # system show newspaper title correctly
-      expect(page).to have_content("Example Book")
-    end
-
-    it "when admin press back from newspaper detail then navigate back correctly" do
-      # login with admin account
-      login_as_admin
-
-      # admin press Newspapers on side bar, press show icon, press back then newspaper count not change
-      expect {
-        click_link_or_button "Newspapers"
-        find('.show-icon').click
-        click_link_or_button "Back to list"
-      }.not_to change(Newspaper, :count)
-
-      # system navigate to newspaper page correctly
-      expect(page).to have_current_path(admin_newspapers_path)
-
-      # system show newspaper title correctly
-      expect(page).to have_content("Example Book")
-    end
-
-    it "when admin press delete newspaper from newspaper detail then delete and navigate back correctly" do
-      # login with admin account
-      login_as_admin
-
-      # admin press Newspapers on side bar, press show icon, press Delete then remove newspaper correctly
-      expect {
-        click_link_or_button "Newspapers"
-        find('.show-icon').click
-        click_link_or_button "Delete"
-      }.to change(Newspaper, :count).from(1).to(0)
-
-      # system navigate to newspaper page correctly
-      expect(page).to have_current_path(admin_newspapers_path)
-
-      # system show newspaper title correctly
-      expect(page).not_to have_content("Example Book")
-    end
-
-    it "when admin press edit newspaper from newspaper detail then navigate to edit newspaper correctly" do
-      # login with admin account
-      login_as_admin
-
-      # admin press Newspapers on side bar, press show icon, press Edit
-      click_link_or_button "Newspapers"
-      find('.show-icon').click
-      click_link_or_button "Edit"
-
-      # system navigate to edit newspaper page correctly
-      expect(page).to have_current_path(edit_admin_newspaper_path(1))
-
-      # system show page title correctly
-      expect(page).to have_content("Edit Newspaper")
-    end
+    expect(page).to have_current_path(admin_newspapers_path)
+    expect(page).not_to have_content(@newspaper.title)
   end
 
-  context "given an admin user navigate to edit newspaper" do
-    before { @newspapers = create_list(:newspaper, 1) }
-    it "when admin press pencil button then navigate to edit newspaper correctly" do
-      # login with admin account
-      login_as_admin
+  it "navigates to newspaper detail page" do
+    login_as_admin
+    click_link_or_button "Newspapers"
+    find('.show-icon').click
 
-      # admin press Newspapers button, then press pencil button
+    expect(page).to have_current_path(admin_newspaper_path(@newspaper))
+    expect(page).to have_content(@newspaper.title)
+  end
+
+  it "navigates back from newspaper detail page" do
+    login_as_admin
+
+    expect {
+      click_link_or_button "Newspapers"
+      find('.show-icon').click
+      click_link_or_button "Back to list"
+    }.not_to change(Newspaper, :count)
+
+    expect(page).to have_current_path(admin_newspapers_path)
+    expect(page).to have_content(@newspaper.title)
+  end
+
+  it "deletes newspaper from detail page" do
+    login_as_admin
+
+    expect {
+      click_link_or_button "Newspapers"
+      find('.show-icon').click
+      click_link_or_button "Delete"
+    }.to change(Newspaper, :count).from(1).to(0)
+
+    expect(page).to have_current_path(admin_newspapers_path)
+    expect(page).not_to have_content(@newspaper.title)
+  end
+
+  it "navigates to edit newspaper from detail page" do
+    login_as_admin
+    click_link_or_button "Newspapers"
+    find('.show-icon').click
+    click_link_or_button "Edit"
+
+    expect(page).to have_current_path(edit_admin_newspaper_path(@newspaper))
+    expect(page).to have_content("Edit Newspaper")
+  end
+
+  it "navigates to edit newspaper from list" do
+    login_as_admin
+    click_link_or_button "Newspapers"
+    find('.pencil-icon').click
+
+    expect(page).to have_current_path(edit_admin_newspaper_path(@newspaper))
+    expect(page).to have_content("Edit Newspaper")
+    expect(page).to have_field("newspaper_title", with: @newspaper.title)
+    expect(page).to have_field("newspaper_description", with: @newspaper.description)
+    expect(page).to have_field("newspaper_published_at", with: @newspaper.published_at)
+  end
+
+  it "cancels editing a newspaper" do
+    login_as_admin
+
+    expect {
       click_link_or_button "Newspapers"
       find('.pencil-icon').click
+      click_link_or_button "Cancel"
+    }.not_to change(Newspaper, :count)
 
-      # system should navigate to edit newspaper page correctly
-      expect(page).to have_current_path(edit_admin_newspaper_path(1))
-
-      # system show page title correctly
-      expect(page).to have_content("Edit Newspaper")
-
-      # system should prefill newspaper title correctly
-      expect(page).to have_field("newspaper_title", with: "Example Book")
-
-      # system should prefill newspaper description correctly
-      expect(page).to have_field("newspaper_description", with: "Description example")
-
-      # system should prefill newspaper date correctly
-      expect(page).to have_field("newspaper_published_at", with: Date.today)
-    end
-
-    it "when admin press cancel button form edit newspaper then navigate back to newspapers page correctly" do
-      # login with admin account
-      login_as_admin
-
-      # admin press Newspapers button, then press pencil button then newspaper count not change
-      expect {
-        click_link_or_button "Newspapers"
-        find('.pencil-icon').click
-        click_link_or_button "Cancel"
-      }.not_to change(Newspaper, :count)
-
-      # system should navigate back to newspaper page correctly
-      expect(page).to have_current_path(admin_newspapers_path)
-
-      # system show page title correctly
-      expect(page).to have_content("Newspapers")
-    end
-
-    it "when admin edit title and press save button form edit newspaper then navigate to newspapers detail page with edited value" do
-      # login with admin account
-      login_as_admin
-
-      # admin press Newspapers button, then press save button then newspaper count not change
-      expect {
-        click_link_or_button "Newspapers"
-        find('.pencil-icon').click
-        fill_in 'newspaper_title', with: "Example Book 2"
-        click_link_or_button "Save"
-      }.not_to change(Newspaper, :count)
-
-      # system should navigate to newspaper detail page correctly
-      expect(page).to have_current_path(admin_newspaper_path(1))
-
-      # system show edited title correctly
-      expect(page).to have_content("Example Book 2")
-    end
+    expect(page).to have_current_path(admin_newspapers_path)
+    expect(page).to have_content("Newspapers")
   end
 
-  context "given an admin user create new newspaper" do
-    before { @newspapers = create_list(:newspaper, 1) }
-    it "when admin press New newspaper button then navigate to new newspaper correctly" do
-      # login with admin account
-      login_as_admin
+  it "edits newspaper title and saves changes" do
+    login_as_admin
 
-      # admin press Newspapers on side bar, then press New newspaper button
+    expect {
+      click_link_or_button "Newspapers"
+      find('.pencil-icon').click
+      fill_in 'newspaper_title', with: "Updated Title"
+      click_link_or_button "Save"
+    }.not_to change(Newspaper, :count)
+
+    expect(page).to have_current_path(admin_newspaper_path(@newspaper))
+    expect(page).to have_content("Updated Title")
+  end
+
+  it "navigates to new newspaper form" do
+    login_as_admin
+    click_link_or_button "Newspapers"
+    click_link_or_button "New newspaper"
+
+    expect(page).to have_current_path(new_admin_newspaper_path)
+    expect(page).to have_content("New Newspaper")
+  end
+
+  it "cancels creating a new newspaper" do
+    login_as_admin
+
+    expect {
       click_link_or_button "Newspapers"
       click_link_or_button "New newspaper"
+      click_link_or_button "Cancel"
+    }.not_to change(Newspaper, :count)
 
-      # system should navigate to new newspaper page correctly
-      expect(page).to have_current_path(new_admin_newspaper_path)
+    expect(page).to have_current_path(admin_newspapers_path)
+    expect(page).to have_content("Newspapers")
+  end
 
-      # system show page title correctly
-      expect(page).to have_content("New Newspaper")
-    end
+  it "creates a new newspaper" do
+    login_as_admin
 
-    it "when admin press New newspaper button then navigate to new newspaper correctly" do
-      # login with admin account
-      login_as_admin
+    expect {
+      click_link_or_button "Newspapers"
+      click_link_or_button "New newspaper"
+      fill_in 'newspaper_title', with: "New Newspaper Title"
+      click_link_or_button "Create Newspaper"
+    }.to change(Newspaper, :count).from(1).to(2)
 
-      # admin press Newspapers on side bar, press New newspaper then press cancel button
-      expect {
-        click_link_or_button "Newspapers"
-        click_link_or_button "New newspaper"
-        click_link_or_button "Cancel"
-      }.not_to change(Newspaper, :count)
-
-      # system should navigate to newspaper page correctly
-      expect(page).to have_current_path(admin_newspapers_path)
-
-      # system show page title correctly
-      expect(page).to have_content("Newspapers")
-    end
-
-    it "when admin press create New newspaper button then create new newspaper correctly" do
-      # login with admin account
-      login_as_admin
-
-      # admin press Newspapers on side bar, press New newspaper then press create button
-      expect {
-        click_link_or_button "Newspapers"
-        click_link_or_button "New newspaper"
-        fill_in 'newspaper_title', with: "Example Book 2"
-        click_link_or_button "Create Newspaper"
-      }.to change(Newspaper, :count).from(1).to(2)
-
-      # system should navigate to newspaper page correctly
-      expect(page).to have_current_path(admin_newspaper_path(2))
-
-      # system show page title correctly
-      expect(page).to have_content("Example Book 2")
-    end
+    new_newspaper = Newspaper.last
+    expect(page).to have_current_path(admin_newspaper_path(new_newspaper))
+    expect(page).to have_content("New Newspaper Title")
   end
 end

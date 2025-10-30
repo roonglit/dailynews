@@ -1,182 +1,165 @@
 require 'rails_helper'
 
 describe "Admin Customers" do
-  context "navigate to customer page" do
-    before { @subscriptions = create_list(:subscription, 1) }
+  before { @subscription = create(:subscription) }
 
-    it "when admin press customers should navigate to customers path correctly" do
-      login_as_admin
+  let(:customer) { @subscription.member }
 
-      click_link_or_button "Customers"
+  it "navigates to customers page" do
+    login_as_admin
+    click_link_or_button "Customers"
 
-      expect(page).to have_current_path(admin_customers_path)
-      expect(page).to have_content("Customers")
-      expect(page).to have_content("test1@example.com")
-    end
+    expect(page).to have_current_path(admin_customers_path)
+    expect(page).to have_content("Customers")
+    expect(page).to have_content(customer.email)
   end
 
-  context "navigate to edit infomation page" do
-    before { @subscriptions = create_list(:subscription, 1) }
+  it "navigates to edit customer information page" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.edit-icon').click
 
-    it "when admin press edit should navigate to edit Information page" do
-      login_as_admin
-
-      click_link_or_button "Customers"
-      find('.edit-icon').click
-
-      expect(page).to have_current_path(edit_admin_customer_path(1))
-      expect(page).to have_content("Basic Information")
-    end
-
-    it "when admin press back from edit customer info page should navigate to edit Information page" do
-      login_as_admin
-
-      click_link_or_button "Customers"
-      find('.edit-icon').click
-      fill_in 'member_first_name', with: "firstname"
-      fill_in 'member_last_name', with: "lastname"
-      click_link_or_button "Back"
-
-      expect(page).to have_current_path(admin_customer_path(1))
-      expect(page).to have_content("Purchase History")
-      expect(page).to have_content("-")
-    end
-
-    it "when admin press cancel from edit customer info page should navigate to edit Information page" do
-      login_as_admin
-
-      click_link_or_button "Customers"
-      find('.edit-icon').click
-      fill_in 'member_first_name', with: "firstname"
-      fill_in 'member_last_name', with: "lastname"
-      click_link_or_button "Cancel"
-
-      expect(page).to have_current_path(admin_customer_path(1))
-      expect(page).to have_content("Purchase History")
-      expect(page).to have_content("-")
-    end
-
-    it "when admin press save with empty full name from edit customer info page should navigate to edit Information page with empty full name" do
-      login_as_admin
-
-      click_link_or_button "Customers"
-      find('.edit-icon').click
-      click_link_or_button "Save"
-
-      expect(page).to have_current_path(admin_customer_path(1))
-      expect(page).to have_content("Purchase History")
-      expect(page).to have_content("-")
-    end
-
-    it "when admin press save with empty full name from edit customer info page should navigate to edit Information page with empty full name" do
-      login_as_admin
-
-      click_link_or_button "Customers"
-      find('.edit-icon').click
-      fill_in 'member_first_name', with: "firstname"
-      fill_in 'member_last_name', with: "lastname"
-      click_link_or_button "Save"
-
-      expect(page).to have_current_path(admin_customer_path(1))
-      expect(page).to have_content("Purchase History")
-      expect(page).to have_content("firstname lastname")
-    end
+    expect(page).to have_current_path(edit_admin_customer_path(customer))
+    expect(page).to have_content("Basic Information")
   end
 
-  context "navigate to customer page" do
-    before { @subscriptions = create_list(:subscription, 1) }
+  it "navigates back from edit page" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.edit-icon').click
+    fill_in 'member_first_name', with: "firstname"
+    fill_in 'member_last_name', with: "lastname"
+    click_link_or_button "Back"
 
-    it "navigate to infomation page" do
-      login_as_admin
+    expect(page).to have_current_path(admin_customer_path(customer))
+    expect(page).to have_content("Purchase History")
+    expect(page).to have_content("-")
+  end
 
-      click_link_or_button "Customers"
-      find('.show-icon').click
+  it "cancels editing customer information" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.edit-icon').click
+    fill_in 'member_first_name', with: "firstname"
+    fill_in 'member_last_name', with: "lastname"
+    click_link_or_button "Cancel"
 
-      expect(page).to have_current_path(admin_customer_path(1))
-      expect(page).to have_content("Purchase History")
-    end
+    expect(page).to have_current_path(admin_customer_path(customer))
+    expect(page).to have_content("Purchase History")
+    expect(page).to have_content("-")
+  end
 
-    it "when admin press edit should navigate to infomation page correctly" do
-      login_as_admin
+  it "saves customer information without name changes" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.edit-icon').click
+    click_link_or_button "Save"
 
-      click_link_or_button "Customers"
-      find('.show-icon').click
-      click_link_or_button "Edit"
+    expect(page).to have_current_path(admin_customer_path(customer))
+    expect(page).to have_content("Purchase History")
+    expect(page).to have_content("-")
+  end
 
-      expect(page).to have_current_path(edit_admin_customer_path(1))
-    end
+  it "saves customer information with name updates" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.edit-icon').click
+    fill_in 'member_first_name', with: "firstname"
+    fill_in 'member_last_name', with: "lastname"
+    click_link_or_button "Save"
 
-    it "when admin press create subscription should navigate to create subscription page correctly" do
-      login_as_admin
+    expect(page).to have_current_path(admin_customer_path(customer))
+    expect(page).to have_content("Purchase History")
+    expect(page).to have_content("firstname lastname")
+  end
 
+  it "navigates to customer information page" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.show-icon').click
+
+    expect(page).to have_current_path(admin_customer_path(customer))
+    expect(page).to have_content("Purchase History")
+  end
+
+  it "navigates to edit from customer information page" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.show-icon').click
+    click_link_or_button "Edit"
+
+    expect(page).to have_current_path(edit_admin_customer_path(customer))
+  end
+
+  it "navigates to create subscription page" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.show-icon').click
+    click_link_or_button "Create Subscription"
+
+    expect(page).to have_current_path(new_admin_customer_subscription_path(customer))
+    expect(page).to have_content("Subscription Details")
+  end
+
+  it "cancels creating a subscription" do
+    login_as_admin
+
+    expect {
       click_link_or_button "Customers"
       find('.show-icon').click
       click_link_or_button "Create Subscription"
+      click_link_or_button "Cancel"
+    }.not_to change(Subscription, :count)
 
-      expect(page).to have_current_path(new_admin_customer_subscription_path(1))
-      expect(page).to have_content("Subscription Details")
-    end
+    expect(page).to have_current_path(admin_customer_path(customer))
+    expect(page).to have_content("Basic Information")
+  end
 
-    it "when press cancel on create subscription page should navigate back to create subscription page correctly" do
-      login_as_admin
+  it "creates a subscription with valid dates" do
+    login_as_admin
 
-      expect {
-        click_link_or_button "Customers"
-        find('.show-icon').click
-        click_link_or_button "Create Subscription"
-        click_link_or_button "Cancel"
-      }.not_to change(Subscription, :count)
+    expect {
+      click_link_or_button "Customers"
+      find('.show-icon').click
+      click_link_or_button "Create Subscription"
+      find("[data-testid='start_date_picker']").set("2025-10-30")
+      find("[data-testid='end_date_picker']").set("2025-11-30")
+      click_link_or_button "Save"
+    }.to change(Subscription, :count).from(1).to(2)
 
-      expect(page).to have_current_path(admin_customer_path(1))
-      expect(page).to have_content("Basic Information")
-    end
+    expect(page).to have_current_path(admin_customer_path(customer))
+    expect(page).to have_content("Basic Information")
+  end
 
-    it "given field date correctly when press save on create subscription page should navigate back to create subscription page correctly" do
-      login_as_admin
+  it "shows validation errors with invalid dates" do
+    login_as_admin
 
-      expect {
-        click_link_or_button "Customers"
-        find('.show-icon').click
-        click_link_or_button "Create Subscription"
-        find("[data-testid='start_date_picker']").set("2025-10-30")
-        find("[data-testid='end_date_picker']").set("2025-11-30")
-        click_link_or_button "Save"
-      }.to change(Subscription, :count).from(1).to(2)
+    expect {
+      click_link_or_button "Customers"
+      find('.show-icon').click
+      click_link_or_button "Create Subscription"
+      find("[data-testid='start_date_picker']").set("yyyy-mm-dd")
+      find("[data-testid='end_date_picker']").set("yyyy-mm-dd")
+      click_link_or_button "Save"
+    }.not_to change(Subscription, :count)
 
-      expect(page).to have_current_path(admin_customer_path(1))
-      expect(page).to have_content("Basic Information")
-    end
+    expect(page).to have_current_path(new_admin_customer_subscription_path(customer))
+    expect(page).to have_content("2 errors prohibited this subscription from being saved:")
+    expect(page).to have_content("Start date Can't be blank")
+    expect(page).to have_content("End date Can't be blank")
+  end
 
-    it "given field date incorrect when press save on create subscription page should stay on same page" do
-      login_as_admin
+  it "creates a subscription without providing dates" do
+    login_as_admin
 
-      expect {
-        click_link_or_button "Customers"
-        find('.show-icon').click
-        click_link_or_button "Create Subscription"
-        find("[data-testid='start_date_picker']").set("yyyy-mm-dd")
-        find("[data-testid='end_date_picker']").set("yyyy-mm-dd")
-        click_link_or_button "Save"
-      }.not_to change(Subscription, :count)
+    expect {
+      click_link_or_button "Customers"
+      find('.show-icon').click
+      click_link_or_button "Create Subscription"
+      click_link_or_button "Save"
+    }.to change(Subscription, :count).from(1).to(2)
 
-      expect(page).to have_current_path(new_admin_customer_subscription_path(1))
-      expect(page).to have_content("2 errors prohibited this subscription from being saved:")
-      expect(page).to have_content("Start date Can't be blank")
-      expect(page).to have_content("End date Can't be blank")
-    end
-
-    it "given do not field date when press save on create subscription page should fill field and navigate back to create subscription page correctly" do
-      login_as_admin
-
-      expect {
-        click_link_or_button "Customers"
-        find('.show-icon').click
-        click_link_or_button "Create Subscription"
-        click_link_or_button "Save"
-      }.to change(Subscription, :count).from(1).to(2)
-
-      expect(page).to have_current_path(admin_customer_path(1))
-      expect(page).to have_content("Basic Information")
-    end
+    expect(page).to have_current_path(admin_customer_path(customer))
+    expect(page).to have_content("Basic Information")
   end
 end
