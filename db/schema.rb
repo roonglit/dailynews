@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_27_142610) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_30_144622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -142,10 +142,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_27_142610) do
     t.boolean "auto_renew", default: true
     t.datetime "created_at", null: false
     t.date "end_date", null: false
+    t.datetime "last_renewal_attempt_at"
     t.bigint "order_id"
+    t.integer "renewal_attempts", default: 0, null: false
+    t.datetime "renewal_failed_at"
+    t.integer "renewal_status", default: 0, null: false
+    t.datetime "renewal_succeeded_at"
     t.date "start_date", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.index ["auto_renew", "end_date", "renewal_status"], name: "index_subscriptions_on_renewal_query"
     t.index ["order_id"], name: "index_subscriptions_on_order_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end

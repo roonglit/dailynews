@@ -1,0 +1,45 @@
+h1 Issue with Your Subscription Renewal
+
+p
+  | Hello #{@member.first_name || @member.email},
+
+p
+  | We tried to automatically renew your Daily News subscription, but the payment could not be processed.
+
+h2 Subscription Details
+
+table style="border-collapse: collapse; margin: 20px 0;"
+  tr
+    td style="padding: 8px; font-weight: bold;" Current Period:
+    td style="padding: 8px;"
+      = @subscription.start_date.strftime("%B %d, %Y")
+      | &nbsp;-&nbsp;
+      = @subscription.end_date.strftime("%B %d, %Y")
+  tr
+    td style="padding: 8px; font-weight: bold;" Expires In:
+    td style="padding: 8px;" 2 days
+
+h2 What Happens Next?
+
+p
+  | <strong>Don't worry</strong> - we'll automatically try to process the payment again tomorrow.
+
+p
+  | If you'd like to update your payment method or review your subscription, please visit your
+  = link_to "account settings", account_subscriptions_url
+  | .
+
+h2 Common Payment Issues
+
+ul
+  li Insufficient funds
+  li Expired credit card
+  li Card security settings blocking the transaction
+
+p
+  | If you need assistance, please contact our support team.
+
+p
+  | Best regards,
+  br
+  | The Daily News Team

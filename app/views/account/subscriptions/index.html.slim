@@ -34,6 +34,23 @@
               span.text-base.font-bold.mr-2 = "#{@subscription.renewal_text}:"
               span.text-base = format_renewal_date(@subscription.renewal_or_expiry_date)
 
+            - if @subscription.auto_renew?
+              .mb-2
+                span.text-base.font-bold.mr-2 Next Renewal Attempt:
+                span.text-base = format_renewal_date(@subscription.renewal_attempt_date)
+                span.text-sm.text-gray-600.ml-2 (2 days before expiration)
+
+            - if @subscription.renewal_status_message
+              .mb-2
+                - if @subscription.renewal_needs_attention?
+                  span.badge.badge-warning.badge-sm = @subscription.renewal_status_message
+                - elsif @subscription.succeeded?
+                  span.badge.badge-success.badge-sm = @subscription.renewal_status_message
+                - elsif @subscription.failed?
+                  span.badge.badge-error.badge-sm = @subscription.renewal_status_message
+                - else
+                  span.text-sm.text-gray-600 = @subscription.renewal_status_message
+
         / Right side: Manage button
         div.flex.items-start
           button class="btn btn-outline btn-primary px-8" onclick="subscription_modal.showModal()" MANAGE
@@ -58,6 +75,30 @@
           .my-4
             span.text-base.font-bold.mr-2 = "#{@subscription.renewal_text}:"
             span.text-base = format_renewal_date(@subscription.renewal_or_expiry_date)
+
+          - if @subscription.auto_renew?
+            .my-4
+              span.text-base.font-bold.mr-2 Next Renewal Attempt:
+              span.text-base = format_renewal_date(@subscription.renewal_attempt_date)
+              br
+              span.text-sm.text-gray-600 We'll attempt to renew 2 days before your subscription expires
+
+          - if @subscription.renewal_status_message
+            .my-4
+              - if @subscription.renewal_needs_attention?
+                .alert.alert-warning.py-2
+                  span = @subscription.renewal_status_message
+                  br
+                  span.text-sm Please update your payment method to continue your subscription
+              - elsif @subscription.succeeded?
+                .alert.alert-success.py-2
+                  span = @subscription.renewal_status_message
+              - elsif @subscription.failed?
+                .alert.alert-error.py-2
+                  span = @subscription.renewal_status_message
+                  br
+                  span.text-sm We'll automatically retry tomorrow
+
           hr class="border-gray-300 opacity-70"
           .flex.justify-between.mt-4.items-center
             div
@@ -69,7 +110,10 @@
               .flex.items-center.space-x-2
                 = form.check_box :auto_renew, class: "toggle toggle-md toggle-primary", onchange: "this.form.submit()"
 
-          .text-sm.mt-6.text-gray-600 At the end of your subscription, we'll renew it automatically so you'll never miss an issue.
+          .text-sm.mt-6.text-gray-600
+            | When auto-renew is enabled, we'll automatically renew your subscription 2 days before it expires.
+            br
+            | If the first attempt fails, we'll retry daily until your subscription expires.
 
 
       form method="dialog" class="modal-backdrop"

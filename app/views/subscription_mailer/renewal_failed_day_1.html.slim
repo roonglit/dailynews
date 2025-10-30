@@ -1,0 +1,43 @@
+h1 Urgent: Subscription Renewal Failed Again
+
+p
+  | Hello #{@member.first_name || @member.email},
+
+p
+  | We attempted to renew your Daily News subscription again, but the payment still could not be processed.
+
+h2 Subscription Details
+
+table style="border-collapse: collapse; margin: 20px 0;"
+  tr
+    td style="padding: 8px; font-weight: bold;" Current Period:
+    td style="padding: 8px;"
+      = @subscription.start_date.strftime("%B %d, %Y")
+      | &nbsp;-&nbsp;
+      = @subscription.end_date.strftime("%B %d, %Y")
+  tr
+    td style="padding: 8px; font-weight: bold;" Expires In:
+    td style="padding: 8px; color: #d32f2f; font-weight: bold;" 1 day
+
+h2 Action Required
+
+p style="color: #d32f2f; font-weight: bold;"
+  | We'll make one final attempt to process your payment tomorrow. If that fails, your subscription will expire.
+
+p
+  | To avoid losing access to Daily News:
+
+ul
+  li
+    = link_to "Update your payment method", account_subscriptions_url
+    | &nbsp;in your account settings
+  li Or manually renew your subscription
+  li Contact our support team if you need help
+
+p
+  | We don't want you to lose access to your favorite publications!
+
+p
+  | Best regards,
+  br
+  | The Daily News Team

@@ -1,0 +1,43 @@
+h1 Subscription Renewed Successfully
+
+p
+  | Hello #{@member.first_name || @member.email},
+
+p
+  | Great news! Your Daily News subscription has been automatically renewed.
+
+h2 Subscription Details
+
+table style="border-collapse: collapse; margin: 20px 0;"
+  tr
+    td style="padding: 8px; font-weight: bold;" Previous Period:
+    td style="padding: 8px;"
+      = @old_subscription.start_date.strftime("%B %d, %Y")
+      | &nbsp;-&nbsp;
+      = @old_subscription.end_date.strftime("%B %d, %Y")
+  tr
+    td style="padding: 8px; font-weight: bold;" New Period:
+    td style="padding: 8px;"
+      = @new_subscription.start_date.strftime("%B %d, %Y")
+      | &nbsp;-&nbsp;
+      = @new_subscription.end_date.strftime("%B %d, %Y")
+  tr
+    td style="padding: 8px; font-weight: bold;" Amount Charged:
+    td style="padding: 8px;"
+      = number_to_currency(@new_subscription.order.total_cents / 100.0, unit: "฿", format: "%u%n")
+
+p
+  | You can continue enjoying unlimited access to all Daily News publications.
+
+p
+  | If you wish to turn off auto-renewal, you can do so from your
+  = link_to "account settings", account_subscriptions_url
+  | .
+
+p
+  | Thank you for being a valued subscriber!
+
+p
+  | Best regards,
+  br
+  | The Daily News Team

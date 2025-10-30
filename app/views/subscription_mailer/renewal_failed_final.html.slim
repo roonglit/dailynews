@@ -1,0 +1,50 @@
+h1 Your Subscription Will Expire Today
+
+p
+  | Hello #{@member.first_name || @member.email},
+
+p
+  | Unfortunately, we were unable to renew your Daily News subscription after multiple attempts.
+
+h2 Subscription Details
+
+table style="border-collapse: collapse; margin: 20px 0;"
+  tr
+    td style="padding: 8px; font-weight: bold;" Current Period:
+    td style="padding: 8px;"
+      = @subscription.start_date.strftime("%B %d, %Y")
+      | &nbsp;-&nbsp;
+      = @subscription.end_date.strftime("%B %d, %Y")
+  tr
+    td style="padding: 8px; font-weight: bold;" Status:
+    td style="padding: 8px; color: #d32f2f; font-weight: bold;" Expires today
+
+h2 What This Means
+
+p
+  | Your access to Daily News publications will end at midnight tonight.
+
+h2 How to Continue Your Subscription
+
+p
+  | We'd love to have you back! To continue enjoying Daily News:
+
+ol
+  li
+    = link_to "Visit your account settings", account_subscriptions_url
+  li Update your payment method
+  li Manually renew your subscription
+
+p
+  | Or you can turn off auto-renewal and purchase a new subscription at any time.
+
+p
+  | If you're experiencing payment issues or have questions, please don't hesitate to contact our support team.
+
+p
+  | We hope to see you again soon!
+
+p
+  | Best regards,
+  br
+  | The Daily News Team
