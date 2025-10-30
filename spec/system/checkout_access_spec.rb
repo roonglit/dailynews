@@ -4,6 +4,37 @@ describe "Checkout access", js: true do
   let!(:product) { create(:monthly_subscription_product) }
 
   context "as a guest" do
+    it "get checkout path without click button subscribe" do
+      # Visit home page as guest
+      visit root_path
+
+      # Open checkout with url path
+      visit checkout_path
+
+      # Should stay on root path
+      expect(page).to have_current_path(root_path)
+    end
+
+    it "get checkout path with subscribe click button" do
+      # Visit home page as guest
+      visit root_path
+
+      # Click subscribe button
+      click_button "subscribe"
+
+      # Back to home page as guest
+      visit root_path
+
+      # Open checkout with url path
+      visit checkout_path
+
+      # Should stay on root path
+      expect(page).to have_current_path(checkout_path)
+
+      # Checkout page should be visible
+      expect(page).to have_content("Order Summary")
+    end
+
     it "can add product to cart and reach checkout page" do
       # Visit home page as guest
       visit root_path
@@ -70,6 +101,17 @@ describe "Checkout access", js: true do
       login_as_user(member)
     end
 
+    it "get checkout path without click button subscribe" do
+      # Visit home page as guest
+      visit root_path
+
+      # Open checkout with url path
+      visit checkout_path
+
+      # Should stay on root path
+      expect(page).to have_current_path(root_path)
+    end
+
     it "can add product to cart and reach checkout page" do
       # Visit home page
       visit root_path
@@ -128,6 +170,26 @@ describe "Checkout access", js: true do
       expect(page).to have_current_path(checkout_path)
       expect(page).to have_content("Order Summary")
       expect(page).to have_content(product.title)
+    end
+  end
+
+  context "as a member and have subscription" do
+    let(:member_have_subscription) { create(:member) }
+    let!(:subscription) { create(:subscription, user: member_have_subscription) }
+
+    before do
+      login_as_user(member_have_subscription)
+    end
+
+    it "get checkout path without click button subscribe" do
+      # Visit home page as guest
+      visit root_path
+
+      # Open checkout with url path
+      visit checkout_path
+
+      # Should stay on root path
+      expect(page).to have_current_path(library_path)
     end
   end
 end
