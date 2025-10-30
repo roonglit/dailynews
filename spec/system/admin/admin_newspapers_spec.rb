@@ -107,7 +107,7 @@ describe "Manage Admin Newspapers" do
 
   context "given an admin user navigate to edit newspaper" do
     before { @newspapers = create_list(:newspaper, 1) }
-    it "when admin pencil button then navigate to edit newspaper correctly" do
+    it "when admin press pencil button then navigate to edit newspaper correctly" do
       # login with admin account
       login_as_admin
 
@@ -129,6 +129,43 @@ describe "Manage Admin Newspapers" do
 
       # system should prefill newspaper date correctly
       expect(page).to have_field("newspaper_published_at", with: Date.today)
+    end
+
+    it "when admin press cancel button form edit newspaper then navigate back to newspapers page correctly" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Newspapers button, then press pencil button then newspaper count not change
+      expect {
+        click_link_or_button "Newspapers"
+        find('.pencil-icon').click
+        click_link_or_button "Cancel"
+      }.not_to change(Newspaper, :count)
+
+      # system should navigate back to newspaper page correctly
+      expect(page).to have_current_path(admin_newspapers_path)
+
+      # system show page title correctly
+      expect(page).to have_content("Newspapers")
+    end
+
+    it "when admin edit title and press save button form edit newspaper then navigate to newspapers detail page with edited value" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Newspapers button, then press save button then newspaper count not change
+      expect {
+        click_link_or_button "Newspapers"
+        find('.pencil-icon').click
+        fill_in 'newspaper_title', with: "Example Book 2"
+        click_link_or_button "Save"
+      }.not_to change(Newspaper, :count)
+
+      # system should navigate to newspaper detail page correctly
+      expect(page).to have_current_path(admin_newspaper_path(1))
+
+      # system show edited title correctly
+      expect(page).to have_content("Example Book 2")
     end
   end
 end
