@@ -42,11 +42,11 @@
                 td
                   .inline-flex
                     = link_to edit_admin_newspaper_path(newspaper), class: 'btn btn-square btn-ghost btn-sm', html: { "aria-label": "Edit newspaper link" } do
-                      span.iconify.lucide--pencil.text-base-content/80.size-4
+                      span.pencil-icon.iconify.lucide--pencil.text-base-content/80.size-4
                     = link_to admin_newspaper_path(newspaper), class: 'btn btn-square btn-ghost btn-sm', html: { "aria-label": "Show newspaper link" } do
-                      span.iconify.lucide--eye.text-base-content/80.size-4
+                      span.show-icon.iconify.lucide--eye.text-base-content/80.size-4
                     = button_to admin_newspaper_path(newspaper), class: 'btn btn-square btn-error btn-outline btn-sm border-transparent', method: :delete, data: { confirm: 'Are you sure?' } do
-                      span.iconify.lucide--trash.size-4
+                      span.trash-icon.iconify.lucide--trash.size-4
       .flex.items-center.justify-between.p-6
         .text-base-content/80.hover:text-base-content.flex.gap-2.text-sm
           span.hidden.sm:inline Per page
