@@ -14,6 +14,14 @@ digitalocean:
   region: sgp1
   bucket: <%= Rails.application.credentials.dig(:digitalocean, :bucket) %>
 
+huawei:
+  service: S3
+  endpoint: https://obs.ap-southeast-2.myhuaweicloud.com
+  access_key_id: <%= Rails.application.credentials.dig(:digitalocean, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:digitalocean, :secret_access_key) %>
+  region: AP-Bangkok
+  bucket: <%= Rails.application.credentials.dig(:digitalocean, :bucket) %>
+
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS

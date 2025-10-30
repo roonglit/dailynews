@@ -7,8 +7,11 @@ image: roonglit/dailynews
 # Deploy to these servers.
 servers:
   web:
-    host:
+    hosts:
       - 110.238.119.35
+    options:
+      publish:
+        - 3000:80
     proxy: false
   # job:
   #   hosts:
