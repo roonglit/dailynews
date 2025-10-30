@@ -11,9 +11,7 @@ h1.text-2xl.font-bold.mb-2 Invite Team Members
 p.text-gray-600.mb-6
     | Enter the email addresses of people you want to invite.
 
-= simple_form_for :invite, url: invite_admin_teams_path, method: :post, local: true, class: "space-y-5" do |form|
+= form_with scope: :invite, url: invite_admin_teams_path, method: :post, local: true, class: "space-y-5" do |form|
   .mb-5
-    = form.input :email, input_html: { class: "input input-bordered w-full", placeholder: "e.g., admin@example.com, admin2@example.com" }, wrapper_html: { class: 'w-full' }
-
+    = form.text_field :email, class: "input input-bordered w-full", placeholder: "e.g., admin@example.com, admin2@example.com"
   = form.submit "Send Invite", class: "btn btn-sm btn-primary"
-
