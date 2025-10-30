@@ -168,4 +168,59 @@ describe "Manage Admin Newspapers" do
       expect(page).to have_content("Example Book 2")
     end
   end
+
+  context "given an admin user create new newspaper" do
+    before { @newspapers = create_list(:newspaper, 1) }
+    it "when admin press New newspaper button then navigate to new newspaper correctly" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Newspapers on side bar, then press New newspaper button
+      click_link_or_button "Newspapers"
+      click_link_or_button "New newspaper"
+
+      # system should navigate to new newspaper page correctly
+      expect(page).to have_current_path(new_admin_newspaper_path)
+
+      # system show page title correctly
+      expect(page).to have_content("New Newspaper")
+    end
+
+    it "when admin press New newspaper button then navigate to new newspaper correctly" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Newspapers on side bar, press New newspaper then press cancel button
+      expect {
+        click_link_or_button "Newspapers"
+        click_link_or_button "New newspaper"
+        click_link_or_button "Cancel"
+      }.not_to change(Newspaper, :count)
+
+      # system should navigate to newspaper page correctly
+      expect(page).to have_current_path(admin_newspapers_path)
+
+      # system show page title correctly
+      expect(page).to have_content("Newspapers")
+    end
+
+    it "when admin press create New newspaper button then create new newspaper correctly" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Newspapers on side bar, press New newspaper then press create button
+      expect {
+        click_link_or_button "Newspapers"
+        click_link_or_button "New newspaper"
+        fill_in 'newspaper_title', with: "Example Book 2"
+        click_link_or_button "Create Newspaper"
+      }.to change(Newspaper, :count).from(1).to(2)
+
+      # system should navigate to newspaper page correctly
+      expect(page).to have_current_path(admin_newspaper_path(2))
+
+      # system show page title correctly
+      expect(page).to have_content("Example Book 2")
+    end
+  end
 end
