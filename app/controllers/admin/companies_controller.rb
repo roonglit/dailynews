@@ -30,7 +30,7 @@ module Admin
     def update
       respond_to do |format|
         if @company.update(company_params)
-          format.html { redirect_to admin_company_path(@company), notice: "Company was successfully updated.", status: :see_other }
+          format.html { redirect_to admin_company_path, notice: "Company was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: @company }
         else
           format.html { render :edit, status: :unprocessable_entity }
