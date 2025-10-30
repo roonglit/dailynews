@@ -7,7 +7,7 @@ RSpec.describe Member, type: :model do
   let(:cart_member) { create(:cart, user_id: member.id) }
   let(:cart_guest) { create(:cart, user_id: guest.id) }
 
-  let(:subscribe_monthly_product) { create(:subscribe_monthly) }
+  let(:subscribe_monthly_product) { create(:monthly_subscription_product) }
 
   it "user is guest?" do
     expect(member.guest?).to eq(false)
@@ -28,11 +28,12 @@ RSpec.describe Member, type: :model do
   end
 
   context "guest have cart item" do
-    before { create(:cart_item, cart_id: cart_guest.id, product_id: subscribe_monthly_product.id) }
+    before { create(:cart_item, cart: cart_guest, product: subscribe_monthly_product) }
 
     it "merge cart from guest" do
       member.merge_cart_from_guest(guest)
-      expect(Cart.find_by(user_id: member.id).product.id).to eq(cart_guest.product.id)
+
+      expect(member.cart.product).to eq(subscribe_monthly_product)
     end
   end
 end

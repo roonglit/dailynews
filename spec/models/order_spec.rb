@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Order, type: :model do
   let(:user) { create(:user) }
-  let(:product) { create(:one_month) }
-  let(:order) { create(:order, user: user) }
+  let(:product) { create(:one_month_product) }
+  let(:order) { create(:order) }
   let(:order_item) { create(:order_item, order: order, product: product) }
 
   describe 'enums' do
@@ -30,13 +30,13 @@ RSpec.describe Order, type: :model do
       it 'returns the product amount' do
         order_item # Create the association
         order.reload # Reload to pick up the association
-        expect(order.calculated_total_cents).to eq(product.amount)
+        expect(order.total.cents).to eq(product.amount)
       end
     end
 
     context 'when order has no product' do
       it 'returns 0' do
-        expect(order.calculated_total_cents).to eq(0)
+        expect(order.total.cents).to eq(0)
       end
     end
   end

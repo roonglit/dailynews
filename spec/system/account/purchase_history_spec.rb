@@ -110,7 +110,7 @@ describe "Purchase history", js: true do
       end
 
       # Should be in descending order (newest first)
-      expect(order_ids).to eq([newest_order.id, middle_order.id, oldest_order.id])
+      expect(order_ids).to eq([ newest_order.id, middle_order.id, oldest_order.id ])
     end
 
     it "displays correct status badge for each order" do
@@ -165,8 +165,8 @@ describe "Purchase history", js: true do
   end
 
   context "when viewing another member's orders" do
-    let(:member) { create(:member) }
-    let(:other_member) { create(:member) }
+    let(:member) { create(:member, email: "member1@gmail.com") }
+    let(:other_member) { create(:member, email: "member2@gmail.com") }
     let(:product) { create(:monthly_subscription_product) }
     let!(:member_order) do
       create(:order, member: member, state: :paid, total_cents: 10000)
