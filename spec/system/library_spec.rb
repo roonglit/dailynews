@@ -25,6 +25,32 @@ describe "Library access", js: true do
         auto_renew: true)
     end
 
+    it "member can read newspaper" do
+      newspaper1 = create(:newspaper,
+        title: "Daily News Today",
+        published_at: Date.today)
+
+        visit library_path
+
+        expect(page).to have_content("Daily News Today")
+
+        click_link_or_button "View Details"
+        expect(page).to have_css(".back-to-library")
+    end
+
+    it "member back to library page in newspaper flip book" do
+      newspaper1 = create(:newspaper,
+        title: "Daily News Today",
+        published_at: Date.today)
+
+        visit library_path
+
+        click_link_or_button "View Details"
+        find(".back-to-library").click
+
+        expect(page).to have_content("Daily News Today")
+    end
+
     it "shows newspapers within subscription period" do
       # Create newspapers within subscription period
       newspaper1 = create(:newspaper,
