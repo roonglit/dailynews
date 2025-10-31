@@ -23,7 +23,7 @@ describe "Admin Customers" do
     expect(page).to have_content("Basic Information")
   end
 
-  it "navigates back from edit page" do
+  it "navigates back from edit page when user clicks edit icon" do
     login_as_admin
     click_link_or_button "Customers"
     find('.edit-icon').click
@@ -31,9 +31,7 @@ describe "Admin Customers" do
     fill_in 'member_last_name', with: "lastname"
     click_link_or_button "Back"
 
-    expect(page).to have_current_path(admin_customer_path(customer))
-    expect(page).to have_content("Purchase History")
-    expect(page).to have_content("-")
+    expect(page).to have_current_path(admin_customers_path)
   end
 
   it "cancels editing customer information" do
@@ -89,6 +87,17 @@ describe "Admin Customers" do
     click_link_or_button "Edit"
 
     expect(page).to have_current_path(edit_admin_customer_path(customer))
+  end
+
+  it "navigates back from edit page when user clicks show icon and edit customer" do
+    login_as_admin
+    click_link_or_button "Customers"
+    find('.show-icon').click
+    click_link_or_button "Edit"
+
+    click_link_or_button "Back"
+
+    expect(page).to have_current_path(admin_customer_path(customer))
   end
 
   it "navigates to create subscription page" do
