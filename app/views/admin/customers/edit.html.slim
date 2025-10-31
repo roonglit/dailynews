@@ -1,5 +1,5 @@
 .flex.items-center.justify-between.mb-6
-  = link_to admin_customer_path(@member), class: 'btn btn-ghost btn-sm' do
+  = link_to :back, class: 'btn btn-ghost btn-sm' do
     span.iconify.lucide--arrow-left.size-4
     span Back
   .breadcrumbs.text-sm
@@ -9,4 +9,3 @@
       li.opacity-80 Edit
 
 == render "form", member: @member
-
