@@ -90,4 +90,80 @@ describe "Manage Admin Products" do
       expect(page).to have_content("Products")
     end
   end
+
+  context "given an admin user press edit product detail with existing products" do
+    before { @products = create_list(:product, 1) }
+    it "when admin press edit Products button then navigate to edit products page correctly" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Products on side bar then press show button
+      expect {
+        click_link_or_button "Products"
+        find('.edit-icon').click
+      }.not_to change(Product, :count)
+
+      # system navigate to edit products page correctly
+      expect(page).to have_current_path(edit_admin_product_path(1))
+
+      # system show page title correctly
+      expect(page).to have_content("Edit Product")
+    end
+
+    it "when admin press edit Products button then navigate to edit products page correctly" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Products on side bar then press show button
+      expect {
+        click_link_or_button "Products"
+        find('.edit-icon').click
+        click_link_or_button "Cancel"
+      }.not_to change(Product, :count)
+
+      # system navigate to edit products page correctly
+      expect(page).to have_current_path(admin_product_path(1))
+
+      # system show page title correctly
+      expect(page).to have_content("Product Details")
+    end
+
+    it "when admin press edit Products button then navigate to edit products page correctly" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Products on side bar then press show button
+      expect {
+        click_link_or_button "Products"
+        find('.edit-icon').click
+        click_link_or_button "Save"
+      }.not_to change(Product, :count)
+
+      # system navigate to edit products page correctly
+      expect(page).to have_current_path(admin_product_path(1))
+
+      # system show page title correctly
+      expect(page).to have_content("Product Details")
+    end
+  end
+
+  context "given an admin user press delete product detail with existing products" do
+    before { @products = create_list(:product, 1) }
+    it "when admin press delete Products button then delete products correctly" do
+      # login with admin account
+      login_as_admin
+
+      # admin press Products on side bar then press show button
+      expect {
+        click_link_or_button "Products"
+        find('.trash-icon').click
+      }.to change(Product, :count).from(1).to(0)
+
+      # system navigate to edit products page correctly
+      expect(page).to have_current_path(admin_products_path)
+
+      # system show page title correctly
+      expect(page).to have_content("Products")
+    end
+  end
 end
