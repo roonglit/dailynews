@@ -23,5 +23,5 @@
 
       / Action buttons
       .flex.justify-end.gap-3
-        = link_to "Cancel", admin_customer_path(subscription.user), class: 'btn btn-ghost'
+        = link_to "Cancel", admin_customer_path(subscription.member), class: 'btn btn-ghost'
         = form.submit "Save", class: "btn btn-primary"
