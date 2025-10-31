@@ -34,14 +34,14 @@ module Admin
     end
 
     def edit
-      @member = @subscription.user
+      @member = @subscription.member
     end
 
     def update
       if @subscription.update(subscription_params)
-        redirect_to admin_customer_path(@subscription.user), notice: "Subscription updated successfully."
+        redirect_to admin_customer_path(@subscription.member), notice: "Subscription updated successfully."
       else
-        @member = @subscription.user
+        @member = @subscription.member
         render :edit, status: :unprocessable_entity
       end
     end
@@ -58,7 +58,7 @@ module Admin
 
     def check_editable
       unless @subscription.editable?
-        redirect_to admin_customer_path(@subscription.user), alert: "This subscription cannot be edited because it has an associated order."
+        redirect_to admin_customer_path(@subscription.member), alert: "This subscription cannot be edited because it has an associated order."
       end
     end
 
