@@ -19,7 +19,7 @@ describe "Library access", js: true do
   context "when member has active subscription" do
     let!(:subscription) do
       create(:subscription,
-        user: member,
+        member: member,
         start_date: Date.today,
         end_date: Date.today + 30.days,
         auto_renew: true)
@@ -70,7 +70,7 @@ describe "Library access", js: true do
   context "when member has expired subscription" do
     let!(:subscription) do
       create(:subscription,
-        user: member,
+        member: member,
         start_date: 2.months.ago,
         end_date: 1.month.ago,
         auto_renew: false)
@@ -111,7 +111,7 @@ describe "Library access", js: true do
   context "when member has continuous subscription" do
     let!(:subscription) do
       create(:subscription,
-        user: member,
+        member: member,
         start_date: Date.new(2025, 7, 1),
         end_date: Date.new(2025, 10, 31))
     end
@@ -151,7 +151,7 @@ describe "Library access", js: true do
   context "month filtering" do
     let!(:subscription) do
       create(:subscription,
-        user: member,
+        member: member,
         start_date: Date.new(2025, 1, 1),
         end_date: Date.new(2025, 3, 31))
     end

@@ -5,7 +5,7 @@ describe "Active subscription prevention", js: true do
 
   context "when member has active subscription" do
     let(:member) { create(:member) }
-    let!(:subscription) { create(:subscription, user: member, start_date: Date.today, end_date: Date.today + 1.month) }
+    let!(:subscription) { create(:subscription, member: member, start_date: Date.today, end_date: Date.today + 1.month) }
 
     it "shows 'Go to Library' button on home page instead of subscribe button" do
       login_as_user(member)
@@ -72,7 +72,7 @@ describe "Active subscription prevention", js: true do
 
   context "when member has expired subscription" do
     let(:member) { create(:member) }
-    let!(:expired_subscription) { create(:subscription, user: member, start_date: 2.months.ago, end_date: 1.month.ago) }
+    let!(:expired_subscription) { create(:subscription, member: member, start_date: 2.months.ago, end_date: 1.month.ago) }
 
     it "shows subscribe button on home page" do
       login_as_user(member)

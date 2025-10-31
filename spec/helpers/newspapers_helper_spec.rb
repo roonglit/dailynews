@@ -35,9 +35,9 @@
 #     let!(:newspaper_in_5_months) { travel_to(5.months.from_now) { create(:newspaper) } }
 
 #     before do
-#       travel_to(Date.today) { create(:subscription, user: user) }
-#       travel_to(1.month.ago) { create(:subscription, user: user) }
-#       travel_to(1.month.from_now) { create(:subscription, user: user) }
+#       travel_to(Date.today) { create(:subscription, member: user) }
+#       travel_to(1.month.ago) { create(:subscription, member: user) }
+#       travel_to(1.month.from_now) { create(:subscription, member: user) }
 #     end
 
 #     it "when membership covers the newspaper's publication date" do

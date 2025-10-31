@@ -39,7 +39,7 @@ RSpec.describe "Checkout", type: :request do
         let!(:member_cart) { create(:cart, user: member) }
         let!(:product) { create(:monthly_subscription_product) }
         let!(:member_cart_item) { create(:cart_item, cart: member_cart, product: product) }
-        let!(:subscription) { create(:subscription, user: member) }
+        let!(:subscription) { create(:subscription, member: member) }
 
         before do
             sign_in member

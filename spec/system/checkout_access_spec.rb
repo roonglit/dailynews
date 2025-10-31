@@ -175,7 +175,7 @@ describe "Checkout access", js: true do
 
   context "as a member and have subscription" do
     let(:member_have_subscription) { create(:member) }
-    let!(:subscription) { create(:subscription, user: member_have_subscription) }
+    let!(:subscription) { create(:subscription, member: member_have_subscription) }
 
     before do
       login_as_user(member_have_subscription)
