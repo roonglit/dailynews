@@ -70,10 +70,13 @@ Rails.application.configure do
   #   port: 587,
   #   authentication: :plain
   # }
+
+  config.action_mailer.delivery_method = :smtp
+
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "email-smtp.ap-southeast-1.amazonaws.com",
     port: 587,
-    user_name: Rails.application.credentials.dig(:smtp, :user_name),
+    user_name: Rails.application.credentials.dig(:smtp, :username),
     password: Rails.application.credentials.dig(:smtp, :password),
     authentication: :plain,
     enable_starttls_auto: true,

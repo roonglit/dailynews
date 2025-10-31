@@ -1,6 +1,6 @@
 module Admin
   class UserMailer < ActionMailer::Base
-    default from: Rails.application.credentials.dig(:smtp, :user_name)
+    default from: Rails.application.credentials.dig(:smtp, :from)
 
     def invite_admin(invitation)
       @invitation = invitation

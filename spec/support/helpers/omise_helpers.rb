@@ -29,7 +29,7 @@ module OmiseHelpers
         open: function(config) {
           console.log('✓ OmiseCard.open called with failure token: #{token}');
           // Simulate immediate token creation (payment will fail at 3DS)
-          config.onCreateTokenSuccess('#{token}');
+          config.onCreateTokenError();
         }
       };
     JS

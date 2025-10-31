@@ -49,6 +49,12 @@ export default class extends Controller {
         }
 
         this.formTarget.submit()
+      },
+      onFormClosed: () => {
+        console.log("User closed payment form.");
+      },
+      onCreateTokenError: (error) => {
+        console.error("Omise token creation failed:", error);
       }
     }
 
