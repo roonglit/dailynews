@@ -189,4 +189,10 @@ describe "Library access", js: true do
       expect(page).not_to have_content("March News")
     end
   end
+
+  it "not visit to library when not have any subscription" do
+    visit library_path
+
+    expect(page).to have_content("Please subscribe first.")
+  end
 end
