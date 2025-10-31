@@ -39,3 +39,6 @@ en:
   errors:
     messages: 
       blank: "Can't be blank"
+  alerts:
+    messages:
+      require_subscription: "Please subscribe first."

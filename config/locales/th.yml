@@ -10,3 +10,6 @@ th:
   errors:
     messages: 
       blank: "ไม่สามารถว่างได้"
+  alerts:
+    messages:
+      require_subscription: "กรุณาสมัครสมาชิกก่อนเข้าชมเนื้อหานี้"
