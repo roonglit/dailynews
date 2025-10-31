@@ -20,6 +20,7 @@
               th Email
               th Role
               th Status
+              th Actions
           tbody 
             - @admins.each do |member|
               tr.hover:bg-base-200/40 class='*:text-nowrap'
@@ -27,6 +28,9 @@
                 td = member.email
                 td = "Admin"
                 td = member.status
+                td
+                  = button_to admin_team_path(member), class: 'btn btn-square btn-error btn-outline btn-sm border-transparent', method: :delete, data: { confirm: 'Are you sure?' } do
+                      span.trash-icon.iconify.lucide--trash.size-4
     .flex.items-center.justify-between.p-6
         .text-base-content/80.hover:text-base-content.flex.gap-2.text-sm
           span.hidden.sm:inline Per page

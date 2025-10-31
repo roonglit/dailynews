@@ -32,12 +32,12 @@ Rails.application.routes.draw do
     }
 
     resource :company
-    resources :teams, only: %i[index new create] do
+    resources :teams, only: %i[index new create destroy] do
       collection do
         post "invite"
       end
     end
-    resources :invitations, param: :token, only: [:show] do
+    resources :invitations, param: :token, only: [ :show ] do
       member do
         post :accept
       end

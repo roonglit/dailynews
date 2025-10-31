@@ -33,5 +33,15 @@ module Admin
         redirect_to new_admin_team_path, alert: result[:error]
       end
     end
+
+    def destroy
+      @admin_user = Admin::User.find(params.expect(:id))
+      @admin_user.destroy!
+
+      respond_to do |format|
+        format.html { redirect_to admin_teams_path, notice: "Product was successfully destroyed.", status: :see_other }
+        format.json { head :no_content }
+      end
+    end
   end
 end
