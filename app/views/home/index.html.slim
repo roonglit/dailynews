@@ -12,9 +12,9 @@ div class="bg-linear-to-t from-info/60 to-base-100 bg-no-repeat bg-center bg-cov
             .font-bold.text-primary.pt-4.text-center class="mt-[-10px] text-3xl max-md:text-xl" = t("home.hero_title")
             .text-secondary.text-center.mb-2.pt-2 class="mt-[-10px] text-xl max-md:text-sm" = t("home.hero_subtitle")
             - if @latest_newspaper&.cover&.attached?
-              = image_tag @latest_newspaper.cover, alt: "the latest dailynews cover", class: "aspect-[3/4] max-lg:w-[200px] lg:w-[250px] min-xl:w-[300px] bg-gray-200 flex items-center justify-center"
+              = image_tag @latest_newspaper.cover, alt: "the latest dailynews cover", class: "aspect-[3/4] max-lg:w-[600px] lg:w-[600px] min-xl:w-[300px] bg-gray-200 flex items-center justify-center"
             - else
-              = image_tag "auth/dailynews-default-cover.jpg", alt: "default dailynews cover", class: "aspect-[3/4] max-lg:w-[200px] lg:w-[250px] min-xl:w-[300px] bg-gray-200 flex items-center justify-center"
+              = image_tag "auth/dailynews-default-cover.jpg", alt: "default dailynews cover", class: "aspect-[3/4] max-lg:w-[600px] lg:w-[600px] min-xl:w-[300px] bg-gray-200 flex items-center justify-center"
 
           / ====== column: from section ======
           .card.bg-accent.drop-shadow-lg.rounded-lg.py-4.px-8 class ="max-xl:order-1 order-2"
