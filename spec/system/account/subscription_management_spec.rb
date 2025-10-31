@@ -9,7 +9,7 @@ describe "Subscription management", js: true do
     let!(:order_item) { create(:order_item, order: order, product: product) }
     let!(:subscription) do
       create(:subscription,
-        user: member,
+        member: member,
         order: order,
         start_date: Date.today,
         end_date: Date.today + 1.month,
@@ -90,7 +90,7 @@ describe "Subscription management", js: true do
     let!(:order_item) { create(:order_item, order: order, product: product) }
     let!(:subscription) do
       create(:subscription,
-        user: member,
+        member: member,
         order: order,
         start_date: Date.today,
         end_date: Date.today + 1.month,
@@ -131,7 +131,7 @@ describe "Subscription management", js: true do
     let!(:order_item) { create(:order_item, order: order, product: product) }
     let!(:subscription) do
       create(:subscription,
-        user: member,
+        member: member,
         order: order,
         start_date: 2.months.ago,
         end_date: 1.month.ago,
@@ -180,8 +180,8 @@ describe "Subscription management", js: true do
 
     it "displays subscription duration correctly" do
       # Create subscription with specific dates
-      subscription = create(:subscription,
-        user: member,
+      create(:subscription,
+        member: member,
         order: order,
         start_date: Date.new(2025, 1, 1),
         end_date: Date.new(2025, 1, 31),
