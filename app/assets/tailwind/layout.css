@@ -129,3 +129,35 @@ html[data-theme="material-dark"] {
         @apply rounded-box static mx-5 mt-4;
     }
 }
+
+[data-controller="filepond"] .filepond--root {
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    border: 2px dashed #ccc;
+    border-radius: 0.75rem;
+    background-color: #fff;
+}
+
+[data-controller="filepond"] .filepond--drop-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+[data-controller="filepond"] .filepond--label-action {
+    display: inline-block;
+    margin-top: 0.25rem;
+    color: var(--color-primary, #ed018c);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+[data-controller="filepond"] .filepond--label-action:hover {
+    opacity: 0.8;
+}
