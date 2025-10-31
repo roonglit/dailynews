@@ -73,11 +73,13 @@ describe "Admin Newspapers" do
     click_link_or_button "Newspapers"
     find('.pencil-icon').click
 
+    expected_published_date = @newspaper.published_at.strftime("%Y-%m-%d")
+
     expect(page).to have_current_path(edit_admin_newspaper_path(@newspaper))
     expect(page).to have_content("Edit Newspaper")
     expect(page).to have_field("newspaper_title", with: @newspaper.title)
     expect(page).to have_field("newspaper_description", with: @newspaper.description)
-    expect(page).to have_field("newspaper_published_at", with: @newspaper.published_at)
+    expect(page).to have_field("newspaper_published_at", with: expected_published_date)
   end
 
   it "cancels editing a newspaper" do
