@@ -1,0 +1,71 @@
+= render layout: 'admin/settings/layout' do
+  / Admin Team Members List
+  .bg-base-100.card.shadow
+    .card-body.p-0
+      .flex.items-center.justify-between.px-5.pt-5
+        div
+          h2.card-title Team Members
+          p.text-sm.text-base-content/60 = "#{@all_admins.count} admin users"
+        / Search form
+        = form_with url: admin_settings_team_path, method: :get, local: true, class: 'inline-flex items-center gap-3' do |form|
+          = form.hidden_field :per_page, value: params[:per_page]
+          label.input.input-sm.input-bordered
+            span.iconify.lucide--search.size-3.5.text-base-content/80
+            = form.text_field :q, value: params[:q], placeholder: 'Search by email', class: 'w-36'
+
+      / Admin users table
+      .overflow-x-auto
+        table.table.table-sm
+          thead
+            tr
+              th Email
+              th Status
+              th Created
+              th
+          tbody
+            - @admins.each do |admin_user|
+              tr.hover
+                td = admin_user.email
+                td
+                  - if admin_user.invited?
+                    span.badge.badge-warning.badge-sm Invited
+                  - elsif admin_user.active?
+                    span.badge.badge-success.badge-sm Active
+                  - else
+                    span.badge.badge-ghost.badge-sm Inactive
+                td.text-sm.text-base-content/60 = l(admin_user.created_at, format: :short)
+                td.text-right
+                  - if admin_user.id != current_admin_user.id
+                    = button_to admin_team_path(admin_user), method: :delete, class: 'btn btn-ghost btn-xs text-error', data: { turbo_confirm: 'Are you sure you want to remove this admin?' } do
+                      span.iconify.lucide--trash-2.size-4
+                  - else
+                    span.text-xs.text-base-content/40 (You)
+
+      / Pagination
+      .flex.items-center.justify-between.p-6
+        .text-base-content/80.hover:text-base-content.flex.gap-2.text-sm
+          span.hidden.sm:inline Per page
+          = form_with url: admin_settings_team_path, method: :get, local: true, class: 'inline' do |form|
+            = form.hidden_field :page, value: params[:page] || 1
+            = form.hidden_field :q, value: params[:q]
+            = form.select :per_page, options_for_select([[10, 10], [20, 20], [50, 50]], params[:per_page] || @pagy.limit), {}, { class: 'select select-xs w-18', onchange: 'this.form.submit();' }
+        .inline-flex.items-center.gap-1
+          = render 'admin/shared/pagy_nav', pagy: @pagy
+
+  / Invite New Admin Section
+  .bg-base-100.card.shadow.mt-6
+    .card-body
+      h2.card-title Invite Admin User
+      p.text-sm.text-base-content/60.mb-4
+        | Send an invitation email to add a new admin user to your team.
+
+      = simple_form_for :invite, url: admin_settings_team_path, method: :patch, html: { class: "space-y-4" } do |f|
+        = f.input :email,
+          label: "Email Address",
+          placeholder: "admin@example.com",
+          required: true,
+          hint: "The user will receive an email invitation to set up their account",
+          input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-md" }
+
+        .card-actions
+          = f.submit "Send Invitation", class: "btn btn-primary"

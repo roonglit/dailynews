@@ -17,3 +17,7 @@ production:
     class: Subscriptions::EnqueueRenewalsJob
     queue: default
     schedule: every day at 2am
+  daily_newspaper_import:
+    class: DailyNewspaperImportJob
+    queue: default
+    schedule: every day at midnight

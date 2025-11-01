@@ -1,0 +1,147 @@
+= render layout: 'admin/settings/layout' do
+  / Bucket Configuration Section
+  .bg-base-100.card.shadow
+    .card-body
+      h2.card-title.mb-4 Bucket Configuration
+      p.text-sm.text-base-content/60.mb-6
+        | Configure the Huawei Cloud OBS bucket where newspaper PDFs are stored.
+
+      = simple_form_for @pdf_source, url: admin_settings_pdf_source_path, method: :patch, html: { class: "space-y-4" } do |f|
+        = f.hidden_field :id if @pdf_source.persisted?
+
+        = f.input :bucket_name,
+          label: "Bucket Name",
+          placeholder: "my-newspaper-bucket",
+          required: true,
+          hint: "The name of your Huawei OBS bucket",
+          input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-md" }
+
+        = f.input :bucket_region,
+          label: "Region",
+          placeholder: "ap-southeast-2",
+          required: false,
+          hint: "Default: ap-southeast-2 (Bangkok)",
+          input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-md" }
+
+        = f.input :bucket_path,
+          label: "Folder Path",
+          placeholder: "/newspapers",
+          required: false,
+          hint: "Folder path within the bucket (e.g., /newspapers or /pdfs/2024)",
+          input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-md" }
+
+        / Enable/Disable Daily Import
+        .form-control
+          label.label.cursor-pointer.justify-start.gap-4
+            = f.input_field :enabled, as: :boolean, boolean_style: :inline, class: 'toggle toggle-primary'
+            div
+              span.label-text.font-medium Enable automatic daily import
+              p.text-sm.text-base-content/60.mt-1
+                | When enabled, the system will check the bucket daily at midnight and import new PDFs
+
+        .card-actions
+          = f.submit "Save Configuration", class: "btn btn-primary"
+
+  / Filename Format Help
+  .alert.alert-info.mt-6
+    span.iconify.lucide--info.size-5
+    div
+      h3.font-bold Expected Filename Format
+      .mt-2.space-y-1
+        p PDFs must follow this naming pattern:
+        code.block.bg-base-300.p-2.rounded.mt-1 Title_With_Underscores_YYYY-MM-DD.pdf
+        .mt-3
+          p.font-medium.mb-1 Examples:
+          ul.list-disc.list-inside.space-y-1
+            li
+              code Daily_News_2024-11-01.pdf
+              span.ml-2 → Title: "Daily News", Date: Nov 1, 2024
+            li
+              code Bangkok_Post_Morning_Edition_2024-12-25.pdf
+              span.ml-2 → Title: "Bangkok Post Morning Edition", Date: Dec 25, 2024
+
+  / Manual Import Section
+  .bg-base-100.card.shadow.mt-6
+    .card-body
+      h2.card-title.mb-4 Manual Import
+      p.text-sm.text-base-content/60.mb-4
+        | Manually trigger an import from the configured bucket. This will import all PDFs that match the naming format and haven't been imported yet.
+
+      = button_to "Import Now", admin_settings_pdf_imports_path, method: :post, class: "btn btn-secondary", data: { turbo_confirm: "Start importing newspapers from the bucket?" }
+
+  / Last Import Status
+  - if @pdf_source.persisted? && @pdf_source.last_imported_at.present?
+    .bg-base-100.card.shadow.mt-6
+      .card-body
+        h2.card-title.mb-4 Last Import
+
+        .grid.grid-cols-1.md:grid-cols-3.gap-4.mb-4
+          / Last Run Time
+          .stat.bg-base-200.rounded-lg
+            .stat-title Last Run
+            .stat-value.text-lg = l(@pdf_source.last_imported_at, format: :long)
+
+          / Status
+          .stat.bg-base-200.rounded-lg
+            .stat-title Status
+            .stat-value.text-lg
+              - case @pdf_source.last_import_status
+              - when 'success'
+                span.badge.badge-success.badge-lg Success
+              - when 'running'
+                span.badge.badge-info.badge-lg
+                  span.loading.loading-spinner.loading-xs.mr-1
+                  | Running
+              - when 'failed'
+                span.badge.badge-error.badge-lg Failed
+              - else
+                span.badge.badge-ghost.badge-lg Idle
+
+          / Import Stats
+          .stat.bg-base-200.rounded-lg
+            .stat-title Import Stats
+            .stat-value.text-lg
+              - if @pdf_source.last_import_log.present?
+                - begin
+                  - log = JSON.parse(@pdf_source.last_import_log)
+                  span.text-success = "#{log['imported'] || 0}"
+                  span.text-base-content/60  imported
+                  span.mx-2 |
+                  span.text-warning = "#{log['skipped'] || 0}"
+                  span.text-base-content/60  skipped
+                - rescue JSON::ParserError
+                  span.text-base-content/60 N/A
+              - else
+                span.text-base-content/60 N/A
+
+        / Detailed Log
+        - if @pdf_source.last_import_log.present?
+          .mt-4
+            .flex.items-center.justify-between.mb-2
+              h3.font-medium Detailed Log
+              button.btn.btn-xs.btn-ghost onclick="import_log.scrollTop = import_log.scrollHeight"
+                span.iconify.lucide--arrow-down.size-3
+                | Scroll to bottom
+
+            .bg-base-200.p-4.rounded-lg.font-mono.text-sm.overflow-auto.max-h-64 id="import_log"
+              - begin
+                - log = JSON.parse(@pdf_source.last_import_log)
+                - if log['imported']
+                  .text-success = "✓ Imported: #{log['imported']} newspapers"
+                - if log['skipped']
+                  .text-warning = "⊘ Skipped: #{log['skipped']} (already exists)"
+                - if log['failed']
+                  .text-error = "✗ Failed: #{log['failed']}"
+                - if log['errors'] && log['errors'].any?
+                  .mt-2.text-error
+                    div Errors:
+                    - log['errors'].each do |error|
+                      div.ml-2 = "• #{error}"
+                - if log['files']
+                  .mt-2
+                    div Processed files:
+                    - log['files'].each do |file|
+                      div.ml-2.text-base-content/60 = "• #{file}"
+              - rescue JSON::ParserError
+                .text-error Invalid log format
+                pre = @pdf_source.last_import_log

@@ -1,0 +1,14 @@
+/ Settings Header
+.flex.items-center.justify-between
+  h3.text-lg.font-medium Settings
+
+/ DaisyUI Tab Navigation
+.mt-6
+  .tabs.tabs-bordered
+    = link_to 'Team', admin_settings_team_path, class: "tab #{'tab-active' if current_page?(admin_settings_team_path)}"
+    = link_to 'Company Info', admin_settings_company_path, class: "tab #{'tab-active' if current_page?(admin_settings_company_path)}"
+    = link_to 'PDF Source', admin_settings_pdf_source_path, class: "tab #{'tab-active' if current_page?(admin_settings_pdf_source_path)}"
+
+/ Tab Content
+.mt-6
+  = yield

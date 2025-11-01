@@ -29,14 +29,10 @@ input#layout-sidebar-toggle-trigger.hidden type='checkbox' aria-label="Toggle la
 
   .mb-2
     hr.border-base-300
-    ul.menu.w-full 
-      li 
-        = link_to admin_company_path, class: "flex items-center gap-2 #{current_page?(admin_company_path) || current_page?(edit_admin_company_path) ? "rounded-sm bg-gray-200" : '' }"
-          span.iconify.lucide--building-2.size-4 
-          | Company Info
+    ul.menu.w-full
       li
-        = link_to admin_teams_path, class: "flex items-center gap-2 #{current_page?(admin_teams_path) || current_page?(new_admin_team_path) ? "rounded-sm bg-gray-200" : '' }"
-          span.iconify.lucide--users.size-4 
-          | Admin Teams
+        = link_to admin_settings_team_path, class: "flex items-center gap-2 #{current_page?(admin_settings_team_path) || current_page?(admin_settings_company_path) || current_page?(admin_settings_pdf_source_path) ? "rounded-sm bg-gray-200" : '' }"
+          span.iconify.lucide--settings.size-4
+          | Settings
 
 label#layout-sidebar-backdrop for="layout-sidebar-toggle-trigger"

@@ -1,0 +1,137 @@
+= render layout: 'admin/settings/layout' do
+  / Basic Company Info Card
+  .bg-base-100.card.shadow
+    .card-body
+      h2.card-title.mb-4 Company Information
+
+      / Company Name Row
+      .flex.items-center.justify-between.py-4.border-b
+        div
+          .text-sm.font-medium.text-base-content/80 Company Name
+          .text-base.mt-1 = @company.persisted? ? @company.name : "-"
+        button.btn.btn-sm.btn-ghost.text-primary onclick="company_name_modal.showModal()"
+          | Edit
+
+      / Email Row
+      .flex.items-center.justify-between.py-4.border-b
+        div
+          .text-sm.font-medium.text-base-content/80 Email
+          .text-base.mt-1.flex.items-center.gap-2
+            span.iconify.lucide--mail.size-4.text-base-content/60
+            = @company.persisted? ? @company.email : "-"
+        button.btn.btn-sm.btn-ghost.text-primary onclick="company_contact_modal.showModal()"
+          | Edit
+
+      / Phone Number Row
+      .flex.items-center.justify-between.py-4.border-b
+        div
+          .text-sm.font-medium.text-base-content/80 Phone Number
+          .text-base.mt-1.flex.items-center.gap-2
+            span.iconify.lucide--phone.size-4.text-base-content/60
+            = @company.persisted? ? @company.phone_number : "-"
+        button.btn.btn-sm.btn-ghost.text-primary onclick="company_contact_modal.showModal()"
+          | Edit
+
+  / Address Information Card
+  .bg-base-100.card.shadow.mt-6
+    .card-body
+      h2.card-title.mb-4 Address
+
+      / Address Display
+      .flex.items-center.justify-between.py-4
+        div
+          .text-sm.font-medium.text-base-content/80 Full Address
+          .text-base.mt-2.space-y-1
+            div = @company.persisted? ? @company.address_1 : "-"
+            - if @company.address_2.present? && @company.address_2 != "-"
+              div = @company.address_2
+            div
+              = "#{@company.sub_district}, #{@company.district}"
+            div
+              = "#{@company.province} #{@company.postal_code}"
+            div = @company.country
+        button.btn.btn-sm.btn-ghost.text-primary onclick="company_address_modal.showModal()"
+          | Edit
+
+  / Edit Modals
+  / Company Name Modal
+  dialog#company_name_modal.modal
+    .modal-box
+      h3.font-bold.text-lg Edit Company Name
+      = simple_form_for @company, url: admin_settings_company_path, method: :patch, html: { class: "py-4" } do |f|
+        = f.hidden_field :id if @company.persisted?
+        = f.input :name,
+          label: "Company Name",
+          required: true,
+          input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+        .modal-action
+          form method="dialog"
+            button.btn Cancel
+          = f.submit "Save", class: "btn btn-primary"
+
+  / Contact Info Modal
+  dialog#company_contact_modal.modal
+    .modal-box
+      h3.font-bold.text-lg Edit Contact Information
+      = simple_form_for @company, url: admin_settings_company_path, method: :patch, html: { class: "py-4 space-y-4" } do |f|
+        = f.hidden_field :id if @company.persisted?
+        = f.input :email,
+          label: "Email",
+          required: true,
+          input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+        = f.input :phone_number,
+          label: "Phone Number",
+          required: true,
+          input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+        .modal-action
+          form method="dialog"
+            button.btn Cancel
+          = f.submit "Save", class: "btn btn-primary"
+
+  / Address Modal
+  dialog#company_address_modal.modal
+    .modal-box.max-w-2xl
+      h3.font-bold.text-lg Edit Address
+      = simple_form_for @company, url: admin_settings_company_path, method: :patch, html: { class: "py-4" } do |f|
+        = f.hidden_field :id if @company.persisted?
+        .grid.grid-cols-1.gap-4.md:grid-cols-2
+          .col-span-2
+            = f.input :address_1,
+              label: "Address Line 1",
+              required: true,
+              input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+          .col-span-2
+            = f.input :address_2,
+              label: "Address Line 2",
+              required: false,
+              input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+          div
+            = f.input :sub_district,
+              label: "Sub District",
+              required: true,
+              input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+          div
+            = f.input :district,
+              label: "District",
+              required: true,
+              input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+          div
+            = f.input :province,
+              label: "Province",
+              required: true,
+              input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+          div
+            = f.input :postal_code,
+              label: "Postal Code",
+              required: true,
+              input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+          .col-span-2
+            = f.input :country,
+              as: :string,
+              label: "Country",
+              required: true,
+              input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" }
+        .modal-action
+          form method="dialog"
+            button.btn Cancel
+          = f.submit "Save", class: "btn btn-primary"

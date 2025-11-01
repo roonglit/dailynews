@@ -43,6 +43,21 @@ Rails.application.routes.draw do
           post :accept
         end
       end
+
+      # Settings namespace with separate tabs
+      namespace :settings do
+        resource :team, only: [:show, :update]
+        resource :company, only: [:show, :update]
+        resource :pdf_source, only: [:show, :update]
+        resources :pdf_imports, only: [:create, :index]
+      end
+
+      # Note: Keep existing teams destroy route for backward compatibility with team deletion
+      # This will be deprecated once all team management moves to settings
+
+      # Redirect /admin/settings to default tab
+      get 'settings', to: redirect('/e-newspaper/admin/settings/team')
+
       resources :customers, only: %i[index show edit update] do
         resources :subscriptions, only: %i[new create]
       end

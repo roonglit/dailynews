@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_30_153841) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_01_135859) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -118,9 +118,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_30_153841) do
   create_table "newspapers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
+    t.string "original_filename"
     t.datetime "published_at"
     t.string "title"
     t.datetime "updated_at", null: false
+    t.index ["original_filename"], name: "index_newspapers_on_original_filename"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -144,6 +146,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_30_153841) do
     t.bigint "user_id", null: false
     t.index ["state"], name: "index_orders_on_state"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "pdf_sources", force: :cascade do |t|
+    t.string "bucket_name", null: false
+    t.string "bucket_path", default: "/"
+    t.string "bucket_region"
+    t.datetime "created_at", null: false
+    t.boolean "enabled", default: false, null: false
+    t.text "last_import_log"
+    t.string "last_import_status", default: "idle"
+    t.datetime "last_imported_at"
+    t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|
