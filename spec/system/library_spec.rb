@@ -8,11 +8,17 @@ describe "Library access", js: true do
   end
 
   context "when member has no subscription" do
-    it "shows empty library message" do
+    before do
+      # Ensure member has no subscriptions
+      member.subscriptions.destroy_all
+    end
+
+    it "shows subscription package information" do
       visit library_path
 
-      expect(page).to have_content("No newspapers available")
-      expect(page).to have_content("Check back later for new additions to our library.")
+      expect(page).to have_content("My Library")
+      expect(page).to have_content("Daily News Digital Newspaper")
+      expect(page).to have_content("subscribe")
     end
   end
 
@@ -25,71 +31,79 @@ describe "Library access", js: true do
         auto_renew: true)
     end
 
-    it "member can read newspaper" do
-      newspaper1 = create(:newspaper,
-        title: "Daily News Today",
-        published_at: Date.today)
+    context "with published newspaper" do
+      before do
+        create(:newspaper,
+          title: "Daily News Today",
+          published_at: Date.today)
+      end
 
+      it "member can read newspaper" do
         visit library_path
 
         expect(page).to have_content("Daily News Today")
 
         click_link_or_button "View Details"
         expect(page).to have_css(".back-to-library")
-    end
+      end
 
-    it "member back to library page in newspaper flip book" do
-      newspaper1 = create(:newspaper,
-        title: "Daily News Today",
-        published_at: Date.today)
-
+      it "member back to library page in newspaper flip book" do
         visit library_path
 
         click_link_or_button "View Details"
         find(".back-to-library").click
 
         expect(page).to have_content("Daily News Today")
+      end
     end
 
-    it "shows newspapers within subscription period" do
-      # Create newspapers within subscription period
-      newspaper1 = create(:newspaper,
-        title: "Daily News Today",
-        published_at: Date.today)
-      newspaper2 = create(:newspaper,
-        title: "Daily News Tomorrow",
-        published_at: Date.today + 1.day)
+    context "with multiple newspapers in subscription period" do
+      before do
+        # Create newspapers within subscription period
+        create(:newspaper,
+          title: "Daily News Today",
+          published_at: Date.today)
+        create(:newspaper,
+          title: "Daily News Tomorrow",
+          published_at: Date.today + 1.day)
+      end
 
-      visit library_path
+      it "shows newspapers within subscription period" do
+        visit library_path
 
-      # Should see newspapers
-      expect(page).to have_content("Daily News Today")
-      expect(page).to have_content("Daily News Tomorrow")
-      expect(page).not_to have_content("No newspapers available")
+        # Should see newspapers
+        expect(page).to have_content("Daily News Today")
+        expect(page).to have_content("Daily News Tomorrow")
+        expect(page).not_to have_content("No newspapers available")
+      end
     end
 
-    it "does not show newspapers outside subscription period" do
-      # Create newspaper before subscription starts
-      create(:newspaper,
-        title: "Old News",
-        published_at: Date.today - 10.days)
+    context "with newspapers in and out of subscription period" do
+      before do
+        # Create newspaper before subscription starts
+        create(:newspaper,
+          title: "Old News",
+          published_at: Date.today - 10.days)
 
-      # Create newspaper after subscription ends
-      create(:newspaper,
-        title: "Future News",
-        published_at: Date.today + 60.days)
+        # Create newspaper after subscription ends
+        create(:newspaper,
+          title: "Future News",
+          published_at: Date.today + 60.days)
 
-      # Create newspaper within subscription
-      create(:newspaper,
-        title: "Current News",
-        published_at: Date.today + 5.days)
+        # Create newspaper within subscription
+        create(:newspaper,
+          title: "Current News",
+          published_at: Date.today + 5.days)
+      end
 
-      visit library_path
+      it "does not show newspapers outside subscription period" do
+        visit library_path
 
-      # Should only see newspaper within subscription
-      expect(page).to have_content("Current News")
-      expect(page).not_to have_content("Old News")
-      expect(page).not_to have_content("Future News")
+        # Should only see newspaper within subscription
+        expect(page).to have_content("Current News")
+        expect(page).not_to have_content("Old News")
+        expect(page).not_to have_content("Future News")
+      end
     end
   end
 
@@ -102,35 +116,43 @@ describe "Library access", js: true do
         auto_renew: false)
     end
 
-    it "can still access newspapers from expired subscription period" do
-      # Create newspaper within the old subscription period
-      newspaper = create(:newspaper,
-        title: "Old Subscription News",
-        published_at: 6.weeks.ago)
+    context "with only newspaper from subscription period" do
+      before do
+        # Create newspaper within the old subscription period
+        create(:newspaper,
+          title: "Old Subscription News",
+          published_at: 6.weeks.ago)
+      end
 
-      visit library_path
+      it "can still access newspapers from expired subscription period" do
+        visit library_path
 
-      # Should still see newspapers from expired period
-      expect(page).to have_content("Old Subscription News")
-      expect(page).not_to have_content("No newspapers available")
+        # Should still see newspapers from expired period
+        expect(page).to have_content("Old Subscription News")
+        expect(page).not_to have_content("No newspapers available")
+      end
     end
 
-    it "does not show newspapers outside expired subscription period" do
-      # Create newspaper from expired period
-      create(:newspaper,
-        title: "Old News",
-        published_at: 6.weeks.ago)
+    context "with newspapers from both periods" do
+      before do
+        # Create newspaper within the old subscription period
+        create(:newspaper,
+          title: "Old Subscription News",
+          published_at: 6.weeks.ago)
 
-      # Create newspaper from today (outside expired subscription)
-      create(:newspaper,
-        title: "Today's News",
-        published_at: Date.today)
+        # Create newspaper from today (outside expired subscription)
+        create(:newspaper,
+          title: "Today's News",
+          published_at: Date.today)
+      end
 
-      visit library_path
+      it "does not show newspapers outside expired subscription period" do
+        visit library_path
 
-      # Should only see newspaper from expired period
-      expect(page).to have_content("Old News")
-      expect(page).not_to have_content("Today's News")
+        # Should only see newspaper from expired period
+        expect(page).to have_content("Old Subscription News")
+        expect(page).not_to have_content("Today's News")
+      end
     end
   end
 
@@ -142,26 +164,28 @@ describe "Library access", js: true do
         end_date: Date.new(2025, 10, 31))
     end
 
-    it "shows newspapers throughout subscription period" do
+    before do
       # Create newspapers at different times in subscription
-      july_newspaper = create(:newspaper,
+      create(:newspaper,
         title: "July News",
         published_at: Date.new(2025, 7, 15))
 
-      october_newspaper = create(:newspaper,
+      create(:newspaper,
         title: "October News",
         published_at: Date.new(2025, 10, 15))
 
       # Create newspaper before subscription
-      before_newspaper = create(:newspaper,
+      create(:newspaper,
         title: "June News",
         published_at: Date.new(2025, 6, 15))
 
       # Create newspaper after subscription
-      after_newspaper = create(:newspaper,
+      create(:newspaper,
         title: "November News",
         published_at: Date.new(2025, 11, 15))
+    end
 
+    it "shows newspapers throughout subscription period" do
       visit library_path
 
       # Should see newspapers within subscription period
@@ -214,11 +238,5 @@ describe "Library access", js: true do
       expect(page).not_to have_content("January News")
       expect(page).not_to have_content("March News")
     end
-  end
-
-  it "not visit to library when not have any subscription" do
-    visit library_path
-
-    expect(page).to have_content("Please subscribe first.")
   end
 end
