@@ -155,7 +155,12 @@ module FakeServers
         end
 
         def create_card_from_token(customer_id, token)
-          card_id = "card_test_#{SecureRandom.hex(11)}"
+          # Preserve failure indicator in card_id if token contains "failure"
+          if token&.include?("failure")
+            card_id = "card_test_failure_#{SecureRandom.hex(8)}"
+          else
+            card_id = "card_test_#{SecureRandom.hex(11)}"
+          end
 
           {
             "object" => "card",

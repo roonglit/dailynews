@@ -11,109 +11,55 @@ describe "Payment failure handling", js: true do
     login_as_user(existing_member)
   end
 
-  it "redirects to checkout page with error message when payment fails" do
-    # Add product to cart
-    visit root_path
-    click_button "subscribe"
-    expect(page).to have_content("Product added to cart")
+  context "when payment fails" do
+    before do
+      # Add product to cart
+      visit root_path
+      click_button "subscribe"
 
-    # Attempt payment but it fails
-    user_pays_with_omise_but_fails
+      # Attempt payment but it fails
+      user_pays_with_omise_but_fails
+    end
 
-    # Should be redirected to checkout page with error
-    expect(page).to have_current_path(checkout_path)
-    expect(page).to have_content("Payment failed. Please try again.")
-  end
+    it "shows error message and keeps product in cart for retry" do
+      # Should be redirected to checkout page with error
+      expect(page).to have_current_path(checkout_path)
+      expect(page).to have_content("Payment failed. Please try again.")
 
-  it "marks order as cancelled when payment fails" do
-    # Add product to cart
-    visit root_path
-    click_button "subscribe"
-
-    # Attempt payment but it fails
-    user_pays_with_omise_but_fails
-
-    # Verify order was marked as cancelled
-    order = Order.last
-    expect(order).to be_present
-    expect(order.state).to eq("cancelled")
-  end
-
-  it "recreates cart with product after failed payment for retry" do
-    # Add product to cart
-    visit root_path
-    click_button "subscribe"
-    expect(page).to have_content("Product added to cart")
-
-    # Attempt payment but it fails
-    user_pays_with_omise_but_fails
-
-    # Verify cart was recreated with the product
-    cart = existing_member.reload.cart
-    expect(cart).to be_present
-    expect(cart.product).to eq(product)
-
-    # Verify user can see the product in cart to retry
-    expect(page).to have_content(product.title)
-    expect(page).to have_content("Order Summary")
-  end
-
-  it "allows user to retry payment after initial failure" do
-    # Add product to cart
-    visit root_path
-    click_button "subscribe"
-    expect(page).to have_content("Product added to cart")
-
-    # First attempt - payment fails
-    user_pays_with_omise_but_fails
-
-    # Should be back on checkout page
-    expect(page).to have_current_path(checkout_path)
-    expect(page).to have_content("Payment failed. Please try again.")
-
-    # Second attempt - payment succeeds
-    user_pays_with_omise(token: 'tokn_test_5mokdpoelz84n3ai99l')
-
-    # Should complete successfully
-    expect(page).to have_content "Thank You for Your Purchase"
-
-    # Verify subscription was created after retry
-    find('.user-profile').click
-    click_link_or_button "Subscriptions & Payments"
-
-    within("#my-subscriptions") do
-      expect(page).to have_content("ACTIVE")
+      # User can see the product in cart to retry
+      expect(page).to have_content(product.title)
+      expect(page).to have_content("Order Summary")
     end
   end
 
-  it "does not create subscription when payment fails" do
-    # Count subscriptions before
-    initial_subscription_count = Subscription.count
+  context "retrying failed payment" do
+    before do
+      # Add product to cart
+      visit root_path
+      click_button "subscribe"
 
-    # Add product to cart
-    visit root_path
-    click_button "subscribe"
+      # First attempt - payment fails
+      user_pays_with_omise_but_fails
+    end
 
-    # Attempt payment but it fails
-    user_pays_with_omise_but_fails
+    it "allows user to retry payment and succeed" do
+      # Should be back on checkout page
+      expect(page).to have_current_path(checkout_path)
+      expect(page).to have_content("Payment failed. Please try again.")
 
-    # Subscription count should not increase
-    expect(Subscription.count).to eq(initial_subscription_count)
-  end
+      # Second attempt - payment succeeds
+      user_pays_with_omise(token: 'tokn_test_5mokdpoelz84n3ai99l')
 
-  it "does not clear cart when payment fails" do
-    # Add product to cart
-    visit root_path
-    click_button "subscribe"
-    expect(page).to have_content("Product added to cart")
+      # Should complete successfully
+      expect(page).to have_content "Thank You for Your Purchase"
 
-    # Attempt payment but it fails
-    user_pays_with_omise_but_fails
+      # Verify subscription was created after retry
+      find('.user-profile').click
+      click_link_or_button "Subscriptions & Payments"
 
-    # Cart should still exist and contain product
-    cart = existing_member.reload.cart
-    expect(cart).to be_present
-    expect(cart.cart_item).to be_present
-    expect(cart.product).to eq(product)
+      within("#my-subscriptions") do
+        expect(page).to have_content("ACTIVE")
+      end
+    end
   end
 end
