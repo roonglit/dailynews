@@ -1,3 +1,5 @@
+require 'aws-sdk-s3'
+
 class NewspaperImportService
   attr_reader :pdf_source, :results
 
@@ -41,34 +43,59 @@ class NewspaperImportService
   private
 
   def create_s3_client
+    # Load and parse storage.yml with ERB
+    storage_yml = ERB.new(File.read(Rails.root.join('config/storage.yml'))).result
+    storage_config = YAML.safe_load(storage_yml, aliases: true)
+    huawei_config = storage_config['huawei_import']
+
     Aws::S3::Client.new(
-      endpoint: 'https://obs.ap-southeast-2.myhuaweicloud.com',
-      region: 'ap-southeast-2',
-      access_key_id: Rails.application.credentials.dig(:huawei, :access_key_id),
-      secret_access_key: Rails.application.credentials.dig(:huawei, :secret_access_key),
-      force_path_style: true
+      endpoint: huawei_config['endpoint'],
+      region: huawei_config['region'],
+      access_key_id: huawei_config['access_key_id'],
+      secret_access_key: huawei_config['secret_access_key'],
+      force_path_style: huawei_config['force_path_style']
     )
   end
 
   def list_pdf_files(s3_client)
+    prefixes_to_scan = []
+    base_path = pdf_source.bucket_path.gsub(/^\/|\/+$/, '') # Remove leading/trailing slashes
+
+    # Always scan inbox folder
+    prefixes_to_scan << "#{base_path}/inbox/".gsub(/^\//, '')
+
+    # Scan current and previous month folders (YYYYMM format)
+    months_to_scan = [Date.today, 1.month.ago].map { |d| d.strftime('%Y%m') }
+    months_to_scan.each do |month|
+      prefixes_to_scan << "#{base_path}/#{month}/".gsub(/^\//, '')
+    end
+
     pdf_files = []
-    continuation_token = nil
 
-    # Handle pagination for large buckets
-    loop do
-      response = s3_client.list_objects_v2(
-        bucket: pdf_source.bucket_name,
-        prefix: pdf_source.bucket_path.gsub(/^\//, ''), # Remove leading slash for S3
-        continuation_token: continuation_token
-      )
+    prefixes_to_scan.each do |prefix|
+      continuation_token = nil
 
-      # Filter for PDF files only
-      pdf_files += response.contents
-        .select { |obj| obj.key.downcase.end_with?('.pdf') }
-        .map(&:key)
+      # Handle pagination for large buckets
+      loop do
+        response = s3_client.list_objects_v2(
+          bucket: pdf_source.bucket_name,
+          prefix: prefix,
+          continuation_token: continuation_token
+        )
 
-      break unless response.is_truncated
-      continuation_token = response.next_continuation_token
+        # Skip if no contents (folder doesn't exist)
+        if response.contents.nil?
+          break
+        end
+
+        # Filter for PDF files only
+        pdf_files += response.contents
+          .select { |obj| obj.key.downcase.end_with?('.pdf') }
+          .map(&:key)
+
+        break unless response.is_truncated
+        continuation_token = response.next_continuation_token
+      end
     end
 
     pdf_files
@@ -80,8 +107,8 @@ class NewspaperImportService
 
     Rails.logger.info "[NewspaperImport] Processing: #{filename}"
 
-    # Parse filename for metadata
-    metadata = parse_filename(filename)
+    # Parse filename for metadata (pass full file_key to determine parsing strategy)
+    metadata = parse_filename(file_key)
 
     unless metadata
       results[:failed] += 1
@@ -109,31 +136,64 @@ class NewspaperImportService
     end
   end
 
-  def parse_filename(filename)
+  def parse_filename(file_key)
+    filename = File.basename(file_key)
+
+    # Determine if file is from inbox (flexible) or date folder (strict)
+    is_inbox = file_key.include?('/inbox/') || file_key.start_with?('inbox/')
+
+    if is_inbox
+      # Flexible parsing for inbox folder
+      parse_inbox_filename(filename)
+    else
+      # Strict parsing for YYYYMM folders
+      parse_dated_filename(filename)
+    end
+  rescue => e
+    Rails.logger.error "[NewspaperImport] Error parsing filename #{filename}: #{e.message}"
+    nil
+  end
+
+  def parse_inbox_filename(filename)
     # Remove .pdf extension
     name = filename.gsub(/\.pdf$/i, '')
 
-    # Pattern: Title_With_Underscores_YYYY-MM-DD
-    # Extract date (last part: YYYY-MM-DD)
-    date_match = name.match(/_(\d{4}-\d{2}-\d{2})$/)
-    return nil unless date_match
+    # Use filename as title and current date as published_at
+    {
+      title: name,
+      published_at: Date.today
+    }
+  end
 
+  def parse_dated_filename(filename)
+    # Remove .pdf extension
+    name = filename.gsub(/\.pdf$/i, '')
+
+    # Pattern: DNT_MMDDYYYY
+    # Example: DNT_01152025.pdf -> January 15, 2025
+    match = name.match(/^([A-Z]+)_(\d{8})$/)
+    return nil unless match
+
+    date_string = match[2]
+
+    # Parse MMDDYYYY format
     begin
-      published_at = Date.parse(date_match[1])
+      month = date_string[0..1].to_i
+      day = date_string[2..3].to_i
+      year = date_string[4..7].to_i
+
+      published_at = Date.new(year, month, day)
     rescue ArgumentError
       return nil
     end
 
-    # Extract title (everything before date, replace underscores with spaces)
-    title = name.gsub(/_#{date_match[1]}$/, '').tr('_', ' ')
+    # Format title: "Dailynews 10 Oct 2025"
+    title = "Dailynews #{published_at.strftime('%-d %b %Y')}"
 
     {
       title: title,
       published_at: published_at
     }
-  rescue => e
-    Rails.logger.error "[NewspaperImport] Error parsing filename #{filename}: #{e.message}"
-    nil
   end
 
   def already_imported?(filename)

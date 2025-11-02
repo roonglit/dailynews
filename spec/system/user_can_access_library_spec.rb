@@ -198,7 +198,7 @@ describe "Library access", js: true do
     end
   end
 
-  context "month filtering" do
+  context "when subscription spans multiple months with newspapers in each" do
     let!(:subscription) do
       create(:subscription,
         member: member,

@@ -17,7 +17,15 @@ class PdfSource < ApplicationRecord
     failed: 'failed'
   }, default: :idle
 
+  # Set defaults for new records
+  after_initialize :set_defaults, if: :new_record?
+
   private
+
+  def set_defaults
+    self.bucket_name ||= Rails.application.credentials.dig(:huawei, :bucket)
+    self.bucket_path ||= '/'
+  end
 
   def ensure_singleton
     if PdfSource.exists? && persisted? == false

@@ -50,6 +50,7 @@ gem "money-rails"
 gem "prawn"
 gem "omise"
 gem "pagy"
+gem "openssl"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

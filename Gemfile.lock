@@ -290,6 +290,7 @@ GEM
     omise (0.11.0)
       json (>= 1.8)
       rest-client (>= 2.0)
+    openssl (3.3.2)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
     pagy (9.4.0)
@@ -579,6 +580,7 @@ DEPENDENCIES
   launchy
   money-rails
   omise
+  openssl
   pagy
   pdftoimage
   pg (~> 1.1)

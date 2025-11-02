@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Admin User Registration and Login" do
+describe "First admin can create his own account", js: true do
   it "creates a new admin user account" do
     visit admin_root_path
 

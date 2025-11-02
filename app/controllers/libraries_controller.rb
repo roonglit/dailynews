@@ -13,7 +13,7 @@ class LibrariesController < ApplicationController
       "(published_at >= '#{subscription.start_date}' and published_at <= '#{subscription.end_date}')"
     end
 
-    @newspapers = Newspaper.where(conditions).filter_by_month(params[:month]).order_by_created_at.distinct
+    @newspapers = Newspaper.where(conditions.join(' OR ')).filter_by_month(params[:month]).order_by_created_at.distinct
   end
 
   def required_subscription

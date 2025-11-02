@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "Libraries", type: :request do
   let!(:member) { create(:member) }
 
-  let!(:march_april_membership) { create(:membership, user: member, start_date: Date.new(2025, 3, 10), end_date: Date.new(2025, 4, 10)) }
-  let!(:june_july_membership) { create(:membership, user: member, start_date: Date.new(2025, 6, 20), end_date: Date.new(2025, 7, 20)) }
+  let!(:march_april_subscription) { create(:subscription, member: member, start_date: Date.new(2025, 3, 10), end_date: Date.new(2025, 4, 10)) }
+  let!(:june_july_subscription) { create(:subscription, member: member, start_date: Date.new(2025, 6, 20), end_date: Date.new(2025, 7, 20)) }
 
   let!(:start_march)  { create(:newspaper, title: "No. 2025-03-05", published_at: Time.zone.parse("2025-03-05")) }
   let!(:mid_march)  { create(:newspaper, title: "No. 2025-03-15",  published_at: Time.zone.parse("2025-03-15")) }
@@ -21,7 +21,7 @@ RSpec.describe "Libraries", type: :request do
     context "member sign in" do
       before { sign_in member }
 
-      it "shows newspapers within any membership ranges (uniq) when no month filter" do
+      it "shows newspapers within multiple subscription ranges (OR logic) when no month filter" do
         get library_path
         expect(response).to have_http_status(:ok)
 

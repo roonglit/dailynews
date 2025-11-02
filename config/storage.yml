@@ -22,6 +22,16 @@ huawei:
   region: AP-Bangkok
   bucket: <%= Rails.application.credentials.dig(:huawei, :bucket) %>
 
+# Huawei OBS connection config for importing newspapers from various source buckets
+# Note: bucket name is dynamic and provided by PdfSource model
+huawei_import:
+  service: S3
+  endpoint: https://obs.ap-southeast-2.myhuaweicloud.com
+  access_key_id: <%= Rails.application.credentials.dig(:huawei, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:huawei, :secret_access_key) %>
+  region: AP-Bangkok
+  force_path_style: false
+
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS

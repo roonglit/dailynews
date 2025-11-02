@@ -1,0 +1,90 @@
+require 'rails_helper'
+
+describe "User can authenticate", js: true do
+
+  it "allows a user to register via home page" do
+    visit root_path
+    find('.user-avatar').click
+
+    fill_in 'email', with: "register1@gmail.com"
+    fill_in 'password', with: 'password123'
+    fill_in 'confirm_password', with: 'password123'
+    click_link_or_button 'SIGN UP'
+
+    expect(page).to have_content('Welcome! You have signed up successfully.')
+  end
+
+  it "allows a user to register via sign up page" do
+    visit new_member_registration_path
+
+    fill_in 'email', with: "register2@gmail.com"
+    fill_in 'password', with: 'password123'
+    fill_in 'confirm_password', with: 'password123'
+    click_link_or_button 'SIGN UP'
+
+    expect(page).to have_content('Welcome! You have signed up successfully.')
+  end
+
+  context "when user account exists" do
+    before { @user = create(:user) }
+
+    it "allows user to login via home page" do
+      visit root_path
+      find('.user-avatar').click
+      click_link 'Sign in here'
+
+      fill_in 'email', with: @user.email
+      fill_in 'password', with: 'password123'
+      click_link_or_button 'SIGN IN'
+
+      expect(page).to have_content('Signed in successfully.')
+    end
+
+    it "allows user to login via sign in page" do
+      visit new_member_session_path
+
+      fill_in 'email', with: @user.email
+      fill_in 'password', with: 'password123'
+      click_button 'SIGN IN'
+
+      expect(page).to have_content('Signed in successfully.')
+    end
+
+    it "can switch between registration and sign in forms" do
+      visit root_path
+      find('.user-avatar').click
+      click_link 'Sign in here'
+
+      click_link 'Register here'
+
+      expect(page).to have_content('Sign Up')
+    end
+
+    it "can navigate to forgot password page" do
+      visit root_path
+      find('.user-avatar').click
+      click_link 'Sign in here'
+
+      click_link 'Forgot Password'
+
+      expect(page).to have_content('Reset your password')
+    end
+  end
+
+  context "when user is signed in" do
+    before do
+      @user = create(:user)
+      login_as_user(@user)
+    end
+
+    it "allows user to sign out" do
+      visit root_path
+
+      find('.user-profile').click
+      click_link_or_button "Sign Out"
+
+      find('.user-avatar').click
+      expect(page).to have_content('Signed out successfully.')
+    end
+  end
+end
