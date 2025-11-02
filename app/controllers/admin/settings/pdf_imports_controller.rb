@@ -22,6 +22,14 @@ module Admin
                                                             .recent,
                                           items: 20)
       end
+
+      def status
+        @pdf_source = PdfSource.first
+
+        respond_to do |format|
+          format.turbo_stream
+        end
+      end
     end
   end
 end

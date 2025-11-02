@@ -1,0 +1,76 @@
+/ Last Import Status Section
+- if @pdf_source.persisted? && @pdf_source.last_imported_at.present?
+  .bg-base-100.card.shadow.mt-6
+    .card-body
+      h2.card-title.mb-4 Last Import
+
+      .grid.grid-cols-1.md:grid-cols-3.gap-4.mb-4
+        / Last Run Time
+        .stat.bg-base-200.rounded-lg
+          .stat-title Last Run
+          .stat-value.text-lg = l(@pdf_source.last_imported_at, format: :long)
+
+        / Status
+        .stat.bg-base-200.rounded-lg
+          .stat-title Status
+          .stat-value.text-lg
+            - case @pdf_source.last_import_status
+            - when 'success'
+              span.badge.badge-success.badge-lg Success
+            - when 'running'
+              span.badge.badge-info.badge-lg
+                span.loading.loading-spinner.loading-xs.mr-1
+                | Running
+            - when 'failed'
+              span.badge.badge-error.badge-lg Failed
+            - else
+              span.badge.badge-ghost.badge-lg Idle
+
+        / Import Stats
+        .stat.bg-base-200.rounded-lg
+          .stat-title Import Stats
+          .stat-value.text-lg
+            - if @pdf_source.last_import_log.present?
+              - begin
+                - log = JSON.parse(@pdf_source.last_import_log)
+                span.text-success = "#{log['imported'] || 0}"
+                span.text-base-content/60  imported
+                span.mx-2 |
+                span.text-warning = "#{log['skipped'] || 0}"
+                span.text-base-content/60  skipped
+              - rescue JSON::ParserError
+                span.text-base-content/60 N/A
+            - else
+              span.text-base-content/60 N/A
+
+      / Detailed Log
+      - if @pdf_source.last_import_log.present?
+        .mt-4
+          .flex.items-center.justify-between.mb-2
+            h3.font-medium Detailed Log
+            button.btn.btn-xs.btn-ghost onclick="import_log.scrollTop = import_log.scrollHeight"
+              span.iconify.lucide--arrow-down.size-3
+              | Scroll to bottom
+
+          .bg-base-200.p-4.rounded-lg.font-mono.text-sm.overflow-auto.max-h-64 id="import_log"
+            - begin
+              - log = JSON.parse(@pdf_source.last_import_log)
+              - if log['imported']
+                .text-success = "✓ Imported: #{log['imported']} newspapers"
+              - if log['skipped']
+                .text-warning = "⊘ Skipped: #{log['skipped']} (already exists)"
+              - if log['failed']
+                .text-error = "✗ Failed: #{log['failed']}"
+              - if log['errors'] && log['errors'].any?
+                .mt-2.text-error
+                  div Errors:
+                  - log['errors'].each do |error|
+                    div.ml-2 = "• #{error}"
+              - if log['files']
+                .mt-2
+                  div Processed files:
+                  - log['files'].each do |file|
+                    div.ml-2.text-base-content/60 = "• #{file}"
+            - rescue JSON::ParserError
+              .text-error Invalid log format
+              pre = @pdf_source.last_import_log

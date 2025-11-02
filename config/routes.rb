@@ -49,7 +49,11 @@ Rails.application.routes.draw do
         resource :team, only: [:show, :update]
         resource :company, only: [:show, :update]
         resource :pdf_source, only: [:show, :update]
-        resources :pdf_imports, only: [:create, :index]
+        resources :pdf_imports, only: [:create, :index] do
+          collection do
+            get :status
+          end
+        end
       end
 
       # Note: Keep existing teams destroy route for backward compatibility with team deletion

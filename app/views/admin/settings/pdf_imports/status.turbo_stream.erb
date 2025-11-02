@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "import_status" do %>
+  <div id="import_status">
+    <%= render "admin/settings/pdf_sources/import_status", pdf_source: @pdf_source %>
+  </div>
+<% end %>
