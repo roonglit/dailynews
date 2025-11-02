@@ -16,7 +16,7 @@ WORKDIR /rails
 
 # Install base packages including Node.js and Yarn
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 poppler-utils imagemagick && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips libssl-dev sqlite3 poppler-utils imagemagick && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g yarn && \
