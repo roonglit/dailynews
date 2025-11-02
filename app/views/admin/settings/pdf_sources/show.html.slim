@@ -39,19 +39,52 @@
   .alert.alert-info.mt-6
     span.iconify.lucide--info.size-5
     div
-      h3.font-bold Expected Filename Format
-      .mt-2.space-y-1
-        p PDFs must follow this naming pattern:
-        code.block.bg-base-300.p-2.rounded.mt-1 Title_With_Underscores_YYYY-MM-DD.pdf
-        .mt-3
-          p.font-medium.mb-1 Examples:
-          ul.list-disc.list-inside.space-y-1
+      h3.font-bold Folder Structure & Filename Rules
+      .mt-2.space-y-3
+        / Scanned Locations
+        div
+          p.font-medium.mb-1 The system scans these locations:
+          ul.list-disc.list-inside.space-y-1.ml-2
             li
-              code Daily_News_2024-11-01.pdf
-              span.ml-2 → Title: "Daily News", Date: Nov 1, 2024
+              code &lt;bucket_path&gt;/inbox/
+              span.ml-2.text-sm.text-base-content/60 (flexible naming)
             li
-              code Bangkok_Post_Morning_Edition_2024-12-25.pdf
-              span.ml-2 → Title: "Bangkok Post Morning Edition", Date: Dec 25, 2024
+              code &lt;bucket_path&gt;/#{Date.today.strftime('%Y%m')}/
+              span.ml-2.text-sm.text-base-content/60 (current month, strict format)
+            li
+              code &lt;bucket_path&gt;/#{1.month.ago.strftime('%Y%m')}/
+              span.ml-2.text-sm.text-base-content/60 (previous month, strict format)
+
+        .divider
+
+        / Inbox Format
+        div
+          p.font-medium.mb-1 📥 Inbox Folder (Flexible):
+          p.text-sm.text-base-content/60.mb-2 Any PDF filename is accepted. Filename becomes the title, uses today's date.
+          code.block.bg-base-300.p-2.rounded.mt-1 any_filename.pdf
+          ul.list-disc.list-inside.space-y-1.mt-2.ml-2
+            li
+              code Special_Edition.pdf
+              span.ml-2 → Title: "Special Edition", Date: Today
+            li
+              code Bangkok_Post.pdf
+              span.ml-2 → Title: "Bangkok Post", Date: Today
+
+        / Date Folder Format
+        div
+          p.font-medium.mb-1 📅 Date Folders (Strict):
+          p.text-sm.text-base-content/60.mb-2 Must follow pattern: PREFIX_MMDDYYYY.pdf
+          code.block.bg-base-300.p-2.rounded.mt-1 PREFIX_MMDDYYYY.pdf
+          ul.list-disc.list-inside.space-y-1.mt-2.ml-2
+            li
+              code DNT_01152025.pdf
+              span.ml-2 → Title: "Dailynews 15 Jan 2025", Date: Jan 15, 2025
+            li
+              code DNT_11022025.pdf
+              span.ml-2 → Title: "Dailynews 2 Nov 2025", Date: Nov 2, 2025
+            li
+              code NEWS_12252024.pdf
+              span.ml-2 → Title: "Dailynews 25 Dec 2024", Date: Dec 25, 2024
 
   / Manual Import Section
   .bg-base-100.card.shadow.mt-6

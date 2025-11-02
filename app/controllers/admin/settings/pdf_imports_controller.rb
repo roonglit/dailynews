@@ -18,10 +18,9 @@ module Admin
 
       def index
         @pdf_source = PdfSource.first
-        @import_operations = PdfImportOperation.includes(:pdf_source)
-                                               .recent
-                                               .page(params[:page])
-                                               .per(20)
+        @pagy, @import_operations = pagy(PdfImportOperation.includes(:pdf_source)
+                                                            .recent,
+                                          items: 20)
       end
     end
   end
