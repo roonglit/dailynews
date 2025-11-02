@@ -1,0 +1,164 @@
+= render layout: 'admin/settings/layout' do
+  .flex.items-center.justify-between.mb-6
+    h2.text-lg.font-medium Import History
+    = link_to admin_settings_pdf_source_path, class: 'btn btn-ghost btn-sm' do
+      span.iconify.lucide--arrow-left.size-4
+      | Back to Settings
+
+  / Stats Summary
+  - if @import_operations.any?
+    .grid.grid-cols-1.md:grid-cols-4.gap-4.mb-6
+      .stat.bg-base-200.rounded-lg
+        .stat-title Total Imports
+        .stat-value.text-2xl = @pdf_source&.pdf_import_operations&.count || 0
+
+      .stat.bg-base-200.rounded-lg
+        .stat-title Successful
+        .stat-value.text-2xl.text-success = @pdf_source&.pdf_import_operations&.success&.count || 0
+
+      .stat.bg-base-200.rounded-lg
+        .stat-title Failed
+        .stat-value.text-2xl.text-error = @pdf_source&.pdf_import_operations&.failed&.count || 0
+
+      .stat.bg-base-200.rounded-lg
+        .stat-title Running
+        .stat-value.text-2xl.text-info = @pdf_source&.pdf_import_operations&.running&.count || 0
+
+  / Import Operations Table
+  .bg-base-100.card.shadow
+    .card-body.p-0
+      - if @import_operations.any?
+        .overflow-auto
+          table.table
+            thead
+              tr
+                th Started At
+                th Status
+                th Duration
+                th Imported
+                th Skipped
+                th Failed
+                th Actions
+
+            tbody
+              - @import_operations.each do |operation|
+                tr.hover:bg-base-200/40
+                  td.whitespace-nowrap
+                    .font-medium = l(operation.started_at, format: :long)
+                    - if operation.completed_at
+                      .text-xs.text-base-content/60 = "Completed: #{l(operation.completed_at, format: :short)}"
+
+                  td
+                    - case operation.status
+                    - when 'success'
+                      span.badge.badge-success.badge-sm Success
+                    - when 'running'
+                      span.badge.badge-info.badge-sm
+                        span.loading.loading-spinner.loading-xs.mr-1
+                        | Running
+                    - when 'failed'
+                      span.badge.badge-error.badge-sm Failed
+
+                  td.text-sm
+                    - if operation.duration
+                      = "#{operation.duration}s"
+                    - else
+                      span.text-base-content/60 -
+
+                  td.text-center
+                    span.badge.badge-success.badge-outline = operation.imported_count
+
+                  td.text-center
+                    span.badge.badge-warning.badge-outline = operation.skipped_count
+
+                  td.text-center
+                    span.badge.badge-error.badge-outline = operation.failed_count
+
+                  td
+                    button.btn.btn-ghost.btn-sm.btn-square onclick="details_modal_#{operation.id}.showModal()" aria-label="View details"
+                      span.iconify.lucide--eye.size-4
+
+                    / Details Modal
+                    dialog id="details_modal_#{operation.id}" class="modal"
+                      .modal-box.max-w-3xl
+                        h3.font-bold.text-lg Import Details
+                        .py-4
+                          .grid.grid-cols-2.gap-4.mb-4
+                            div
+                              .text-sm.text-base-content/60 Started At
+                              .font-medium = l(operation.started_at, format: :long)
+                            div
+                              .text-sm.text-base-content/60 Completed At
+                              .font-medium = operation.completed_at ? l(operation.completed_at, format: :long) : 'N/A'
+                            div
+                              .text-sm.text-base-content/60 Duration
+                              .font-medium = operation.duration ? "#{operation.duration} seconds" : 'N/A'
+                            div
+                              .text-sm.text-base-content/60 Status
+                              - case operation.status
+                              - when 'success'
+                                span.badge.badge-success Success
+                              - when 'running'
+                                span.badge.badge-info Running
+                              - when 'failed'
+                                span.badge.badge-error Failed
+
+                          .divider
+
+                          / Stats
+                          .grid.grid-cols-3.gap-4.mb-4
+                            .stat.bg-base-200.rounded-lg.py-2
+                              .stat-title.text-xs Imported
+                              .stat-value.text-xl.text-success = operation.imported_count
+                            .stat.bg-base-200.rounded-lg.py-2
+                              .stat-title.text-xs Skipped
+                              .stat-value.text-xl.text-warning = operation.skipped_count
+                            .stat.bg-base-200.rounded-lg.py-2
+                              .stat-title.text-xs Failed
+                              .stat-value.text-xl.text-error = operation.failed_count
+
+                          / Error Message
+                          - if operation.error_message.present?
+                            .mt-4
+                              .text-sm.text-base-content/60.mb-2 Error Message
+                              .alert.alert-error
+                                span.iconify.lucide--alert-circle.size-5
+                                span = operation.error_message
+
+                          / Detailed Log
+                          - if operation.log.present?
+                            .mt-4
+                              .flex.items-center.justify-between.mb-2
+                                .text-sm.text-base-content/60 Detailed Log
+                                button.btn.btn-xs.btn-ghost onclick="operation_log_#{operation.id}.scrollTop = operation_log_#{operation.id}.scrollHeight"
+                                  span.iconify.lucide--arrow-down.size-3
+                                  | Scroll to bottom
+
+                              .bg-base-200.p-4.rounded-lg.font-mono.text-sm.overflow-auto.max-h-96 id="operation_log_#{operation.id}"
+                                - if operation.log['errors'] && operation.log['errors'].any?
+                                  .text-error.mb-2
+                                    div Errors:
+                                    - operation.log['errors'].each do |error|
+                                      div.ml-2 = "• #{error}"
+
+                                - if operation.log['files']
+                                  .mt-2
+                                    div Processed files:
+                                    - operation.log['files'].each do |file|
+                                      div.ml-2.text-base-content/60 = "• #{file}"
+
+                        .modal-action
+                          form method="dialog"
+                            button.btn Close
+
+        / Pagination
+        .flex.items-center.justify-center.p-6
+          = paginate @import_operations
+
+      - else
+        .p-8.text-center
+          span.iconify.lucide--file-x.size-16.text-base-content/20.mb-4
+          p.text-base-content/60 No import operations yet
+          p.text-sm.text-base-content/40 Import operations will appear here after you run your first import
+          .mt-4
+            = link_to "Go to Settings", admin_settings_pdf_source_path, class: "btn btn-primary btn-sm"

@@ -43,7 +43,7 @@ class NewspaperImportService
   def create_s3_client
     Aws::S3::Client.new(
       endpoint: 'https://obs.ap-southeast-2.myhuaweicloud.com',
-      region: pdf_source.bucket_region || 'ap-southeast-2',
+      region: 'ap-southeast-2',
       access_key_id: Rails.application.credentials.dig(:huawei, :access_key_id),
       secret_access_key: Rails.application.credentials.dig(:huawei, :secret_access_key),
       force_path_style: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_01_135859) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_02_020436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -148,10 +148,26 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_01_135859) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "pdf_import_operations", force: :cascade do |t|
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.text "error_message"
+    t.integer "failed_count", default: 0
+    t.integer "imported_count", default: 0
+    t.jsonb "log", default: {}
+    t.bigint "pdf_source_id", null: false
+    t.integer "skipped_count", default: 0
+    t.datetime "started_at", null: false
+    t.string "status", default: "running", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pdf_source_id"], name: "index_pdf_import_operations_on_pdf_source_id"
+    t.index ["started_at"], name: "index_pdf_import_operations_on_started_at"
+    t.index ["status"], name: "index_pdf_import_operations_on_status"
+  end
+
   create_table "pdf_sources", force: :cascade do |t|
     t.string "bucket_name", null: false
     t.string "bucket_path", default: "/"
-    t.string "bucket_region"
     t.datetime "created_at", null: false
     t.boolean "enabled", default: false, null: false
     t.text "last_import_log"
@@ -216,6 +232,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_01_135859) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "pdf_import_operations", "pdf_sources"
   add_foreign_key "subscriptions", "orders"
   add_foreign_key "subscriptions", "users"
 end

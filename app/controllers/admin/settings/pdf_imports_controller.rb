@@ -17,9 +17,11 @@ module Admin
       end
 
       def index
-        # Optional: Show import history
-        # This can be implemented later if needed
-        redirect_to admin_settings_pdf_source_path
+        @pdf_source = PdfSource.first
+        @import_operations = PdfImportOperation.includes(:pdf_source)
+                                               .recent
+                                               .page(params[:page])
+                                               .per(20)
       end
     end
   end

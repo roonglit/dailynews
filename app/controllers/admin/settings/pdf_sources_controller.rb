@@ -19,7 +19,6 @@ module Admin
       def set_pdf_source
         @pdf_source = PdfSource.first || PdfSource.new(
           bucket_name: "",
-          bucket_region: "ap-southeast-2",
           bucket_path: "/",
           enabled: false
         )
@@ -27,7 +26,7 @@ module Admin
 
       def pdf_source_params
         params.expect(pdf_source: [
-          :id, :bucket_name, :bucket_region, :bucket_path, :enabled
+          :id, :bucket_name, :bucket_path, :enabled
         ])
       end
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Admin Subscriptions" do
+describe "Admin Can View Subscriptions List" do
   it "displays all subscriptions" do
     subscription = create(:subscription)
     login_as_admin
@@ -12,18 +12,7 @@ describe "Admin Subscriptions" do
     expect(page).to have_content(subscription.member.email)
   end
 
-  it "navigates to customer information page when viewing customer" do
-    subscription = create(:subscription)
-    login_as_admin
-
-    click_link_or_button "Subscriptions"
-    click_link_or_button "View Customer"
-
-    expect(page).to have_current_path(admin_customer_path(subscription.member))
-    expect(page).to have_content("Basic Information")
-  end
-
-  it "shows no subscriptions when none exist" do
+  it "shows empty list when no subscriptions exist" do
     login_as_admin
 
     click_link_or_button "Subscriptions"

@@ -1,4 +1,7 @@
 class PdfSource < ApplicationRecord
+  # Associations
+  has_many :pdf_import_operations, dependent: :destroy
+
   # Validations
   validates :bucket_name, presence: true
   validates :bucket_path, presence: true

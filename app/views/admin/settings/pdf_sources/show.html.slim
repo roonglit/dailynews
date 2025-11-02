@@ -16,13 +16,6 @@
           hint: "The name of your Huawei OBS bucket",
           input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-md" }
 
-        = f.input :bucket_region,
-          label: "Region",
-          placeholder: "ap-southeast-2",
-          required: false,
-          hint: "Default: ap-southeast-2 (Bangkok)",
-          input_html: { class: "border border-gray-300 rounded-md p-2 text-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-md" }
-
         = f.input :bucket_path,
           label: "Folder Path",
           placeholder: "/newspapers",
@@ -67,7 +60,11 @@
       p.text-sm.text-base-content/60.mb-4
         | Manually trigger an import from the configured bucket. This will import all PDFs that match the naming format and haven't been imported yet.
 
-      = button_to "Import Now", admin_settings_pdf_imports_path, method: :post, class: "btn btn-secondary", data: { turbo_confirm: "Start importing newspapers from the bucket?" }
+      .flex.gap-3
+        = button_to "Import Now", admin_settings_pdf_imports_path, method: :post, class: "btn btn-secondary", data: { turbo_confirm: "Start importing newspapers from the bucket?" }
+        = link_to admin_settings_pdf_imports_path, class: "btn btn-outline" do
+          span.iconify.lucide--history.size-4
+          | View Import History
 
   / Last Import Status
   - if @pdf_source.persisted? && @pdf_source.last_imported_at.present?
