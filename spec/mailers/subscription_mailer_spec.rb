@@ -27,7 +27,7 @@ RSpec.describe SubscriptionMailer, type: :mailer do
     let(:mail) { described_class.renewal_success(old_subscription, new_subscription) }
 
     it "sends to the member's email" do
-      expect(mail.to).to eq([member.email])
+      expect(mail.to).to eq([ member.email ])
     end
 
     it "has the correct subject" do
@@ -71,7 +71,7 @@ RSpec.describe SubscriptionMailer, type: :mailer do
     let(:mail) { described_class.renewal_failed_day_2(subscription) }
 
     it "sends to the member's email" do
-      expect(mail.to).to eq([member.email])
+      expect(mail.to).to eq([ member.email ])
     end
 
     it "has the correct subject" do
@@ -114,7 +114,7 @@ RSpec.describe SubscriptionMailer, type: :mailer do
     let(:mail) { described_class.renewal_failed_day_1(subscription) }
 
     it "sends to the member's email" do
-      expect(mail.to).to eq([member.email])
+      expect(mail.to).to eq([ member.email ])
     end
 
     it "has an urgent subject" do
@@ -157,7 +157,7 @@ RSpec.describe SubscriptionMailer, type: :mailer do
     let(:mail) { described_class.renewal_failed_final(subscription) }
 
     it "sends to the member's email" do
-      expect(mail.to).to eq([member.email])
+      expect(mail.to).to eq([ member.email ])
     end
 
     it "has the correct subject" do

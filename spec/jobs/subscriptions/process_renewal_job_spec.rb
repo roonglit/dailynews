@@ -101,7 +101,7 @@ RSpec.describe Subscriptions::ProcessRenewalJob, type: :job do
         expect {
           described_class.new.perform(subscription.id)
         }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
-          .with('SubscriptionMailer', 'renewal_success', 'deliver_now', { args: [subscription, kind_of(Subscription)] })
+          .with('SubscriptionMailer', 'renewal_success', 'deliver_now', { args: [ subscription, kind_of(Subscription) ] })
       end
     end
 
@@ -162,7 +162,7 @@ RSpec.describe Subscriptions::ProcessRenewalJob, type: :job do
         expect {
           described_class.new.perform(subscription.id)
         }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
-          .with('SubscriptionMailer', 'renewal_failed_day_2', 'deliver_now', { args: [subscription] })
+          .with('SubscriptionMailer', 'renewal_failed_day_2', 'deliver_now', { args: [ subscription ] })
       end
     end
 
@@ -188,7 +188,7 @@ RSpec.describe Subscriptions::ProcessRenewalJob, type: :job do
         expect {
           described_class.new.perform(subscription.id)
         }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
-          .with('SubscriptionMailer', 'renewal_failed_day_1', 'deliver_now', { args: [subscription] })
+          .with('SubscriptionMailer', 'renewal_failed_day_1', 'deliver_now', { args: [ subscription ] })
       end
     end
 
@@ -214,7 +214,7 @@ RSpec.describe Subscriptions::ProcessRenewalJob, type: :job do
         expect {
           described_class.new.perform(subscription.id)
         }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
-          .with('SubscriptionMailer', 'renewal_failed_final', 'deliver_now', { args: [subscription] })
+          .with('SubscriptionMailer', 'renewal_failed_final', 'deliver_now', { args: [ subscription ] })
       end
     end
 

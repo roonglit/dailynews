@@ -22,7 +22,7 @@ FactoryBot.define do
           skipped: 2,
           failed: 0,
           errors: [],
-          files: ["Daily_News_2024-11-01.pdf", "Bangkok_Post_2024-11-02.pdf"]
+          files: [ "Daily_News_2024-11-01.pdf", "Bangkok_Post_2024-11-02.pdf" ]
         }
       end
     end
@@ -37,7 +37,7 @@ FactoryBot.define do
           imported: 0,
           skipped: 0,
           failed: 3,
-          errors: ["Connection timeout", "Network error"],
+          errors: [ "Connection timeout", "Network error" ],
           files: []
         }
       end

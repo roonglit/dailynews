@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe "User can authenticate", js: true do
-
   it "allows a user to register via home page" do
     visit root_path
     find('.user-avatar').click

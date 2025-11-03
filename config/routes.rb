@@ -46,10 +46,10 @@ Rails.application.routes.draw do
 
       # Settings namespace with separate tabs
       namespace :settings do
-        resource :team, only: [:show, :update]
-        resource :company, only: [:show, :update]
-        resource :pdf_source, only: [:show, :update]
-        resources :pdf_imports, only: [:create, :index] do
+        resource :team, only: [ :show, :update ]
+        resource :company, only: [ :show, :update ]
+        resource :pdf_source, only: [ :show, :update ]
+        resources :pdf_imports, only: [ :create, :index ] do
           collection do
             get :status
           end
@@ -60,7 +60,7 @@ Rails.application.routes.draw do
       # This will be deprecated once all team management moves to settings
 
       # Redirect /admin/settings to default tab
-      get 'settings', to: redirect('/e-newspaper/admin/settings/team')
+      get "settings", to: redirect("/e-newspaper/admin/settings/team")
 
       resources :customers, only: %i[index show edit update] do
         resources :subscriptions, only: %i[new create]

@@ -11,10 +11,10 @@ class PdfSource < ApplicationRecord
 
   # Status enum
   enum :last_import_status, {
-    idle: 'idle',
-    running: 'running',
-    success: 'success',
-    failed: 'failed'
+    idle: "idle",
+    running: "running",
+    success: "success",
+    failed: "failed"
   }, default: :idle
 
   # Set defaults for new records
@@ -24,12 +24,12 @@ class PdfSource < ApplicationRecord
 
   def set_defaults
     self.bucket_name ||= Rails.application.credentials.dig(:huawei, :bucket)
-    self.bucket_path ||= '/'
+    self.bucket_path ||= "/"
   end
 
   def ensure_singleton
     if PdfSource.exists? && persisted? == false
-      errors.add(:base, 'Only one PDF source configuration is allowed')
+      errors.add(:base, "Only one PDF source configuration is allowed")
     end
   end
 end

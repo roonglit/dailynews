@@ -2,7 +2,7 @@ class PdfImportOperation < ApplicationRecord
   belongs_to :pdf_source
 
   # Status enum: running, success, failed
-  enum :status, { running: 'running', success: 'success', failed: 'failed' }, default: :running
+  enum :status, { running: "running", success: "success", failed: "failed" }, default: :running
 
   # Validations
   validates :status, presence: true
@@ -11,7 +11,7 @@ class PdfImportOperation < ApplicationRecord
   # Scopes
   scope :recent, -> { order(started_at: :desc) }
   scope :completed, -> { where.not(completed_at: nil) }
-  scope :older_than, ->(days) { where('started_at < ?', days.days.ago) }
+  scope :older_than, ->(days) { where("started_at < ?", days.days.ago) }
 
   # Cleanup old records (older than 30 days)
   def self.cleanup_old_records

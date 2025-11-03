@@ -8,7 +8,7 @@ module Admin
 
     def create_invitation(email:)
       # Check if email is already an admin
-      if Admin::User.exists?(email: email, status: [:active, :inactive])
+      if Admin::User.exists?(email: email, status: [ :active, :inactive ])
         return {
           success: false,
           error: "User with this email is already an admin."

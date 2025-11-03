@@ -10,7 +10,7 @@ module Subscriptions
       expiring_subscriptions = Subscription
         .where(auto_renew: true)
         .where("end_date BETWEEN ? AND ?", Date.current, Date.current + 2.days)
-        .where(renewal_status: [:pending, :failed])
+        .where(renewal_status: [ :pending, :failed ])
         .includes(:member, order: :product)
 
       expiring_subscriptions.find_each do |subscription|

@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Checkout", type: :request do
     it "redirect to root_path" do
         create(:guest)
-        
+
         get checkout_path
 
         expect(session[:member_return_to]).to eq('/checkout')

@@ -1,4 +1,4 @@
-require 'aws-sdk-s3'
+require "aws-sdk-s3"
 
 class NewspaperImportService
   attr_reader :pdf_source, :results
@@ -44,30 +44,30 @@ class NewspaperImportService
 
   def create_s3_client
     # Load and parse storage.yml with ERB
-    storage_yml = ERB.new(File.read(Rails.root.join('config/storage.yml'))).result
+    storage_yml = ERB.new(File.read(Rails.root.join("config/storage.yml"))).result
     storage_config = YAML.safe_load(storage_yml, aliases: true)
-    huawei_config = storage_config['huawei_import']
+    huawei_config = storage_config["huawei_import"]
 
     Aws::S3::Client.new(
-      endpoint: huawei_config['endpoint'],
-      region: huawei_config['region'],
-      access_key_id: huawei_config['access_key_id'],
-      secret_access_key: huawei_config['secret_access_key'],
-      force_path_style: huawei_config['force_path_style']
+      endpoint: huawei_config["endpoint"],
+      region: huawei_config["region"],
+      access_key_id: huawei_config["access_key_id"],
+      secret_access_key: huawei_config["secret_access_key"],
+      force_path_style: huawei_config["force_path_style"]
     )
   end
 
   def list_pdf_files(s3_client)
     prefixes_to_scan = []
-    base_path = pdf_source.bucket_path.gsub(/^\/|\/+$/, '') # Remove leading/trailing slashes
+    base_path = pdf_source.bucket_path.gsub(/^\/|\/+$/, "") # Remove leading/trailing slashes
 
     # Always scan inbox folder
-    prefixes_to_scan << "#{base_path}/inbox/".gsub(/^\//, '')
+    prefixes_to_scan << "#{base_path}/inbox/".gsub(/^\//, "")
 
     # Scan current and previous month folders (YYYYMM format)
-    months_to_scan = [Date.today, 1.month.ago].map { |d| d.strftime('%Y%m') }
+    months_to_scan = [ Date.today, 1.month.ago ].map { |d| d.strftime("%Y%m") }
     months_to_scan.each do |month|
-      prefixes_to_scan << "#{base_path}/#{month}/".gsub(/^\//, '')
+      prefixes_to_scan << "#{base_path}/#{month}/".gsub(/^\//, "")
     end
 
     pdf_files = []
@@ -90,7 +90,7 @@ class NewspaperImportService
 
         # Filter for PDF files only
         pdf_files += response.contents
-          .select { |obj| obj.key.downcase.end_with?('.pdf') }
+          .select { |obj| obj.key.downcase.end_with?(".pdf") }
           .map(&:key)
 
         break unless response.is_truncated
@@ -140,7 +140,7 @@ class NewspaperImportService
     filename = File.basename(file_key)
 
     # Determine if file is from inbox (flexible) or date folder (strict)
-    is_inbox = file_key.include?('/inbox/') || file_key.start_with?('inbox/')
+    is_inbox = file_key.include?("/inbox/") || file_key.start_with?("inbox/")
 
     if is_inbox
       # Flexible parsing for inbox folder
@@ -156,7 +156,7 @@ class NewspaperImportService
 
   def parse_inbox_filename(filename)
     # Remove .pdf extension
-    name = filename.gsub(/\.pdf$/i, '')
+    name = filename.gsub(/\.pdf$/i, "")
 
     # Use filename as title and current date as published_at
     {
@@ -167,7 +167,7 @@ class NewspaperImportService
 
   def parse_dated_filename(filename)
     # Remove .pdf extension
-    name = filename.gsub(/\.pdf$/i, '')
+    name = filename.gsub(/\.pdf$/i, "")
 
     # Pattern: DNT_MMDDYYYY
     # Example: DNT_01152025.pdf -> January 15, 2025
@@ -202,7 +202,7 @@ class NewspaperImportService
 
   def download_and_import(s3_client, file_key, filename, metadata)
     # Download PDF to temporary file
-    temp_file = Tempfile.new([metadata[:title], '.pdf'])
+    temp_file = Tempfile.new([ metadata[:title], ".pdf" ])
 
     begin
       # Download from S3
@@ -223,7 +223,7 @@ class NewspaperImportService
       newspaper.pdf.attach(
         io: File.open(temp_file.path),
         filename: filename,
-        content_type: 'application/pdf'
+        content_type: "application/pdf"
       )
 
       newspaper.save!

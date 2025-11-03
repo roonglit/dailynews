@@ -1,6 +1,6 @@
 module Admin
   class InvitationsController < ApplicationController
-    before_action :set_invitation, only: [:show, :accept]
+    before_action :set_invitation, only: [ :show, :accept ]
 
     def show
       if @invitation.expired?

@@ -100,8 +100,8 @@ RSpec.describe PdfImportOperation, type: :model do
         imported: 5,
         skipped: 2,
         failed: 1,
-        errors: ['Error 1', 'Error 2'],
-        files: ['file1.pdf', 'file2.pdf']
+        errors: [ 'Error 1', 'Error 2' ],
+        files: [ 'file1.pdf', 'file2.pdf' ]
       }
     end
 
