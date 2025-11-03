@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Install packages
-        run: sudo apt-get install poppler-utils imagemagick chromium-browser
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git poppler-utils imagemagick pkg-config google-chrome-stable
 
       - name: Checkout code
         uses: actions/checkout@v4
