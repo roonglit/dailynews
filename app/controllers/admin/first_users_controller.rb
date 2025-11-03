@@ -1,6 +1,6 @@
 module Admin
   class FirstUsersController < ApplicationController
-    # before_action :require_admin_exists
+    before_action :require_admin_exists
 
     def set_email
       email = decode_invite_token!(params[:token])
