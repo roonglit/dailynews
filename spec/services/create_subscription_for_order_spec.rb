@@ -12,36 +12,36 @@ RSpec.describe CreateSubscriptionForOrder do
     order
   end
 
-  describe "#call" do
+  describe "#perform" do
     subject(:creator) { described_class.new(order) }
 
     context "with a valid order" do
       it "creates a subscription" do
-        expect { creator.call }.to change(Subscription, :count).by(1)
+        expect { creator.perform }.to change(Subscription, :count).by(1)
       end
 
       it "links the subscription to the order" do
-        creator.call
+        creator.perform
         expect(order.reload.subscription).to be_present
       end
 
       it "links the subscription to the user" do
-        creator.call
-        expect(order.subscription.user).to eq(user)
+        creator.perform
+        expect(order.subscription.member).to eq(user)
       end
 
       it "sets start_date to today" do
-        creator.call
+        creator.perform
         expect(order.subscription.start_date).to eq(Date.current)
       end
 
       it "sets end_date to 1 month from today" do
-        creator.call
+        creator.perform
         expect(order.subscription.end_date).to eq(Date.current + 1.month)
       end
 
       it "returns true" do
-        expect(creator.call).to be true
+        expect(creator.perform).to be true
       end
     end
 
@@ -49,7 +49,7 @@ RSpec.describe CreateSubscriptionForOrder do
       let(:product) { create(:product, sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION", title: "Monthly", amount: 249) }
 
       it "sets end_date to 1 month from today" do
-        creator.call
+        creator.perform
         expect(order.subscription.end_date).to eq(Date.current + 1.month)
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe CreateSubscriptionForOrder do
       let(:product) { create(:product, sku: "UNKNOWN_SKU", title: "Unknown", amount: 100) }
 
       it "defaults to 1 month duration" do
-        creator.call
+        creator.perform
         expect(order.subscription.end_date).to eq(Date.current + 1.month)
       end
     end
@@ -72,11 +72,11 @@ RSpec.describe CreateSubscriptionForOrder do
       end
 
       it "returns false" do
-        expect(creator.call).to be false
+        expect(creator.perform).to be false
       end
 
       it "does not create a subscription" do
-        expect { creator.call }.not_to change(Subscription, :count)
+        expect { creator.perform }.not_to change(Subscription, :count)
       end
     end
   end
