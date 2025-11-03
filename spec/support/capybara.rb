@@ -23,6 +23,7 @@ end
 # Use Cuprite as the JavaScript driver
 Capybara.javascript_driver = :cuprite
 Capybara.default_driver = :cuprite
+Capybara.default_max_wait_time = 5
 
 # Configure Capybara timeouts
 Capybara.configure do |config|
