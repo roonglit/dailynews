@@ -1,37 +1,60 @@
 require 'rails_helper'
 
 RSpec.describe "Admin::Companies", type: :request do
+  let!(:admin) { create(:admin_user) }
+  before { sign_in admin }
+
   describe "GET /show" do
     it "returns http success" do
-      get "/admin/companies/show"
+      get "/e-newspaper/admin/settings/company"
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /new" do
+  describe "PUT /update" do
     it "returns http success" do
-      get "/admin/companies/new"
+      put "/e-newspaper/admin/settings/company", params: {
+        company: {
+          id: 1,
+          name: "Test Co.",
+          address_1: "address1",
+          address_2: "address2",
+          sub_district: "subdistrict",
+          district: "district",
+          province: "province",
+          postal_code: "123456",
+          country: "country",
+          phone_number: "1234567890",
+          email: "email@hotmail.com",
+          logo: ""
+        }
+      }
+      expect(response).to have_http_status(:found)
+      follow_redirect!
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /create" do
+  describe "PATCH /update" do
     it "returns http success" do
-      get "/admin/companies/create"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET /edit" do
-    it "returns http success" do
-      get "/admin/companies/edit"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe "GET /update" do
-    it "returns http success" do
-      get "/admin/companies/update"
+      patch "/e-newspaper/admin/settings/company", params: {
+        company: {
+          id: 1,
+          name: "Test Co.",
+          address_1: "address1",
+          address_2: "address2",
+          sub_district: "subdistrict",
+          district: "district",
+          province: "province",
+          postal_code: "123456",
+          country: "country",
+          phone_number: "1234567890",
+          email: "email@hotmail.com",
+          logo: ""
+        }
+      }
+      expect(response).to have_http_status(:found)
+      follow_redirect!
       expect(response).to have_http_status(:success)
     end
   end
