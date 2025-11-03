@@ -12,6 +12,10 @@ describe "First admin can create his own account", js: true do
     fill_in 'confirm_password', with: 'password123'
     click_link_or_button 'SIGN UP'
 
+<<<<<<< Updated upstream:spec/system/admin/first_admin_can_create_his_own_account_spec.rb
+=======
+    # Should see success message and be redirected to sign in
+>>>>>>> Stashed changes:spec/system/admin/first_user_can_create_admin_user_spec.rb
     expect(page).to have_content("You need to sign in or sign up before continuing.")
     expect(Admin::User.find_by(email: email)).to be_present
   end

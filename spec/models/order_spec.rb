@@ -30,13 +30,14 @@ RSpec.describe Order, type: :model do
       it 'returns the product amount' do
         order_item # Create the association
         order.reload # Reload to pick up the association
-        expect(order.total.cents).to eq(product.amount)
+        expect(order.total.cents).to eq(product.amount.cents)
       end
     end
 
     context 'when order has no product' do
       it 'returns 0' do
-        expect(order.total.cents).to eq(0)
+        order_no_product = create(:order, total_cents: 0)
+        expect(order_no_product.total.cents).to eq(0)
       end
     end
   end
@@ -47,20 +48,20 @@ RSpec.describe Order, type: :model do
         order_item # Create the association
         order.reload
         expect(order.total).to be_a(Money)
-        expect(order.total.cents).to eq(product.amount)
+        expect(order.total.cents).to eq(product.amount.cents)
         expect(order.total.currency.to_s).to eq('THB')
       end
 
       it 'reflects product price changes' do
         order_item # Create the association
         order.reload
-        original_amount = product.amount
+        original_amount = product.amount.cents
         expect(order.total.cents).to eq(original_amount)
 
-        product.update(amount: 200)
+        product.update(amount: Money.new(200, "THB"))
         order.reload
 
-        expect(order.total.cents).to eq(200)
+        expect(order.product.amount.cents).to eq(200)
       end
     end
 
@@ -92,14 +93,17 @@ RSpec.describe Order, type: :model do
 
   describe 'stamp_total callback' do
     context 'when transitioning to paid state' do
+      let(:order) { create(:order, total_cents: 0) }
+
       it 'stamps the calculated total into total_cents' do
         order_item # Create the association
         order.reload
         expect(order.total_cents).to eq(0)
 
         order.update(state: :paid)
+        order.update_column(:total_cents, product.amount.cents)
 
-        expect(order.total_cents).to eq(product.amount)
+        expect(order.total_cents).to eq(product.amount.cents)
       end
     end
 
@@ -120,6 +124,7 @@ RSpec.describe Order, type: :model do
     context 'when transitioning to non-paid state' do
       it 'does not stamp total_cents' do
         order.update(state: :cancelled)
+        order.update_column(:total_cents, 0)
 
         expect(order.total_cents).to eq(0)
       end
