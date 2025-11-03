@@ -94,7 +94,7 @@ Rails.application.routes.draw do
     get "style-guide" => "style_guide#index", as: :style_guide
 
     # Defines the root path route ("/")
-    root "home#index"
+    root "home#index", as: :scoped_root
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -104,4 +104,6 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+
+  root "home#index"
 end
