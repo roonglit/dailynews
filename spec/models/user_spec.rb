@@ -25,7 +25,7 @@ RSpec.describe User, type: :model do
     context "query search exists" do
       before { create(:user, first_name: "A", last_name: "a") }
       it "should be return user A when query search is a or A" do
-        expect(User.search("a")).to eq(User.where(first_name: "A"))
+        expect(User.search("a").to_a).to eq(User.where(first_name: "A").to_a)
       end
     end
 
