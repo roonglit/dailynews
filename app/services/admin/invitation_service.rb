@@ -16,7 +16,7 @@ module Admin
       end
 
       # Check if there's already a pending invitation
-      existing_invitation = AdminInvitation.active.find_by(email: email)
+      existing_invitation = Admin::Invitation.active.find_by(email: email)
       if existing_invitation.present?
         return {
           success: false,
@@ -38,7 +38,7 @@ module Admin
       end
 
       # Create the invitation
-      invitation = AdminInvitation.new(
+      invitation = Admin::Invitation.new(
         email: email,
         invited_by: invited_by,
         admin_user: admin_user
@@ -95,7 +95,7 @@ module Admin
     end
 
     def self.cleanup_expired_invitations
-      AdminInvitation.cleanup_expired!
+      Admin::Invitation.cleanup_expired!
     end
   end
 end

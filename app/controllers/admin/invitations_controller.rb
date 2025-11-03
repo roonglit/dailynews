@@ -47,7 +47,7 @@ module Admin
     private
 
     def set_invitation
-      @invitation = AdminInvitation.find_by!(token: params[:token])
+      @invitation = Admin::Invitation.find_by!(token: params[:token])
     rescue ActiveRecord::RecordNotFound
       redirect_to new_admin_user_session_path, alert: "Invitation not found."
     end

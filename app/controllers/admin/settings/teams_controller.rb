@@ -9,25 +9,44 @@ module Admin
         page = params[:page].present? && params[:page].to_i > 0 ? params[:page].to_i : 1
         @all_admins = Admin::User.search(params[:q]).order(:id)
         @pagy, @admins = pagy(@all_admins, limit: items_per_page, page: page, params: { q: params[:q], per_page: params[:per_page] }.compact)
+        @invitation = Admin::Invitation.new
       end
 
       def update
-        # Handle invitation submission
-        email = params[:invite][:email] if params[:invite].present?
+        @invitation = Admin::Invitation.new(invitation_params)
+        @invitation.invited_by = current_admin_user
 
-        if email.blank?
-          redirect_to admin_settings_team_path, alert: "Email can't be blank"
+        if @invitation.email.blank?
+          @all_admins = Admin::User.search(params[:q]).order(:id)
+          items_per_page = params[:per_page].to_i
+          items_per_page = 10 unless items_per_page.positive?
+          page = params[:page].present? && params[:page].to_i > 0 ? params[:page].to_i : 1
+          @pagy, @admins = pagy(@all_admins, limit: items_per_page, page: page, params: { q: params[:q], per_page: params[:per_page] }.compact)
+          flash.now[:alert] = "Email can't be blank"
+          render :show
           return
         end
 
-        service = InvitationService.new(invited_by: current_admin_user)
-        result = service.create_invitation(email: email)
+        service = Admin::InvitationService.new(invited_by: current_admin_user)
+        result = service.create_invitation(email: @invitation.email)
 
         if result[:success]
           redirect_to admin_settings_team_path, notice: "Invitation sent successfully."
         else
-          redirect_to admin_settings_team_path, alert: result[:error]
+          @all_admins = Admin::User.search(params[:q]).order(:id)
+          items_per_page = params[:per_page].to_i
+          items_per_page = 10 unless items_per_page.positive?
+          page = params[:page].present? && params[:page].to_i > 0 ? params[:page].to_i : 1
+          @pagy, @admins = pagy(@all_admins, limit: items_per_page, page: page, params: { q: params[:q], per_page: params[:per_page] }.compact)
+          flash.now[:alert] = result[:error]
+          render :show
         end
+      end
+
+      private
+
+      def invitation_params
+        params.require(:admin_invitation).permit(:email)
       end
     end
   end

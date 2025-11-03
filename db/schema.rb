@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_02_020436) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_03_023514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,7 +59,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_02_020436) do
     t.string "email", null: false
     t.datetime "expires_at", null: false
     t.integer "invited_by_id", null: false
-    t.string "status", default: "pending", null: false
+    t.integer "status", default: 0, null: false
     t.string "token", null: false
     t.datetime "updated_at", null: false
     t.index ["admin_user_id"], name: "index_admin_invitations_on_admin_user_id"

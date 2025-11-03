@@ -59,7 +59,7 @@
       p.text-sm.text-base-content/60.mb-4
         | Send an invitation email to add a new admin user to your team.
 
-      = simple_form_for :invite, url: admin_settings_team_path, method: :patch, html: { class: "space-y-4" } do |f|
+      = simple_form_for @invitation, url: admin_settings_team_path, method: :patch, html: { class: "space-y-4" } do |f|
         = f.input :email,
           label: "Email Address",
           placeholder: "admin@example.com",

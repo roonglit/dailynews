@@ -1,6 +1,5 @@
 module Admin
   class User < ApplicationRecord
-    self.table_name = "admin_users"
     # Include default devise modules. Others available are:
     # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
     devise :database_authenticatable, :registerable,
@@ -8,8 +7,8 @@ module Admin
 
     enum :status, { invited: 0, active: 1, inactive: 2 }
 
-    has_one :invitation, class_name: "AdminInvitation", foreign_key: :admin_user_id, dependent: :destroy
-    has_many :sent_invitations, class_name: "AdminInvitation", foreign_key: :invited_by_id, dependent: :destroy
+    has_one :invitation, class_name: "Invitation", foreign_key: :admin_user_id, dependent: :destroy
+    has_many :sent_invitations, class_name: "Invitation", foreign_key: :invited_by_id, dependent: :destroy
 
     scope :search, ->(query) {
       if query.present?

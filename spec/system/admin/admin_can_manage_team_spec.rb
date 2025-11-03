@@ -42,7 +42,7 @@ describe "Admin can manage team", js: true do
       click_link_or_button "Settings"
 
       expect {
-        fill_in 'invite_email', with: "admin10@hotmail.com"
+        fill_in 'admin_invitation_email', with: "admin10@hotmail.com"
         click_link_or_button "Send Invitation"
       }.to change(Admin::User, :count).by(1)
 
@@ -50,19 +50,19 @@ describe "Admin can manage team", js: true do
       expect(page).to have_content("admin10@hotmail.com")
     end
 
-    it "creates Admin::User with invited status and AdminInvitation record" do
+    it "creates Admin::User with invited status and Admin::Invitation record" do
       click_link_or_button "Settings"
 
       expect {
-        fill_in 'invite_email', with: "newinvite@example.com"
+        fill_in 'admin_invitation_email', with: "newinvite@example.com"
         click_link_or_button "Send Invitation"
       }.to change(Admin::User, :count).by(1)
-        .and change(AdminInvitation, :count).by(1)
+        .and change(Admin::Invitation, :count).by(1)
 
       invited_user = Admin::User.find_by(email: "newinvite@example.com")
       expect(invited_user.status).to eq("invited")
 
-      invitation = AdminInvitation.find_by(email: "newinvite@example.com")
+      invitation = Admin::Invitation.find_by(email: "newinvite@example.com")
       expect(invitation.status).to eq("pending")
       expect(invitation.admin_user).to eq(invited_user)
     end
@@ -82,7 +82,7 @@ describe "Admin can manage team", js: true do
     let!(:admin) { create(:admin_user) }
     let!(:existing_user) { Admin::User.create!(email: "duplicate@example.com", status: :invited) }
     let!(:existing_invitation) do
-      AdminInvitation.create!(
+      Admin::Invitation.create!(
         email: "duplicate@example.com",
         invited_by: admin,
         admin_user: existing_user
@@ -96,9 +96,9 @@ describe "Admin can manage team", js: true do
 
     it "does not create duplicate invitation for same email" do
       expect {
-        fill_in 'invite_email', with: "duplicate@example.com"
+        fill_in 'admin_invitation_email', with: "duplicate@example.com"
         click_link_or_button "Send Invitation"
-      }.not_to change(AdminInvitation, :count)
+      }.not_to change(Admin::Invitation, :count)
 
       expect(page).to have_current_path(admin_settings_team_path)
       expect(Admin::User.where(email: "duplicate@example.com").count).to eq(1)
@@ -108,7 +108,7 @@ describe "Admin can manage team", js: true do
   context "when pending invitation exists" do
     let!(:admin) { create(:admin_user) }
     let!(:invitation) do
-      AdminInvitation.create!(
+      Admin::Invitation.create!(
         email: "newadmin@example.com",
         invited_by: admin,
         admin_user: Admin::User.create!(email: "newadmin@example.com", status: :invited)
@@ -139,7 +139,7 @@ describe "Admin can manage team", js: true do
     let!(:admin) { create(:admin_user) }
     let!(:expired_user) { Admin::User.create!(email: "expired@example.com", status: :invited) }
     let!(:invitation) do
-      AdminInvitation.create!(
+      Admin::Invitation.create!(
         email: "expired@example.com",
         invited_by: admin,
         admin_user: expired_user,
@@ -166,7 +166,7 @@ describe "Admin can manage team", js: true do
       )
     end
     let!(:invitation) do
-      AdminInvitation.create!(
+      Admin::Invitation.create!(
         email: "accepted@example.com",
         invited_by: admin,
         admin_user: accepted_user,
