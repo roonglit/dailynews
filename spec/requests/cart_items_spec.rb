@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "CartItems", type: :request do
   let(:user) { create(:member) }
-  let!(:product) { create(:subscribe_monthly) }
+  let!(:product) { create(:monthly_subscription_product) }
   let!(:cart) { Cart.create!(user: user) }
 
   before do
