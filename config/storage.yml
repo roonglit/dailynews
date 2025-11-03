@@ -6,13 +6,21 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-digitalocean:
+# digitalocean:
+#   service: S3
+#   endpoint: https://obs.ap-southeast-2.myhuaweicloud.com 
+#   access_key_id: <%= ENV['DIGITALOCEAN_ACCESS_KEY_ID'] || Rails.application.credentials.dig(:digitalocean, :access_key_id) %>
+#   secret_access_key: <%= ENV['DIGITALOCEAN_SECRET_ACCESS_KEY'] || Rails.application.credentials.dig(:digitalocean, :secret_access_key) %>
+#   region: <%= ENV['DIGITALOCEAN_REGION'] || Rails.application.credentials.dig(:digitalocean, :region) || 'sgp1' %>
+#   bucket: <%= ENV['DIGITALOCEAN_BUCKET'] || Rails.application.credentials.dig(:digitalocean, :bucket) %>
+
+huaweicloud:
   service: S3
-  endpoint: https://sgp1.digitaloceanspaces.com
-  access_key_id: <%= Rails.application.credentials.dig(:digitalocean, :access_key_id) %>
-  secret_access_key: <%= Rails.application.credentials.dig(:digitalocean, :secret_access_key) %>
-  region: sgp1
-  bucket: <%= Rails.application.credentials.dig(:digitalocean, :bucket) %>
+  endpoint: https://obs.ap-southeast-2.myhuaweicloud.com 
+  access_key_id: <%= ENV['HUAWEICLOUD_ACCESS_KEY_ID'] || Rails.application.credentials.dig(:huaweicloud, :access_key_id) %>
+  secret_access_key: <%= ENV['HUAWEICLOUD_SECRET_ACCESS_KEY'] || Rails.application.credentials.dig(:huaweicloud, :secret_access_key) %>
+  region: <%= ENV['HUAWEICLOUD_REGION'] || Rails.application.credentials.dig(:huaweicloud, :region) || 'ap-southeast-2' %>
+  bucket: <%= ENV['HUAWEICLOUD_BUCKET'] || Rails.application.credentials.dig(:huaweicloud, :bucket) %>
 
 huawei:
   service: S3
