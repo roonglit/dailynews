@@ -21,13 +21,13 @@ RSpec.describe Product, type: :model do
   it "is invalid with a duplicate title" do
     product = build(:product, title: one_month_product.title)
     expect(product).not_to be_valid
-    expect(product.errors[:title]).to include("has already been taken")
+    expect(product.errors[:title]).to include("This username is already taken.")
   end
 
   it "is invalid with a duplicate sku" do
     product = build(:product, sku: one_month_product.sku)
     expect(product).not_to be_valid
-    expect(product.errors[:sku]).to include("has already been taken")
+    expect(product.errors[:sku]).to include("This username is already taken.")
   end
 
   it "is valid with all required attributes" do
