@@ -6,7 +6,7 @@ require "capybara/cuprite"
 Capybara.register_driver :cuprite do |app|
   Capybara::Cuprite::Driver.new(
     app,
-    window_size: [ 390, 844 ],                    # Mobile screen size (iPhone 13 Pro)
+    window_size: [ 1400, 1400 ],
     browser_options: {
       'headless': nil,                          # Run in headless mode
       'no-sandbox': nil,                        # Required for some environments
