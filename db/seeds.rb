@@ -8,8 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-require 'prawn'
-
 # Create subscription products
 Product.find_or_create_by!(sku: "MEMBERSHIP_ONE_MONTH") do |product|
   product.title = "1 Month Only"
@@ -24,52 +22,6 @@ Product.find_or_create_by!(sku: "MEMBERSHIP_MONTHLY_SUBSCRIPTION") do |product|
 end
 
 puts "✅ Products seeded successfully"
-
-# Helper method to create a simple PDF with title and content
-def create_sample_pdf(title, date, content)
-  pdf = Prawn::Document.new
-
-  # Add header with title and date
-  pdf.font_size 24
-  pdf.text title, align: :center, style: :bold
-  pdf.move_down 10
-
-  pdf.font_size 12
-  pdf.text date.strftime("%B %d, %Y"), align: :center
-  pdf.move_down 20
-
-  # Add sample content
-  pdf.font_size 10
-  pdf.text content, align: :justify
-
-  pdf.render
-end
-
-# Helper method to create a simple cover image
-def create_sample_cover(title, date)
-  require 'mini_magick'
-
-  image = MiniMagick::Image.open("identify") do |identify|
-    identify.size "600x800"
-    identify.background "#ffffff"
-  end
-
-  # Create a simple white background with text
-  image.combine_options do |c|
-    c.size "600x800"
-    c.background "#f0f0f0"
-    c.fill "#333333"
-    c.gravity "center"
-    c.pointsize "40"
-    c.font "Arial"
-  end
-
-  image.format "jpg"
-  image.to_blob
-rescue => e
-  # Fallback: create minimal image if ImageMagick is not available
-  nil
-end
 
 # Create company information
 puts "\n🏢 Creating company record..."
