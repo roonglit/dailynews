@@ -10,7 +10,7 @@ module Admin
         if @company.update(company_params)
           redirect_to admin_settings_company_path, notice: "Company information was successfully updated."
         else
-          render :show, status: :unprocessable_entity
+          render :show, status: :unprocessable_content
         end
       end
 

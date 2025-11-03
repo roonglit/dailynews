@@ -29,8 +29,8 @@ module Admin
           format.html { redirect_to [ :admin, @product ], notice: "Product was successfully created." }
           format.json { render :show, status: :created, location: @product }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @product.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @product.errors, status: :unprocessable_content }
         end
       end
     end
@@ -42,8 +42,8 @@ module Admin
           format.html { redirect_to [ :admin, @product ], notice: "Product was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: @product }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @product.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @product.errors, status: :unprocessable_content }
         end
       end
     end

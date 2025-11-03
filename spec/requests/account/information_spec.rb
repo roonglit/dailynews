@@ -127,7 +127,7 @@ RSpec.describe "Account::Information", type: :request do
       it "renders edit form with invalid email format" do
         patch account_information_path, params: { member: { email: "invalid-email" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("Edit Information")
 
         member.reload
@@ -139,7 +139,7 @@ RSpec.describe "Account::Information", type: :request do
 
         patch account_information_path, params: { member: { email: "" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("Edit Information")
 
         member.reload

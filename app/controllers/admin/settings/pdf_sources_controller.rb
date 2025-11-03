@@ -10,7 +10,7 @@ module Admin
         if @pdf_source.update(pdf_source_params)
           redirect_to admin_settings_pdf_source_path, notice: "PDF source configuration was successfully updated."
         else
-          render :show, status: :unprocessable_entity
+          render :show, status: :unprocessable_content
         end
       end
 

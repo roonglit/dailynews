@@ -14,7 +14,7 @@ class Account::InformationController < Account::BaseController
       if @user.update(user_params)
         format.html { redirect_to account_information_path, notice: "Account information updated successfully." }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
       end
     end
   end

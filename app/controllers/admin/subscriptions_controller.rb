@@ -29,7 +29,7 @@ module Admin
       if @subscription.save
         redirect_to admin_customer_path(@member), notice: "Subscription created successfully."
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -42,7 +42,7 @@ module Admin
         redirect_to admin_customer_path(@subscription.member), notice: "Subscription updated successfully."
       else
         @member = @subscription.member
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 
