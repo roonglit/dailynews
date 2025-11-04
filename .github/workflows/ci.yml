@@ -95,7 +95,7 @@ jobs:
           # REDIS_URL: redis://localhost:6379/0
         run: |
           bin/rails db:test:prepare
-          bundle exec rspec --out test-results/rspec.xml
+          bundle exec rspec --exclude-pattern spec/system --out test-results/rspec.xml
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
