@@ -92,6 +92,8 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/dailynews_test
           HEADLESS: true
+          CAPYBARA_WINDOW_WIDTH: 1600
+          CAPYBARA_WINDOW_HEIGHT: 1400
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare && bundle exec rspec
 

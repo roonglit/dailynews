@@ -4,7 +4,7 @@ module AuthHelper
 
     # user clicks on the avatar icon to sign in
     visit root_path
-    find('.user-avatar').click
+    find('.user-avatar', wait: 5).click(clickable: true)
     click_link 'Sign in here'
 
     # user fills in email and password, and sign in
