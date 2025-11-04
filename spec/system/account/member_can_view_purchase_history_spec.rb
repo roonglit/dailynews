@@ -105,8 +105,9 @@ describe "Purchase history", js: true do
       expect(page).to have_content("Order ##{newest_order.id}")
 
       # Get all order elements
-      order_ids = page.all('.border-b').map do |element|
-        element.text.match(/Order #(\d+)/)[1].to_i
+      order_ids = page.all('.border-b').filter_map do |element|
+        match = element.text.match(/Order *#(\d+)/)
+        match[1].to_i if match
       end
 
       # Should be in descending order (newest first)
