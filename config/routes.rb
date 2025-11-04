@@ -32,12 +32,6 @@ Rails.application.routes.draw do
         passwords: "admin/users/passwords"
       }
 
-      resource :company
-      resources :teams, only: %i[index new create destroy] do
-        collection do
-          post "invite"
-        end
-      end
       resources :invitations, param: :token, only: [ :show ] do
         member do
           post :accept

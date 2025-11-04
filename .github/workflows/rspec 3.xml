@@ -1,0 +1,86 @@
+....................................................................................................................................................FFFF...................................................................F....................................................F...................................................................
+
+Failures:
+
+  1) Admin::Teams GET /index returns http success
+     Failure/Error: get admin_teams_path
+
+     ActionDispatch::MissingController:
+       uninitialized constant Admin::TeamsController
+     # ./spec/requests/admin/teams_spec.rb:10:in 'block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant Admin::TeamsController
+     #   ./spec/requests/admin/teams_spec.rb:10:in 'block (3 levels) in <top (required)>'
+
+  2) Admin::Teams GET /index default per_page when not specified
+     Failure/Error: get admin_teams_path
+
+     ActionDispatch::MissingController:
+       uninitialized constant Admin::TeamsController
+     # ./spec/requests/admin/teams_spec.rb:16:in 'block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant Admin::TeamsController
+     #   ./spec/requests/admin/teams_spec.rb:16:in 'block (3 levels) in <top (required)>'
+
+  3) Admin::Teams GET /index default per_page when per_page=0
+     Failure/Error: get admin_teams_path, params: { per_page: 0 }
+
+     ActionDispatch::MissingController:
+       uninitialized constant Admin::TeamsController
+     # ./spec/requests/admin/teams_spec.rb:22:in 'block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant Admin::TeamsController
+     #   ./spec/requests/admin/teams_spec.rb:22:in 'block (3 levels) in <top (required)>'
+
+  4) Admin::Teams POST /invite redirects to new_admin_team_path
+     Failure/Error: post invite_admin_teams_path, params: { invite: { email: email } }
+
+     ActionDispatch::MissingController:
+       uninitialized constant Admin::TeamsController
+     # ./spec/requests/admin/teams_spec.rb:32:in 'block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   uninitialized constant Admin::TeamsController
+     #   ./spec/requests/admin/teams_spec.rb:32:in 'block (3 levels) in <top (required)>'
+
+  5) Purchase history when member has multiple orders with different states displays orders in descending chronological order
+     Failure/Error: element.text.match(/Order #(\d+)/)[1].to_i
+
+     NoMethodError:
+       undefined method '[]' for nil
+
+     [Screenshot Image]: /home/runner/work/dailynews-e-newspaper/dailynews-e-newspaper/tmp/capybara/failures_r_spec_example_groups_purchase_history_when_member_has_multiple_orders_with_different_states_displays_orders_in_descending_chronological_order_906.png 
+
+
+     # ./spec/system/account/member_can_view_purchase_history_spec.rb:109:in 'block (4 levels) in <top (required)>'
+     # ./spec/system/account/member_can_view_purchase_history_spec.rb:108:in 'Enumerable#map'
+     # ./spec/system/account/member_can_view_purchase_history_spec.rb:108:in 'block (3 levels) in <top (required)>'
+
+  6) Admin can manage team when admin is signed in and team member exists to delete deletes admin user from team
+     Failure/Error: expect(page).to have_current_path(admin_teams_path)
+       expected "/e-newspaper/admin/settings/team" to equal "/e-newspaper/admin/teams"
+
+     [Screenshot Image]: /home/runner/work/dailynews-e-newspaper/dailynews-e-newspaper/tmp/capybara/failures_r_spec_example_groups_admin_can_manage_team_when_admin_is_signed_in_and_team_member_exists_to_delete_deletes_admin_user_from_team_381.png 
+
+
+     # ./spec/system/admin/admin_can_manage_team_spec.rb:207:in 'block (3 levels) in <top (required)>'
+
+Finished in 3 minutes 48.8 seconds (files took 3.67 seconds to load)
+340 examples, 6 failures
+
+Failed examples:
+
+rspec ./spec/requests/admin/teams_spec.rb:9 # Admin::Teams GET /index returns http success
+rspec ./spec/requests/admin/teams_spec.rb:15 # Admin::Teams GET /index default per_page when not specified
+rspec ./spec/requests/admin/teams_spec.rb:21 # Admin::Teams GET /index default per_page when per_page=0
+rspec ./spec/requests/admin/teams_spec.rb:31 # Admin::Teams POST /invite redirects to new_admin_team_path
+rspec ./spec/system/account/member_can_view_purchase_history_spec.rb:99 # Purchase history when member has multiple orders with different states displays orders in descending chronological order
+rspec ./spec/system/admin/admin_can_manage_team_spec.rb:194 # Admin can manage team when admin is signed in and team member exists to delete deletes admin user from team
+

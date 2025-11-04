@@ -198,13 +198,13 @@ describe "Admin can manage team", js: true do
       expect {
         within("tr", text: admin_to_delete.email) do
           accept_confirm do
-            find("button[data-turbo-confirm]").trigger("click")
+            find(".trash-icon-#{admin_to_delete.id}").trigger("click")
           end
         end
       }.to change(Admin::User, :count).by(-1)
 
       # After deletion, redirects to admin_teams_path (old route still used by delete button)
-      expect(page).to have_current_path(admin_teams_path)
+      expect(page).to have_current_path(admin_settings_team_path)
       expect(page).not_to have_content(admin_to_delete.email)
     end
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Admin::Companies", type: :request do
+RSpec.describe "Admin::Settings::Companies", type: :request do
   let!(:admin) { create(:admin_user) }
   before { sign_in admin }
 
