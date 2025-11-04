@@ -12,6 +12,7 @@ describe "Library access", js: true do
       visit library_path
 
       expect(page).to have_content("Please subscribe first.")
+      expect(page).to have_current_path(root_path)
     end
   end
 
