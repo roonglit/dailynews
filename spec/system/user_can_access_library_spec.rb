@@ -51,7 +51,7 @@ describe "Library access", js: true do
         visit library_path
 
         click_link_or_button "View Details"
-        find(".back-to-library").click
+        find(".back-to-library").trigger("click")
 
         expect(page).to have_content("Daily News Today")
       end

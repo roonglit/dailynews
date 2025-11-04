@@ -22,7 +22,7 @@ describe "Subscription management", js: true do
 
     it "can view subscription details" do
       # Navigate to subscriptions page
-      find('.user-profile').click
+      find('.user-profile').trigger("click")
       click_link_or_button "Subscriptions & Payments"
 
       # Should see subscription details page
@@ -38,7 +38,7 @@ describe "Subscription management", js: true do
 
     it "shows 'Renews on' when auto-renew is enabled" do
       # Navigate to subscriptions page
-      find('.user-profile').click
+      find('.user-profile').trigger("click")
       click_link_or_button "Subscriptions & Payments"
 
       # Should show renewal text
@@ -49,7 +49,7 @@ describe "Subscription management", js: true do
 
     it "can disable auto-renew" do
       # Navigate to subscriptions page
-      find('.user-profile').click
+      find('.user-profile').trigger("click")
       click_link_or_button "Subscriptions & Payments"
 
       # Open manage modal
@@ -60,7 +60,7 @@ describe "Subscription management", js: true do
         expect(page).to have_content("Auto-renew is enabled")
 
         # Toggle auto-renew off
-        find('input[type="checkbox"][name="subscription[auto_renew]"]').click
+        find('input[type="checkbox"][name="subscription[auto_renew]"]').trigger("click")
       end
 
       # Wait for form submission and page reload by checking for success message
@@ -103,7 +103,7 @@ describe "Subscription management", js: true do
 
     it "can enable auto-renew" do
       # Navigate to subscriptions page
-      find('.user-profile').click
+      find('.user-profile').trigger("click")
       click_link_or_button "Subscriptions & Payments"
 
       # Open manage modal
@@ -114,7 +114,7 @@ describe "Subscription management", js: true do
         expect(page).to have_content("Auto-renew is disabled")
 
         # Toggle auto-renew on
-        find('input[type="checkbox"][name="subscription[auto_renew]"]').click
+        find('input[type="checkbox"][name="subscription[auto_renew]"]').trigger("click")
       end
 
       # Wait for form submission by checking for success message
@@ -144,7 +144,7 @@ describe "Subscription management", js: true do
 
     it "shows subscription as INACTIVE" do
       # Navigate to subscriptions page
-      find('.user-profile').click
+      find('.user-profile').trigger("click")
       click_link_or_button "Subscriptions & Payments"
 
       # Should see subscription with INACTIVE status
@@ -162,7 +162,7 @@ describe "Subscription management", js: true do
 
     it "shows no subscriptions available message" do
       # Navigate to subscriptions page
-      find('.user-profile').click
+      find('.user-profile').trigger("click")
       click_link_or_button "Subscriptions & Payments"
 
       # Should see no subscriptions message

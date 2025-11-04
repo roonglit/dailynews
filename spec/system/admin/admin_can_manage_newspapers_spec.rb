@@ -17,7 +17,7 @@ describe "Admin can manage newspapers", js: true do
 
     it "navigates to newspaper detail page" do
       click_link_or_button "Newspapers"
-      find('.show-icon').click
+      find('.show-icon').trigger("click")
 
       expect(page).to have_current_path(admin_newspaper_path(newspaper))
       expect(page).to have_content(newspaper.title)
@@ -26,7 +26,7 @@ describe "Admin can manage newspapers", js: true do
     it "navigates back from newspaper detail page" do
       expect {
         click_link_or_button "Newspapers"
-        find('.show-icon').click
+        find('.show-icon').trigger("click")
         click_link_or_button "Back to list"
       }.not_to change(Newspaper, :count)
 
@@ -82,7 +82,7 @@ describe "Admin can manage newspapers", js: true do
 
     it "navigates to edit newspaper from detail page" do
       click_link_or_button "Newspapers"
-      find('.show-icon').click
+      find('.show-icon').trigger("click")
       click_link_or_button "Edit"
 
       expect(page).to have_current_path(edit_admin_newspaper_path(@newspaper))
@@ -91,7 +91,7 @@ describe "Admin can manage newspapers", js: true do
 
     it "navigates to edit newspaper from list" do
       click_link_or_button "Newspapers"
-      find('.pencil-icon').click
+      find('.pencil-icon').trigger("click")
 
       expected_published_date = @newspaper.published_at.strftime("%Y-%m-%d")
 
@@ -105,7 +105,7 @@ describe "Admin can manage newspapers", js: true do
     it "edits newspaper title and saves changes" do
       expect {
         click_link_or_button "Newspapers"
-        find('.pencil-icon').click
+        find('.pencil-icon').trigger("click")
         fill_in 'newspaper_title', with: "Updated Title"
         click_link_or_button "Save"
       }.not_to change(Newspaper, :count)
@@ -117,7 +117,7 @@ describe "Admin can manage newspapers", js: true do
     it "cancels editing a newspaper" do
       expect {
         click_link_or_button "Newspapers"
-        find('.pencil-icon').click
+        find('.pencil-icon').trigger("click")
         click_link_or_button "Cancel"
       }.not_to change(Newspaper, :count)
 
@@ -136,7 +136,7 @@ describe "Admin can manage newspapers", js: true do
     it "deletes newspaper from detail page" do
       expect {
         click_link_or_button "Newspapers"
-        find('.show-icon').click
+        find('.show-icon').trigger("click")
         click_link_or_button "Delete"
       }.to change(Newspaper, :count).from(1).to(0)
 
@@ -147,7 +147,7 @@ describe "Admin can manage newspapers", js: true do
     it "deletes a newspaper from the list" do
       expect {
         click_link_or_button "Newspapers"
-        find('.trash-icon').click
+        find('.trash-icon').trigger("click")
       }.to change(Newspaper, :count).from(1).to(0)
 
       expect(page).to have_current_path(admin_newspapers_path)

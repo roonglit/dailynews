@@ -3,12 +3,10 @@ require 'selenium/webdriver'
 require "capybara/cuprite"
 
 # Register Cuprite driver with mobile configuration
-window_width = ENV.fetch("CAPYBARA_WINDOW_WIDTH", 1400).to_i
-window_height = ENV.fetch("CAPYBARA_WINDOW_HEIGHT", 1200).to_i
 Capybara.register_driver :cuprite do |app|
   Capybara::Cuprite::Driver.new(
     app,
-    window_size: [ window_width, window_height ],
+    window_size: [ 1400, 1400 ],
     browser_options: {
       'headless': nil,                          # Run in headless mode
       'no-sandbox': nil,                        # Required for some environments

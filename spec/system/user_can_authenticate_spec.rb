@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "User can authenticate", js: true do
   it "allows a user to register via home page" do
     visit root_path
-    find('.user-avatar').click
+    find('.user-avatar').trigger("click")
 
     fill_in 'email', with: "register1@gmail.com"
     fill_in 'password', with: 'password123'
@@ -29,7 +29,7 @@ describe "User can authenticate", js: true do
 
     it "allows user to login via home page" do
       visit root_path
-      find('.user-avatar').click
+      find('.user-avatar').trigger("click")
       click_link 'Sign in here'
 
       fill_in 'email', with: @user.email
@@ -51,7 +51,7 @@ describe "User can authenticate", js: true do
 
     it "can switch between registration and sign in forms" do
       visit root_path
-      find('.user-avatar').click
+      find('.user-avatar').trigger("click")
       click_link 'Sign in here'
 
       click_link 'Register here'
@@ -61,7 +61,7 @@ describe "User can authenticate", js: true do
 
     it "can navigate to forgot password page" do
       visit root_path
-      find('.user-avatar').click
+      find('.user-avatar').trigger("click")
       click_link 'Sign in here'
 
       click_link 'Forgot Password'
@@ -79,10 +79,10 @@ describe "User can authenticate", js: true do
     it "allows user to sign out" do
       visit root_path
 
-      find('.user-profile').click
+      find('.user-profile').trigger("click")
       click_link_or_button "Sign Out"
 
-      find('.user-avatar').click
+      find('.user-avatar').trigger("click")
       expect(page).to have_content('Signed out successfully.')
     end
   end

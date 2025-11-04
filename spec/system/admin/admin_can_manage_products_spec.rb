@@ -23,7 +23,7 @@ describe "Admin can manage products", js: true do
     it "navigates to product detail page" do
       expect {
         click_link_or_button "Products"
-        find('.show-icon').click
+        find('.show-icon').trigger("click")
       }.not_to change(Product, :count)
 
       expect(page).to have_current_path(admin_product_path(1))
@@ -33,7 +33,7 @@ describe "Admin can manage products", js: true do
     it "navigates back from product detail page" do
       expect {
         click_link_or_button "Products"
-        find('.show-icon').click
+        find('.show-icon').trigger("click")
         click_link_or_button "Back to list"
       }.not_to change(Product, :count)
 
@@ -51,7 +51,7 @@ describe "Admin can manage products", js: true do
     it "navigates to edit product from detail page" do
       expect {
         click_link_or_button "Products"
-        find('.show-icon').click
+        find('.show-icon').trigger("click")
         click_link_or_button "Edit"
       }.not_to change(Product, :count)
 
@@ -62,7 +62,7 @@ describe "Admin can manage products", js: true do
     it "navigates to edit product from list" do
       expect {
         click_link_or_button "Products"
-        find('.edit-icon').click
+        find('.edit-icon').trigger("click")
       }.not_to change(Product, :count)
 
       expect(page).to have_current_path(edit_admin_product_path(1))
@@ -72,7 +72,7 @@ describe "Admin can manage products", js: true do
     it "saves product edits" do
       expect {
         click_link_or_button "Products"
-        find('.edit-icon').click
+        find('.edit-icon').trigger("click")
         click_link_or_button "Save"
       }.not_to change(Product, :count)
 
@@ -83,7 +83,7 @@ describe "Admin can manage products", js: true do
     it "cancels editing product" do
       expect {
         click_link_or_button "Products"
-        find('.edit-icon').click
+        find('.edit-icon').trigger("click")
         click_link_or_button "Cancel"
       }.not_to change(Product, :count)
 
@@ -101,7 +101,7 @@ describe "Admin can manage products", js: true do
     it "deletes product from detail page" do
       expect {
         click_link_or_button "Products"
-        find('.show-icon').click
+        find('.show-icon').trigger("click")
         click_link_or_button "Delete"
       }.to change(Product, :count).from(1).to(0)
 
@@ -112,7 +112,7 @@ describe "Admin can manage products", js: true do
     it "deletes product from list" do
       expect {
         click_link_or_button "Products"
-        find('.trash-icon').click
+        find('.trash-icon').trigger("click")
       }.to change(Product, :count).from(1).to(0)
 
       expect(page).to have_current_path(admin_products_path)

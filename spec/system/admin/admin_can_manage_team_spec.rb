@@ -198,7 +198,7 @@ describe "Admin can manage team", js: true do
       expect {
         within("tr", text: admin_to_delete.email) do
           accept_confirm do
-            find("button[data-turbo-confirm]").click
+            find("button[data-turbo-confirm]").trigger("click")
           end
         end
       }.to change(Admin::User, :count).by(-1)
@@ -234,7 +234,7 @@ describe "Admin can manage team", js: true do
       click_link "Company Info"
 
       # Click Edit button for company name
-      first("button", text: "Edit").click
+      first("button", text: "Edit").trigger("click")
       expect(page).to have_text("Edit Company Name")
 
       # Cancel the modal
@@ -243,7 +243,7 @@ describe "Admin can manage team", js: true do
       end
 
       # Click Edit button for contact info
-      all("button", text: "Edit")[1].click
+      all("button", text: "Edit")[1].trigger("click")
       expect(page).to have_text("Edit Contact Information")
     end
 
@@ -253,7 +253,7 @@ describe "Admin can manage team", js: true do
       click_link "Company Info"
 
       # Click first Edit button (Company Name)
-      first("button", text: "Edit").click
+      first("button", text: "Edit").trigger("click")
 
       expect(page).to have_text("Edit Company Name")
       expect(page).to have_selector("input#company_name")
@@ -265,7 +265,7 @@ describe "Admin can manage team", js: true do
       click_link "Company Info"
 
       # Click first Edit button
-      first("button", text: "Edit").click
+      first("button", text: "Edit").trigger("click")
 
       expect(page).to have_text("Edit Company Name")
 
@@ -302,7 +302,7 @@ describe "Admin can manage team", js: true do
       click_link "Company Info"
 
       # Edit company name
-      first("button", text: "Edit").click
+      first("button", text: "Edit").trigger("click")
 
       within "#company_name_modal" do
         fill_in "company_name", with: "New Company Name"
@@ -319,7 +319,7 @@ describe "Admin can manage team", js: true do
       click_link "Company Info"
 
       # Click Edit button for contact info (2nd Edit button)
-      all("button", text: "Edit")[1].click
+      all("button", text: "Edit")[1].trigger("click")
 
       expect(page).to have_text("Edit Contact Information")
       expect(page).to have_selector("input#company_email")

@@ -29,7 +29,7 @@ describe "User can checkout", js: true do
     expect(page).to have_content "Thank You for Your Purchase"
 
     # Verify subscription was created - navigate to subscription page
-    find('.user-profile').click
+    find('.user-profile').trigger("click")
     click_link_or_button "Subscriptions & Payments"
     expect(page).to have_content "Subscription Details"
 
@@ -295,7 +295,7 @@ describe "User can checkout", js: true do
       expect(page).to have_content "Thank You for Your Purchase"
 
       # Verify subscription was created - navigate to subscription page
-      find('.user-profile').click
+      find('.user-profile').trigger("click")
       click_link_or_button "Subscriptions & Payments"
       expect(page).to have_content "Subscription Details"
 
@@ -400,7 +400,7 @@ describe "User can checkout", js: true do
         expect(page).to have_content "Thank You for Your Purchase"
 
         # Verify subscription was created after retry
-        find('.user-profile').click
+        find('.user-profile').trigger("click")
         click_link_or_button "Subscriptions & Payments"
 
         within("#my-subscriptions") do

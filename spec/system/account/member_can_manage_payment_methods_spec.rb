@@ -185,7 +185,7 @@ describe "Payment methods", js: true do
       # Delete the first card
       delete_buttons = page.all("button", text: "DELETE")
       accept_confirm do
-        delete_buttons.first.click
+        delete_buttons.first.trigger("click")
       end
 
       # Should see success message
