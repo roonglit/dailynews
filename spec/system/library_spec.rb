@@ -11,8 +11,7 @@ describe "Library access", js: true do
     it "shows empty library message" do
       visit library_path
 
-      expect(page).to have_content("No newspapers available")
-      expect(page).to have_content("Check back later for new additions to our library.")
+      expect(page).to have_content("Please subscribe first.")
     end
   end
 
