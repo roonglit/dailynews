@@ -43,6 +43,16 @@ module Admin
         end
       end
 
+      def destroy
+        @admin_user = Admin::User.find(params.expect(:id))
+        @admin_user.destroy!
+
+        respond_to do |format|
+          format.html { redirect_to admin_settings_team_path, notice: "Admin user [#{@admin_user.email}] was successfully destroyed.", status: :see_other }
+          format.json { head :no_content }
+        end
+      end
+
       private
 
       def invitation_params

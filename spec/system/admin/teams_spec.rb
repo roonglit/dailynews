@@ -5,47 +5,34 @@ describe "Admin Teams" do
     admins = create_list(:admin_user, 5)
     login_as_admin
 
-    click_link_or_button "Admin Teams"
+    click_link_or_button "Settings"
 
-    expect(page).to have_current_path(admin_teams_path)
-    expect(page).to have_content("6 Team Admins")
+    expect(page).to have_content("6 admin users")
     expect(page).to have_content(admins.first.email)
   end
 
   it "shows the invitation form" do
     login_as_admin
 
-    click_link_or_button "Admin Teams"
-    click_link_or_button "Invite Team Members"
+    click_link_or_button "Settings"
 
-    expect(page).to have_current_path(new_admin_team_path)
-    expect(page).to have_content("Invite Team Members")
-    expect(page).to have_content("Enter the email addresses of people you want to invite.")
-  end
-
-
-  it "returns to team list when clicking back" do
-    admins = create_list(:admin_user, 5)
-    login_as_admin
-
-    click_link_or_button "Admin Teams"
-    click_link_or_button "Invite Team Members"
-    click_link_or_button "Back"
-
-    expect(page).to have_current_path(admin_teams_path)
-    expect(page).to have_content("6 Team Admins")
-    expect(page).to have_content(admins.first.email)
+    expect(page).to have_content("Invite Admin User")
+    expect(page).to have_content("Send an invitation email to add a new admin user to your team.")
   end
 
   it "admin can delete admin user" do
     Admin::User.destroy_all
     admin = create(:admin_user)
-    login_as_admin
+    login_as_admin(admin)
 
-    click_link_or_button "Admin Teams"
-    find(".trash-icon-#{admin.id}").trigger("click")
+    fake_admin = create(:admin_user)
 
-    expect(page).to have_current_path(admin_teams_path)
-    expect(page).not_to have_content(admin.email)
+    click_link_or_button "Settings"
+
+    accept_confirm do
+      find(".trash-icon-#{fake_admin.id}").trigger("click")
+    end
+
+    expect(page).not_to have_content(fake_admin.email)
   end
 end

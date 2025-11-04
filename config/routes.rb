@@ -46,7 +46,9 @@ Rails.application.routes.draw do
 
       # Settings namespace with separate tabs
       namespace :settings do
-        resource :team, only: [ :show, :update ]
+        resource :team, only: [ :show, :update ] do
+          delete "users/:id", to: "teams#destroy", as: :user
+        end
         resource :company, only: [ :show, :update ]
         resource :pdf_source, only: [ :show, :update ]
         resources :pdf_imports, only: [ :create, :index ] do
